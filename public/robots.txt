@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# AI crawler access
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: Claude-Web
+Allow: /
+Allow: /llms.txt
+
+User-agent: Googlebot
+Allow: /
+
+# Sitemaps
+Sitemap: https://ai-visual-synthesis.vercel.app/sitemap.xml

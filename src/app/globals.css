@@ -1,0 +1,360 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── powerUP Brand System Tokens ─────────────────────────────────── */
+:root {
+  /* Legacy neon palette */
+  --neon-cyan: #00f5ff;
+  --neon-purple: #bf00ff;
+  --neon-pink: #ff006e;
+  --neon-green: #00ff87;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* powerUP Brand Colors */
+  --pu-void: #0B0D10;
+  --pu-charcoal: #14161A;
+  --pu-cyan: #4DFFFF;
+  --pu-violet: #7B5CFF;
+  --pu-magenta: #FF4FD8;
+  --pu-amber: #FFB000;
+  --pu-text: #FFFFFF;
+  --pu-secondary: #A1A1AA;
+  --pu-muted: #6B7280;
+
+  /* powerUP Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 180ms;
+  --dur-standard: 320ms;
+  --dur-hero: 4200ms;
+
+  /* Theme Switcher Vars (default: neon) */
+  --theme-accent: #4DFFFF;
+  --theme-accent-rgb: 77, 255, 255;
+  --theme-bg: #050508;
+  --theme-surface: rgba(255,255,255,0.04);
+  --theme-border: rgba(255,255,255,0.08);
+  --theme-text: #FFFFFF;
+  --theme-glow: rgba(77,255,255,0.25);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050508;
+  color: #ffffff;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a12;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--neon-cyan);
+  border-radius: 999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 100px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glass card base */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Neon glow effects */
+.glow-cyan {
+  box-shadow:
+    0 0 30px rgba(0, 245, 255, 0.25),
+    0 0 80px rgba(0, 245, 255, 0.1);
+}
+
+.glow-purple {
+  box-shadow:
+    0 0 30px rgba(191, 0, 255, 0.25),
+    0 0 80px rgba(191, 0, 255, 0.1);
+}
+
+.glow-pink {
+  box-shadow:
+    0 0 30px rgba(255, 0, 110, 0.25),
+    0 0 80px rgba(255, 0, 110, 0.1);
+}
+
+/* Gradient text */
+.gradient-text-cyan {
+  background: linear-gradient(135deg, #00f5ff, #bf00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-fire {
+  background: linear-gradient(135deg, #ff006e, #ffe500, #00ff87);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Animated gradient background */
+.animated-bg {
+  background: linear-gradient(-45deg, #050508, #0a0a12, #0d0718, #08100d);
+  background-size: 400% 400%;
+  animation: gradient-x 12s ease infinite;
+}
+
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Floating orb */
+.orb {
+  border-radius: 50%;
+  filter: blur(80px);
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Shimmer text animation */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 1) 40%,
+    rgba(0, 245, 255, 1) 60%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Grid pattern */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Tag pill */
+.tag {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium;
+}
+
+/* Section spacing */
+.section {
+  @apply py-20 md:py-32 px-4 md:px-8 max-w-7xl mx-auto;
+}
+
+/* ─── powerUP Theme Variants ───────────────────────────────────────── */
+[data-theme="minimal"] {
+  --theme-accent: #7B5CFF;
+  --theme-accent-rgb: 123, 92, 255;
+  --theme-bg: #0B0D10;
+  --theme-surface: rgba(255,255,255,0.02);
+  --theme-border: rgba(255,255,255,0.05);
+  --theme-text: #FFFFFF;
+  --theme-glow: rgba(123,92,255,0.2);
+}
+
+[data-theme="glass"] {
+  --theme-accent: #FF4FD8;
+  --theme-accent-rgb: 255, 79, 216;
+  --theme-bg: #0d0718;
+  --theme-surface: rgba(255,255,255,0.07);
+  --theme-border: rgba(255,79,216,0.15);
+  --theme-text: #FFFFFF;
+  --theme-glow: rgba(255,79,216,0.3);
+}
+
+[data-theme="amber"] {
+  --theme-accent: #FFB000;
+  --theme-accent-rgb: 255, 176, 0;
+  --theme-bg: #0d0c06;
+  --theme-surface: rgba(255,176,0,0.04);
+  --theme-border: rgba(255,176,0,0.12);
+  --theme-text: #FFFFFF;
+  --theme-glow: rgba(255,176,0,0.25);
+}
+
+/* ─── Kinetic Typography ───────────────────────────────────────────── */
+.kinetic-text {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    var(--theme-accent) 0%,
+    #ffffff 40%,
+    var(--theme-accent) 80%,
+    #ffffff 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: kinetic-sweep 4s linear infinite;
+}
+
+@keyframes kinetic-sweep {
+  0% { background-position: -250% center; }
+  100% { background-position: 250% center; }
+}
+
+/* ─── Bento Grid ───────────────────────────────────────────────────── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 180px;
+  gap: 12px;
+}
+
+.bento-1  { grid-column: span 6; grid-row: span 2; }
+.bento-2  { grid-column: span 3; grid-row: span 1; }
+.bento-3  { grid-column: span 3; grid-row: span 1; }
+.bento-4  { grid-column: span 3; grid-row: span 2; }
+.bento-5  { grid-column: span 3; grid-row: span 1; }
+.bento-6  { grid-column: span 6; grid-row: span 1; }
+.bento-7  { grid-column: span 3; grid-row: span 1; }
+
+@media (max-width: 768px) {
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .bento-1, .bento-2, .bento-3, .bento-4, .bento-5, .bento-6, .bento-7 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+/* ─── Ambient Motion ───────────────────────────────────────────────── */
+.ambient-float {
+  animation: ambient-float 6s ease-in-out infinite;
+}
+
+@keyframes ambient-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.ambient-rotate {
+  animation: ambient-rotate 20s linear infinite;
+}
+
+@keyframes ambient-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Skill Map ────────────────────────────────────────────────────── */
+.skill-node {
+  transition: all var(--dur-standard) var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.skill-node:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 0 32px rgba(var(--theme-accent-rgb), 0.4), 0 8px 40px rgba(0,0,0,0.5);
+}
+
+.skill-connector {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, var(--theme-accent), transparent);
+  height: 1px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* ─── powerUP gradient-text-powerup variant ────────────────────────── */
+.gradient-text-powerup {
+  background: linear-gradient(135deg, var(--pu-cyan), var(--pu-violet), var(--pu-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Theme toggle button ──────────────────────────────────────────── */
+.theme-btn {
+  transition: all var(--dur-micro) var(--ease-out-expo);
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  color: var(--theme-text);
+}
+
+.theme-btn.active {
+  border-color: var(--theme-accent);
+  color: var(--theme-accent);
+  box-shadow: 0 0 16px rgba(var(--theme-accent-rgb), 0.3);
+}
