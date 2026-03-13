@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Visual Synthesis - Skill Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+
+        .animal-mode {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-links a {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .quick-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 AI Visual Synthesis</h1>
+            <p>Complete framework for AI-powered visual generation and UI/UX design</p>
+        </header>
+
+        <div class="quick-links">
+            <a href="#quick-start">Quick Start</a>
+            <a href="#framework">8-Layer Framework</a>
+            <a href="#vocabulary">Design Vocabulary</a>
+            <a href="#modes">Animal Modes</a>
+            <a href="#checklist">Quality Checklist</a>
+        </div>
+
+        <div class="content">
+            <section id="quick-start">
+                <h2>🎯 Quick Start</h2>
+                <p>Install the master reference and add to your AI instructions:</p>
+                <pre><code># Download the latest promptc framework
+curl -sL "https://raw.githubusercontent.com/marktantongco/promptc/master/MASTER_REFERENCE.md" > SKILLS.md
+
+# Add to AI instructions:
+"Before generating UI or architectural code, read SKILLS.md and use the 8-Layer Prompt Architecture."</code></pre>
+            </section>
+
+            <section id="framework">
+                <h2>📋 8-Layer Prompt Architecture</h2>
+                <p>Universal structure for production-quality visual outputs:</p>
+                <pre><code>ROLE → CONTEXT → OBJECTIVE → CONSTRAINTS → AESTHETIC → PLANNING → OUTPUT → REFINEMENT</code></pre>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>Purpose</th>
+                            <th>Missing It Causes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ROLE</strong></td>
+                            <td>Who the AI acts as</td>
+                            <td>Generic, shallow responses</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CONTEXT</strong></td>
+                            <td>Product, audience, platform</td>
+                            <td>Misaligned output</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OBJECTIVE</strong></td>
+                            <td>What success looks like</td>
+                            <td>Aimless generation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CONSTRAINTS</strong></td>
+                            <td>Quality guardrails</td>
+                            <td>Mediocre output</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AESTHETIC</strong></td>
+                            <td>Design language / tone</td>
+                            <td>Visually dull or off-brand</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PLANNING</strong></td>
+                            <td>Reason before generating</td>
+                            <td>Structural mistakes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OUTPUT</strong></td>
+                            <td>Exact format to deliver</td>
+                            <td>Incomplete files</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REFINEMENT</strong></td>
+                            <td>Self-critique before final</td>
+                            <td>First-draft quality only</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="vocabulary">
+                <h2>🎨 Design Vocabulary Reference</h2>
+                <p>Use these exact terms to steer visual output precisely:</p>
+                <ul>
+                    <li><code>glassmorphism</code> - Frosted glass panels with translucent, blurred backdrop</li>
+                    <li><code>brutalist UI</code> - Raw, oversized, high-contrast, intentionally rough</li>
+                    <li><code>kinetic typography</code> - Text that animates, morphs, or reacts to scroll</li>
+                    <li><code>bento grid</code> - Mosaic card layout — Apple-style asymmetric grid</li>
+                    <li><code>micro-interactions</code> - Tiny animations on hover, click, scroll, focus</li>
+                    <li><code>neon accent</code> - Single bright color pop against dark background</li>
+                    <li><code>liquid gradient</code> - Smooth, animated, shifting background color blends</li>
+                    <li><code>dark-mode native</code> - Designed for dark backgrounds first, light second</li>
+                </ul>
+            </section>
+
+            <section id="modes">
+                <h2>🧠 Animal Thinking Modes</h2>
+                <p>Trigger by name: <em>"Apply Owl Mode"</em>, <em>"Use Beaver Mode on this"</em>, <em>"Think like an Eagle"</em></p>
+                
+                <div style="margin: 1rem 0;">
+                    <span class="animal-mode">🐇 Rabbit - Multiply Ideas</span>
+                    <span class="animal-mode">🦉 Owl - Deep Analysis</span>
+                    <span class="animal-mode">🐜 Ant - Break Into Steps</span>
+                    <span class="animal-mode">🦅 Eagle - Big Picture Strategy</span>
+                    <span class="animal-mode">🐬 Dolphin - Creative Solutions</span>
+                    <span class="animal-mode">🦫 Beaver - Build Systems</span>
+                    <span class="animal-mode">🐘 Elephant - Cross-Field Connections</span>
+                </div>
+
+                <h3>Power Combos</h3>
+                <ul>
+                    <li><strong>Build AI content system:</strong> 🦅 Eagle → 🦫 Beaver → 🐜 Ant</li>
+                    <li><strong>Solve complex problem:</strong> 🦉 Owl → 🐬 Dolphin → 🐘 Elephant</li>
+                    <li><strong>Brainstorm channel/product:</strong> 🐇 Rabbit → 🦅 Eagle → 🐜 Ant</li>
+                </ul>
+            </section>
+
+            <section id="checklist">
+                <h2>✅ Prompt Quality Checklist</h2>
+                <pre><code>STRUCTURE
+  [ ] Role defined — who is the AI acting as?
+  [ ] Goal clear — one sentence maximum
+  [ ] Objective and success criteria stated
+  [ ] Constraints listed explicitly
+
+DESIGN (for UI/UX prompts)
+  [ ] Platform specified — mobile or web or hybrid
+  [ ] 3+ aesthetic keywords included
+  [ ] Animation library named — Framer Motion or GSAP or None
+  [ ] Mobile-first stated explicitly
+
+TECHNICAL
+  [ ] Stack specified — framework + styling + animation
+  [ ] Output format requested — folder + files + instructions
+  [ ] Accessibility: WCAG AA minimum stated
+  [ ] Performance: 60fps animation budget stated
+
+QUALITY
+  [ ] No vague words — nice, cool, awesome, modern, good
+  [ ] Refinement instruction included
+  [ ] At least one interaction metaphor defined</code></pre>
+            </section>
+
+            <section id="resources">
+                <h2>🔗 Resources</h2>
+                <ul>
+                    <li><strong>Master Reference:</strong> <a href="https://raw.githubusercontent.com/marktantongco/promptc/master/MASTER_REFERENCE.md">https://raw.githubusercontent.com/marktantongco/promptc/master/MASTER_REFERENCE.md</a></li>
+                    <li><strong>Main Framework:</strong> <a href="https://ai-visual-synthesis.vercel.app/">https://ai-visual-synthesis.vercel.app/</a></li>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/marktantongco/agents-skills">https://github.com/marktantongco/agents-skills</a></li>
+                    <li><strong>Raw Skill File:</strong> <a href="https://raw.githubusercontent.com/marktantongco/agents-skills/master/skills/ai-visual-synthesis/SKILL.md">SKILL.md</a></li>
+                </ul>
+            </section>
+        </div>
+
+        <footer>
+            <p>AI Visual Synthesis • Updated March 2026 • Based on promptc OS framework v2.0</p>
+        </footer>
+    </div>
+</body>
+</html>
