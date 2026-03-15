@@ -146,6 +146,8 @@ export function useFadeInOnScroll<T extends HTMLElement = HTMLDivElement>(option
 /* ─────────────────────────────────────────────
    useStaggerChildren Hook
    Animate multiple children with stagger effect
+   
+   KEY FIX: Children start visible, animation is enhancement only
 ───────────────────────────────────────────── */
 
 export function useStaggerChildren(options: {
@@ -180,13 +182,13 @@ export function useStaggerChildren(options: {
         if (!hasAnimated) {
           setHasAnimated(true);
 
+          // KEY FIX: Children are already visible, just add subtle animation
           gsap.fromTo(
             children,
-            { opacity: 0.01, y },
+            { y: Math.min(y, 10) },  // Subtle movement only, no opacity change
             {
-              opacity: 1,
               y: 0,
-              duration,
+              duration: duration * 0.5,  // Faster animation
               stagger,
               delay,
               ease: ANIMATION_CONFIG.ease.snappy,
@@ -201,15 +203,15 @@ export function useStaggerChildren(options: {
     };
   }, [isReady, hasAnimated, selector, stagger, delay, duration, y]);
 
-  // Fallback
+  // Faster fallback (500ms instead of 3 seconds)
   useEffect(() => {
     const fallbackTimer = setTimeout(() => {
       if (containerRef.current && !hasAnimated) {
         const children = containerRef.current.querySelectorAll(selector);
-        gsap.set(children, { opacity: 1, y: 0 });
+        gsap.set(children, { y: 0, visibility: 'visible' });
         setHasAnimated(true);
       }
-    }, ANIMATION_CONFIG.fallbackTimeout);
+    }, 500);
 
     return () => clearTimeout(fallbackTimer);
   }, [hasAnimated, selector]);
@@ -475,6 +477,8 @@ export function GSAPFadeIn({
 /* ─────────────────────────────────────────────
    GSAPStagger Component Wrapper
    Drop-in replacement for staggered children
+   
+   KEY FIX: Children are visible by default
 ───────────────────────────────────────────── */
 
 export function GSAPStagger({
@@ -491,7 +495,11 @@ export function GSAPStagger({
   const { containerRef } = useStaggerChildren({ stagger, delay });
 
   return (
-    <div ref={containerRef} className={className}>
+    <div 
+      ref={containerRef} 
+      className={className}
+      style={{ visibility: 'visible' }}  // Always visible
+    >
       {children}
     </div>
   );

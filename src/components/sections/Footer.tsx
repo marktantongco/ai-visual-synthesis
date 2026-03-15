@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Github, Twitter, Youtube, Zap, Heart, ArrowRight } from "lucide-react";
@@ -42,42 +42,56 @@ const footerLinks = [
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
+  const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // CTA animation
-      gsap.fromTo(".footer-cta",
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: ".footer-cta",
-            start: "top 85%",
+    // Skip if already animated
+    if (isAnimated) return;
+    
+    // Small delay to ensure DOM is ready
+    const initTimer = setTimeout(() => {
+      setIsAnimated(true);
+      
+      const ctx = gsap.context(() => {
+        // KEY FIX: Elements are ALREADY VISIBLE (opacity: 1 by default)
+        // Animation is an ENHANCEMENT only - no opacity: 0 starting state
+        
+        // CTA animation - subtle movement only
+        gsap.fromTo(".footer-cta",
+          { y: 20 },  // Subtle movement, no opacity change
+          {
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".footer-cta",
+              start: "top 90%",
+            }
           }
-        }
-      );
+        );
 
-      // Links stagger
-      gsap.fromTo(".footer-col",
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: ".footer-links",
-            start: "top 85%",
+        // Links stagger - subtle movement only
+        gsap.fromTo(".footer-col",
+          { y: 15 },  // Subtle movement, no opacity change
+          {
+            y: 0,
+            duration: 0.4,
+            stagger: 0.08,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".footer-links",
+              start: "top 90%",
+            }
           }
-        }
-      );
+        );
 
-    }, footerRef);
+      }, footerRef);
 
-    return () => ctx.revert();
-  }, []);
+      return () => ctx.revert();
+    }, 50);
+
+    return () => clearTimeout(initTimer);
+  }, [isAnimated]);
 
   return (
     <footer 

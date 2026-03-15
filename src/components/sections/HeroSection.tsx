@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, Zap, Palette, Wand2, Sparkles, Cpu, Image } from "lucide-react";
@@ -32,102 +32,117 @@ export default function HeroSection() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const [isAnimated, setIsAnimated] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Hero content timeline
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    // Skip if already animated
+    if (isAnimated) return;
+    
+    // Small delay to ensure DOM is ready
+    const initTimer = setTimeout(() => {
+      setIsAnimated(true);
       
-      tl.fromTo(".hero-eyebrow",
-        { y: -30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 }
-      )
-      .fromTo(titleRef.current,
-        { y: 60, opacity: 0, scale: 0.95 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.8 },
-        "-=0.3"
-      )
-      .fromTo(subtitleRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 },
-        "-=0.4"
-      )
-      .fromTo(ctaRef.current?.children || [],
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
-        "-=0.3"
-      )
-      .fromTo(".stat-item",
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, stagger: 0.08 },
-        "-=0.2"
-      );
+      const ctx = gsap.context(() => {
+        // KEY FIX: Elements are ALREADY VISIBLE (opacity: 1 in CSS/inline)
+        // Animation is an ENHANCEMENT, not a requirement for visibility
+        // We animate FROM a subtle state TO the current visible state
+        
+        // Hero content timeline - subtle entrance animations
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        
+        // Animate from slightly lower position, but elements are already visible
+        tl.fromTo(".hero-eyebrow",
+          { y: -15 },  // Subtle movement, no opacity change
+          { y: 0, duration: 0.6 }
+        )
+        .fromTo(titleRef.current,
+          { y: 20 },  // Subtle movement only
+          { y: 0, duration: 0.8 },
+          "-=0.3"
+        )
+        .fromTo(subtitleRef.current,
+          { y: 15 },
+          { y: 0, duration: 0.6 },
+          "-=0.4"
+        )
+        .fromTo(ctaRef.current?.children || [],
+          { y: 10 },
+          { y: 0, duration: 0.5, stagger: 0.1 },
+          "-=0.3"
+        )
+        .fromTo(".stat-item",
+          { y: 8 },
+          { y: 0, duration: 0.4, stagger: 0.08 },
+          "-=0.2"
+        );
 
-      // Floating tools with stagger
-      gsap.fromTo(".floating-tool",
-        { y: 20, opacity: 0, scale: 0.8 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          scale: 1, 
-          duration: 0.6, 
-          stagger: 0.15, 
-          delay: 0.8,
-          ease: "back.out(1.7)" 
-        }
-      );
+        // Floating tools - already visible, just add entrance animation
+        gsap.fromTo(".floating-tool",
+          { y: 10, scale: 0.95 },
+          { 
+            y: 0, 
+            scale: 1, 
+            duration: 0.6, 
+            stagger: 0.15, 
+            delay: 0.8,
+            ease: "back.out(1.7)" 
+          }
+        );
 
-      // Floating animation
-      gsap.to(".floating-tool", {
-        y: -12,
-        duration: 2.5,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-        stagger: {
-          each: 0.3,
-          from: "random"
-        }
-      });
+        // Floating animation
+        gsap.to(".floating-tool", {
+          y: -12,
+          duration: 2.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          stagger: {
+            each: 0.3,
+            from: "random"
+          }
+        });
 
-      // Scroll-triggered parallax
-      gsap.to(".hero-parallax", {
-        y: "30%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1
-        }
-      });
+        // Scroll-triggered parallax
+        gsap.to(".hero-parallax", {
+          y: "30%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1
+          }
+        });
 
-      // Scroll cue fade
-      gsap.fromTo(".scroll-cue",
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5, delay: 1.5 }
-      );
-
-      // Stats counter animation
-      gsap.fromTo(".stat-value",
-        { scale: 0.8, opacity: 0 },
-        {
-          scale: 1,
+        // Scroll cue - already visible, just subtle fade in
+        gsap.to(".scroll-cue", {
           opacity: 1,
           duration: 0.5,
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse"
+          delay: 1.5
+        });
+
+        // Stats counter animation - subtle scale
+        gsap.fromTo(".stat-value",
+          { scale: 0.95 },
+          {
+            scale: 1,
+            duration: 0.5,
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: statsRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse"
+            }
           }
-        }
-      );
+        );
 
-    }, sectionRef);
+      }, sectionRef);
 
-    return () => ctx.revert();
-  }, []);
+      return () => ctx.revert();
+    }, 50);  // Small delay for DOM readiness
+
+    return () => clearTimeout(initTimer);
+  }, [isAnimated]);
 
   return (
     <section
