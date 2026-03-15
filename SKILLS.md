@@ -1,38 +1,25 @@
-# AI Visual Synthesis • Skills & Prompts Installation
+# AI Visual Synthesis — Skills Installation
 
-This guide explains how to install and integrate the agentic prompts, modes, and frameworks from our Knowledge Base into your AI workflows, local CLI bots, and agentic frameworks (like Claude Code, Cursor, Aider, OpenHands, etc.).
+> Redirect to main skill file. See `skill.md` for the complete reference.
 
-## 1. The Compilation File (`LLMs.txt` approach)
-For AI code assistants, point them to the raw markdown reference. You can run this command in your terminal to download the master knowledge base into your project, similar to standard `skills.sh` installations:
+## Quick Links
+
+| Resource | URL |
+|----------|-----|
+| **Main Skill File** | [skill.md](./skill.md) |
+| **GitHub Repo** | https://github.com/marktantongco/ai-visual-synthesis |
+| **Live Site** | https://ai-visual-synthesis.vercel.app |
+
+## Install
 
 ```bash
-# Download the master reference document to your local project
-curl -sL "https://raw.githubusercontent.com/marktantongco/promptc/master/MASTER_REFERENCE.md" > SKILLS.md
+# Download main skill file
+curl -sL "https://raw.githubusercontent.com/marktantongco/ai-visual-synthesis/refs/heads/main/skill.md" > skill.md
+
+# Add to AI instructions
+echo "Read skill.md and use 8-Layer Architecture" >> .cursorrules
 ```
 
-Then, add a simple rule in your AI's custom instructions or `.cursorrules`:
-> "Before generating UI or architectural code, read `SKILLS.md` and use the 8-Layer Prompt Architecture."
+---
 
-## 2. Direct AI Crawl (Web Access)
-Our prompts are fully indexed, SEO-optimized, and deep-linkable.
-Provide this URL to your AI (like ChatGPT or Claude Web) to let it crawl our definitions:
-`https://ai-visual-synthesis.vercel.app/`
-
-To feed a specific skill directly to your agent, provide the deep link:
-`https://ai-visual-synthesis.vercel.app/?view=eagle-mode`
-
-## 3. CLI Agent Usage (Aider, Claude Code, etc.)
-You can pass the URL directly into your prompt when using CLI tools so the agent learns the framework before executing the task.
-
-**Example with Aider:**
-```bash
-aider --message "Read the prompt framework from https://raw.githubusercontent.com/marktantongco/promptc/master/MASTER_REFERENCE.md. Apply 'Beaver Mode' and act as a senior React developer to build my Next.js landing page."
-```
-
-**Example with Claude Code:**
-```bash
-claude "Fetch https://raw.githubusercontent.com/marktantongco/promptc/master/MASTER_REFERENCE.md, analyze the 'Gen-Z UI' aesthetic, and implement a glassmorphism card component."
-```
-
-## 4. MCP Server Integration (Roadmap)
-In the future, we will expose our prompts as an MCP (Model Context Protocol) server. Once live, you can configure your Claude Desktop or Cursor to automatically pull specific prompts via a `get_prompt(id)` tool call, turning this site into a native extension of your AI assistant.
+*This file redirects to skill.md — the complete AI Visual Synthesis framework.*
