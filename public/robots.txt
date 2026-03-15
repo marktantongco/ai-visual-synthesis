@@ -1,17 +1,95 @@
+# AI Visual Synthesis - robots.txt
+# https://ai-visual-synthesis.vercel.app
+
+# ===========================================
+# Standard Search Engine Crawlers
+# ===========================================
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
-# AI crawler access
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# ===========================================
+# AI Crawlers & LLM Training
+# ===========================================
+
+# OpenAI / ChatGPT
 User-agent: GPTBot
 Allow: /
 Allow: /llms.txt
+Allow: /skill.md
 
+# Anthropic / Claude
 User-agent: Claude-Web
 Allow: /
 Allow: /llms.txt
+Allow: /skill.md
 
-User-agent: Googlebot
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+
+# Common Crawl
+User-agent: CCBot
+Allow: /
+Allow: /llms.txt
+
+# Google AI
+User-agent: Google-Extended
+Allow: /
+Allow: /llms.txt
+
+# Facebook / Meta
+User-agent: FacebookBot
 Allow: /
 
+# ByteDance
+User-agent: Bytespider
+Allow: /
+
+# ===========================================
+# Social Media Crawlers
+# ===========================================
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# ===========================================
 # Sitemaps
+# ===========================================
 Sitemap: https://ai-visual-synthesis.vercel.app/sitemap.xml
+
+# ===========================================
+# LLM-Friendly Content
+# ===========================================
+# llms.txt is available at /llms.txt for AI assistants
+# Documentation available at:
+# - /skill.md
+# - /AI-VISUAL-SYNTHESIS-COMPLETE-FRAMEWORK.md
+# - /AI-IMAGE-PROMPT-MASTERY-2026.md

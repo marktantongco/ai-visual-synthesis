@@ -1,12 +1,14 @@
 {
-  "name": "AI Visual Synthesis",
+  "name": "AI Visual Synthesis - Complete AI Image Generation Guide",
   "short_name": "AI Synth",
-  "description": "Master AI image generation — the complete 2026 interactive guide",
+  "description": "Master AI image generation with 80+ prompt templates, 6-layer skills framework, and professional techniques for Midjourney, DALL·E 3, Stable Diffusion, and Flux.1",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#050508",
   "theme_color": "#4DFFFF",
   "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
   "icons": [
     {
       "src": "/icon.svg",
@@ -20,6 +22,32 @@
       "type": "image/png"
     }
   ],
-  "categories": ["education", "productivity"],
-  "lang": "en-US"
+  "categories": ["education", "productivity", "design", "photography"],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "label": "AI Visual Synthesis Homepage"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Prompt Templates",
+      "url": "/prompts",
+      "description": "Browse ready-to-use AI prompt templates"
+    },
+    {
+      "name": "Framework Guide",
+      "url": "/framework",
+      "description": "Learn the 8-Layer Prompt Architecture"
+    },
+    {
+      "name": "Interactive Infographic",
+      "url": "/infographic",
+      "description": "Explore interactive UI concepts"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

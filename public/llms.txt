@@ -2,77 +2,127 @@
 
 > A comprehensive knowledge base for AI visual synthesis practitioners.
 > Covers prompts, skills, tools, workflows, and techniques for Midjourney, DALL·E 3, Flux.1, and Stable Diffusion.
+> 
+> URL: https://ai-visual-synthesis.vercel.app
+> GitHub: https://github.com/marktantongco/ai-visual-synthesis
 
 ## What is this?
 
 AI Visual Synthesis is a curated **prompt library + skills framework** for AI image generation.
 It is organized as a searchable wiki with deep-linkable entries for every prompt and skill.
+Free and open source for all skill levels.
 
-## Sitemap
+## Quick Navigation
 
 - `/` — Home / Knowledge Base Hub  
-- `/?view=portrait-cinematic-portrait` — Cinematic Portrait prompt  
-- `/?view=landscape-aerial-dreamscape` — Aerial Dreamscape prompt  
-- `/?view=product-luxury-shot` — Luxury Product Shot prompt  
-- `/?view=abstract-fluid-dynamics` — Fluid Dynamics prompt  
-- `/?view=concept-epic-fantasy-battle` — Epic Fantasy Battle prompt  
-- `/?view=skill-1-prompt-engineering` — Technical Prompt Engineering skill  
-- `/?view=skill-6-agent-orchestration` — AI Agent Orchestration skill  
+- `/prompts` — Prompt Templates & Custom Builder
+- `/framework` — Complete 8-Layer Architecture Guide
+- `/infographic` — Interactive UI Exploration
 
 ## Prompt Categories
 
 ### Portrait
-- Cinematic Portrait (Midjourney v6)
-- Cyberpunk Character (DALL·E 3)
-- Fine Art Oil Portrait (Stable Diffusion)
+- Cinematic Portrait (Midjourney v6) — Film-quality headshots with professional lighting
+- Cyberpunk Character (DALL·E 3) — Futuristic neon-lit characters
+- Fine Art Oil Portrait (Stable Diffusion) — Classical painting style portraits
 
 ### Landscape
-- Aerial Dreamscape (Midjourney v6)
-- Minimalist Desert (Flux.1)
-- Watercolor City (Midjourney)
+- Aerial Dreamscape (Midjourney v6) — Surreal aerial photography
+- Minimalist Desert (Flux.1) — Clean, sparse landscape compositions
+- Watercolor City (Midjourney) — Artistic urban landscapes
 
 ### Product
-- Luxury Product Shot (DALL·E 3)
-- Lifestyle Context (Midjourney)
-- Futuristic Gadget (Flux.1)
+- Luxury Product Shot (DALL·E 3) — High-end commercial photography
+- Lifestyle Context (Midjourney) — Products in natural settings
+- Futuristic Gadget (Flux.1) — Tech product visualization
 
 ### Abstract
-- Fluid Dynamics (Midjourney)
-- Geometric Neon (Stable Diffusion)
-- Organic Growth (DALL·E 3)
+- Fluid Dynamics (Midjourney) — Liquid and flow patterns
+- Geometric Neon (Stable Diffusion) — Mathematical art with lighting
+- Organic Growth (DALL·E 3) — Natural formation patterns
 
 ### Architecture
-- Brutalist Majesty (Midjourney)
-- Glass Utopia (Flux.1)
-- Ancient Ruins (DALL·E 3)
+- Brutalist Majesty (Midjourney) — Raw concrete architectural photography
+- Glass Utopia (Flux.1) — Modern glass and steel structures
+- Ancient Ruins (DALL·E 3) — Historical and archaeological sites
 
 ### Concept Art
-- Epic Fantasy Battle (Stable Diffusion)
-- Space Opera (Midjourney)
-- Solarpunk City (DALL·E 3)
+- Epic Fantasy Battle (Stable Diffusion) — Large-scale fantasy scenes
+- Space Opera (Midjourney) — Science fiction cinematic scenes
+- Solarpunk City (DALL·E 3) — Utopian sustainable futures
 
 ## AI Practitioner Skills Framework
 
 ### Foundation Layer
-- Technical Prompt Engineering — CLIP/T5 attention, semantic weight stacking
-- Photographic Literacy — focal length, aperture, lighting as AI parameters
+1. **Technical Prompt Engineering** — CLIP/T5 attention, semantic weight stacking, prompt structure
+2. **Photographic Literacy** — Focal length, aperture, lighting as AI parameters
 
 ### Consistency Layer
-- Strategic Negation & Skin Mastery — exclusion techniques, artifact removal
-- Identity Preservation & Consistency — LoRA, ControlNet, seed management
+3. **Strategic Negation & Skin Mastery** — Exclusion techniques, artifact removal, skin texture
+4. **Identity Preservation & Consistency** — LoRA, ControlNet, seed management
 
 ### Refinement Layer
-- Post-Processing & Hybrid Workflows — Topaz upscaling, Lightroom, inpainting
+5. **Post-Processing & Hybrid Workflows** — Topaz upscaling, Lightroom, inpainting
 
 ### Orchestration Layer
-- AI Agent Orchestration — multi-agent pipelines, LangChain, Mastra, CrewAI
+6. **AI Agent Orchestration** — Multi-agent pipelines, LangChain, Mastra, CrewAI
+
+## 8-Layer Prompt Architecture
+
+1. **Role** — Define AI expertise level (e.g., "Professional photographer")
+2. **Context** — Establish product, platform, audience
+3. **Objective** — Clear success criteria
+4. **Constraints** — Quality guardrails and limitations
+5. **Aesthetic** — Visual style keywords
+6. **Planning** — Execution strategy
+7. **Output** — Format specifications
+8. **Refinement** — Quality review steps
+
+## Physics-First Parameters
+
+### Lighting Ratios
+- **2:1** — Flat, even lighting (beauty, corporate)
+- **3:1** — Natural modeling (standard portrait)
+- **4:1** — Dramatic (editorial, leadership)
+- **8:1** — Extreme contrast (noir, mystery)
+
+### Lighting Patterns
+- **Rembrandt** (45° high) — Intellect, gravitas
+- **Butterfly** (above/centered) — Beauty, confidence
+- **Loop** (30-45°) — Approachable
+- **Split** (90° side) — Power, intensity
+- **Rim** (backlight 135°) — Premium, editorial
+
+### Kelvin Temperature
+- **2700K** — Candlelight (intimate, warm)
+- **3200K** — Tungsten (cozy, warm)
+- **4500K** — Golden hour (flattering)
+- **5600K** — Daylight/overcast (cool, clinical)
+- **6500K** — Blue sky (cold, dramatic)
+
+### Focal Length
+- **24mm** — Architecture (immersive, dramatic)
+- **35mm** — Documentary (honest, natural)
+- **50mm** — General (truthful)
+- **85mm** — Portraits (flattering, premium)
+- **105mm+** — Isolation (prestigious, dominant)
 
 ## Tools Covered
 
-- **Midjourney** — best for artistic quality, cinematic, --v 6 --style raw
+- **Midjourney v6** — Best for artistic quality, cinematic, --v 6 --style raw
 - **DALL·E 3** — GPT-integrated, natural language prompts, concept art
-- **Flux.1** — open source, photorealistic, fast generation
-- **Stable Diffusion / ComfyUI** — full control, LoRA, ControlNet, local
+- **Flux.1** — Open source, photorealistic, fast generation
+- **Stable Diffusion / ComfyUI** — Full control, LoRA, ControlNet, local execution
+
+## Thinking Modes (Animal Avatars)
+
+- 🐇 **Rabbit** — Multiply Ideas (Brainstorming)
+- 🦉 **Owl** — Deep Analysis (Research)
+- 🐜 **Ant** — Break Into Steps (Execution)
+- 🦅 **Eagle** — Big Picture (Strategy)
+- 🐬 **Dolphin** — Creative Solutions (Innovation)
+- 🦫 **Beaver** — Build Systems (Construction)
+- 🐘 **Elephant** — Cross-Field (Connections)
 
 ## Use This Site With AI
 
@@ -81,5 +131,20 @@ Ask your AI assistant:
 - "Show me the LoRA consistency technique"
 - "Give me a solarpunk city concept art prompt"
 - "How do I use negative prompts for skin texture?"
+- "What lighting ratio should I use for editorial portraits?"
+- "Explain the 8-Layer Prompt Architecture"
 
-All entries are available at `?view=<id>` for direct access.
+## Resources
+
+- Main documentation: `/skill.md`
+- Complete framework: `/AI-VISUAL-SYNTHESIS-COMPLETE-FRAMEWORK.md`
+- Advanced guide: `/AI-IMAGE-PROMPT-MASTERY-2026.md`
+- Beginner's guide: `/AI-VISUAL-SYNTHESIS-BEGINNERS-GUIDE.md`
+- RSS feed: `/feed.xml`
+- Sitemap: `/sitemap.xml`
+
+## Contact & Updates
+
+- GitHub: https://github.com/marktantongco/ai-visual-synthesis
+- Twitter: @aivisualsynth
+- Last updated: January 2025
