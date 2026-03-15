@@ -309,7 +309,313 @@ Use these terms in prompts to control visual output.
 
 ---
 
-## 06 // Templates
+## 06 // Prompting Strategy
+
+### The Core Insight
+
+> **Vague inputs produce vague outputs. Clear constraints produce structure.**
+
+When prompting AI for web apps, describe **architecture, UX behavior, design language, responsiveness rules, and output format**. Otherwise the model guesses.
+
+The trick: treat prompting like **engineering a machine**.
+
+---
+
+### Beaver Mode — Build the System Step-by-Step
+
+A beaver doesn't start with the dam. It starts with **structure, flow, and containment**. Your prompt should do the same.
+
+**The 6-Component Prompt Framework:**
+
+```
+1. ROLE         → Tell the AI what expert it should act as
+2. GOAL         → Describe the application clearly
+3. FUNCTIONAL   → What the app must do
+4. DESIGN       → Describe the aesthetic
+5. STACK        → Frameworks, responsiveness, libraries
+6. OUTPUT       → What files the AI should generate
+```
+
+---
+
+### The Master Prompt Template
+
+```
+You are a senior full-stack developer and product designer.
+
+Create a production-ready interactive web application that is fully mobile-responsive.
+
+Objectives
+• Build a modern interactive web app with dynamic UI components.
+• The interface must follow an ultra-modern Gen-Z design language with high-contrast typography, bold color gradients, glassmorphism, and smooth micro-interactions.
+
+Technical Requirements
+• Framework: Next.js (App Router)
+• Styling: Tailwind CSS
+• Animation: GSAP or Framer Motion
+• Components: reusable modular components
+• Mobile-first responsive layout
+• Accessible semantic HTML
+
+UX Features
+• Interactive sections
+• Animated transitions
+• Responsive navigation
+• Hover and scroll interactions
+• Modular cards and panels
+
+Design Style
+• Ultra-modern
+• Sophisticated creative aesthetic
+• Dark/light adaptive themes
+• Large expressive typography
+• Minimal but visually striking layout
+
+Output
+Generate:
+1. Project folder structure
+2. Full source code
+3. Instructions to run locally
+4. Explanation of key components
+```
+
+---
+
+### Dolphin Mode — Creative Ideas Most People Miss
+
+AI responds better when prompts define **interaction metaphors**:
+
+| # | Idea | Description |
+|---|------|-------------|
+| 1 | Scroll as Navigation | Sections animate like chapters in a story |
+| 2 | Skill Map Interface | Interactive node graph |
+| 3 | AI-assisted UI | User types → interface rearranges |
+| 4 | Card-based micro-apps | Each card opens a mini tool |
+| 5 | Data-driven storytelling | Charts animate when scrolled |
+| 6 | Gesture-first mobile | Swipe navigation instead of menus |
+| 7 | AI search panel | Natural language search that filters |
+| 8 | Live theme switcher | User toggles neon / minimal / glass |
+| 9 | Canvas mode | User manipulates elements visually |
+| 10 | Interactive infographic | The site behaves like a moving infographic |
+
+**Gen-Z design thrives on movement + modular interaction.**
+
+---
+
+### Owl Mode — Hidden Factors Most People Miss
+
+These invisible variables determine whether AI produces a good web app:
+
+| Factor | Why It Matters |
+|--------|---------------|
+| **Design vocabulary** | Words like *glassmorphism, brutalist UI, kinetic typography* steer visual output |
+| **Responsiveness** | Without **mobile-first** constraints, layouts break |
+| **Interaction description** | Animation libraries matter (GSAP, Framer Motion) |
+| **Output format** | AI behaves better when asked for **folder structure + code files** |
+| **Constraints** | Specific stack = more reliable code |
+
+---
+
+### Eagle Mode — Long-Term Strategy
+
+The ecosystem:
+
+```
+Prompt Template
+      ↓
+AI Code Generation
+      ↓
+Interactive Web App
+      ↓
+Reusable Components
+      ↓
+Design System
+      ↓
+Multiple Apps Generated Faster
+```
+
+**Your AI prompt becomes a product generator.**
+
+---
+
+### Ant Mode — Smallest Possible Steps
+
+```
+Step 1: write prompt
+Step 2: run prompt in AI
+Step 3: copy generated code
+Step 4: run npm install
+Step 5: run npm run dev
+```
+
+**Tiny ants move mountains by repetition.**
+
+---
+
+## 07 // 10 Prompt Variations (SEO Optimized)
+
+### 1 — Developer Prompt
+**SEO:** how to create a responsive interactive web app with AI
+
+```
+Act as a senior full-stack developer.
+
+Generate a mobile-first interactive web app with modern UI/UX.
+
+Requirements:
+• Next.js + Tailwind
+• Animated UI components
+• Responsive grid
+• Gen-Z design style
+• Modular component architecture
+
+Output the full project structure and source code.
+```
+
+---
+
+### 2 — Product Designer Prompt
+
+```
+Act as a digital product designer.
+
+Design an interactive web application with an ultra-modern Gen-Z aesthetic.
+
+Include:
+• Bold typography
+• Gradient color systems
+• Glassmorphism UI
+• Smooth animated transitions
+• Mobile-responsive layouts
+```
+
+---
+
+### 3 — Startup Founder Prompt
+
+```
+Create a startup-ready interactive web app interface.
+
+The design must feel premium, modern, and mobile responsive.
+
+Focus on:
+• Landing page
+• Dashboard
+• Interactive modules
+• Scalable component system
+```
+
+---
+
+### 4 — Infographic Web App Prompt
+**SEO:** interactive infographic web app
+
+```
+Create an interactive infographic web app.
+
+The entire page should behave like a dynamic infographic.
+
+Requirements:
+• Animated sections
+• Scroll-based interactions
+• Mobile responsive
+• Modern typography
+```
+
+---
+
+### 5 — Gen-Z UI Concept Prompt
+**SEO:** ultra-modern Gen-Z design web app
+
+```
+Create an ultra-modern Gen-Z style interactive web application.
+
+Design features:
+• Neon gradients
+• Animated typography
+• Card-based UI
+• Playful motion effects
+```
+
+---
+
+### 6 — AI Product Builder Prompt
+
+```
+You are an AI product engineer.
+
+Generate a complete interactive web app with responsive UI and animated components.
+
+Stack:
+Next.js
+Tailwind CSS
+GSAP animations
+
+Provide deploy instructions.
+```
+
+---
+
+### 7 — No-Code Friendly Prompt
+
+```
+Design an interactive web application concept that could be implemented using low-code tools.
+
+The interface should be mobile-first and visually sophisticated.
+```
+
+---
+
+### 8 — Educational Demo Prompt
+
+```
+Create a demo interactive web app that teaches users something through visual interaction.
+
+Use animations, cards, and responsive design.
+```
+
+---
+
+### 9 — Portfolio Web App Prompt
+
+```
+Create an interactive portfolio web application.
+
+Design:
+• Ultra modern
+• Minimal layout
+• Smooth page transitions
+• Mobile responsive
+```
+
+---
+
+### 10 — Creative Experimental Prompt
+**SEO:** experimental interactive web app
+
+```
+Design an experimental interactive web app where UI elements move and respond dynamically.
+
+Use bold Gen-Z aesthetics and animated UI behaviors.
+```
+
+---
+
+### The Three Layers Formula
+
+Prompting AI for web apps works best when you describe:
+
+```
+Function  ←  What the app does
+Design    ←  How it looks
+Technology ← What tools to use
+```
+
+**Miss one layer and the output collapses like a poorly engineered dam.**
+
+---
+
+## 08 // Templates
 
 ### Ready-to-Use Prompt Templates
 
@@ -324,7 +630,7 @@ Use these terms in prompts to control visual output.
 
 ---
 
-## 07 // Workflows
+## 09 // Workflows
 
 ### Common Workflows Reference
 
@@ -346,7 +652,7 @@ Use these terms in prompts to control visual output.
 
 ---
 
-## 08 // Resources
+## 10 // Resources
 
 ### Links & References
 

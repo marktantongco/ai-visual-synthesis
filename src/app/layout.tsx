@@ -28,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 /* ─── SEO Metadata ───────────────────────────────────────────────────── */
-const BASE_URL = "https://ai-visual-synthesis.vercel.app"; // update when custom domain deployed
+const BASE_URL = "https://ai-visual-synthesis.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -90,6 +90,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "AI Visual Synthesis Mastery Guide 2026",
+        type: "image/png",
       },
     ],
   },
