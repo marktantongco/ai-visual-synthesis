@@ -1,6 +1,6 @@
 # AI Visual Synthesis
 
-> Complete prompt engineering framework for AI image generation. Built with Next.js, Tailwind CSS, and Framer Motion.
+> Complete prompt engineering framework for AI image generation. Built with Next.js, Tailwind CSS, and GSAP.
 
 **Live Site:** https://ai-visual-synthesis.vercel.app  
 **GitHub:** https://github.com/marktantongco/ai-visual-synthesis
@@ -32,7 +32,7 @@ ai-visual-synthesis/
 │   ├── components/        # React components
 │   │   └── sections/     # Page sections
 │   ├── data/             # Static data
-│   └── lib/              # Utilities
+│   └── lib/              # Utilities & GSAP animations
 ├── public/                # Static assets
 ├── *.md                   # Documentation files
 └── config files           # Next.js, Tailwind, etc.
@@ -62,17 +62,18 @@ ai-visual-synthesis/
 |------|---------|
 | `page.tsx` | Server component - main entry |
 | `HomeClient.tsx` | Client shell - all sections |
-| `layout.tsx` | Root layout with fonts, metadata, SEO |
-| `globals.css` | Global styles, CSS variables, animations |
+| `layout.tsx` | Root layout with fonts, metadata, SEO, and graceful degradation fallbacks |
+| `globals.css` | Global styles, CSS variables, animations with visibility fallbacks |
 | `sitemap.ts` | Dynamic sitemap generation |
 
 ### Components (`src/components/`)
 
 | File | Purpose |
 |------|---------|
-| `HeroSection.tsx` | Landing hero with floating tags, parallax |
+| `HeroSection.tsx` | Landing hero with GSAP animations, floating tags, parallax |
 | `SearchSection.tsx` | Search functionality |
 | `SkillMapSection.tsx` | 6-layer skills framework visualization |
+| `KnowledgeGalaxy.tsx` | Domain knowledge cards with safe animations |
 | `ToolsSection.tsx` | AI tools comparison |
 | `TechniquesSection.tsx` | Prompt techniques guide |
 | `PromptsSection.tsx` | Prompt templates by category |
@@ -80,7 +81,7 @@ ai-visual-synthesis/
 | `RoadmapSection.tsx` | Learning roadmap |
 | `Navbar.tsx` | Navigation header |
 | `Footer.tsx` | Site footer |
-| `ui/primitives.tsx` | Reusable UI components (FadeIn, GlassCard, NeonTag) |
+| `ui/primitives.tsx` | Reusable UI components (FadeIn, SafeFadeIn, GlassCard, NeonTag) |
 | `ui/ThemeSwitcher.tsx` | Theme toggle |
 
 ### Data (`src/data/`)
@@ -95,6 +96,8 @@ ai-visual-synthesis/
 |------|---------|
 | `utils.ts` | Utility functions (cn, formatting) |
 | `searchData.ts` | Search functionality |
+| `gsap-utils.ts` | GSAP ScrollTrigger utilities (fadeInOnScroll, staggerReveal, parallaxScroll) |
+| `gsap-animations.ts` | GSAP animation configurations and presets |
 
 ---
 
@@ -140,9 +143,31 @@ npm run lint     # Run ESLint
 
 - **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS + Framer Motion
+- **Styling:** Tailwind CSS
+- **Animations:** GSAP with ScrollTrigger
 - **Icons:** Lucide React
 - **Deployment:** Vercel
+
+---
+
+## Animation System
+
+This project uses **GSAP (GreenSock Animation Platform)** with ScrollTrigger for smooth, performant animations. The animation system includes:
+
+### Graceful Degradation
+- Elements start visible by default (no `opacity: 0` initial states)
+- CSS fallbacks force visibility after 3 seconds if JS fails
+- JavaScript fallback in `<head>` ensures content is always visible
+- `useSafeAnimation` hook for components that need animation safety
+
+### GSAP Utilities (`src/lib/gsap-utils.ts`)
+- `fadeInOnScroll()` - Fade elements in on scroll
+- `staggerReveal()` - Staggered reveal animations
+- `parallaxScroll()` - Parallax scrolling effects
+
+### Safe Animation Components
+- `SafeFadeIn` - Fade-in component with built-in fallbacks
+- `useSafeAnimation` - Hook for safe animation initialization
 
 ---
 
@@ -156,6 +181,7 @@ npm run lint     # Run ESLint
 - 📱 **Responsive Design** - Mobile-first
 - ♿ **Accessible** - ARIA labels, semantic HTML
 - 🔍 **SEO Optimized** - JSON-LD schemas, meta tags
+- ⚡ **Fast Animations** - GSAP-powered with graceful degradation
 
 ---
 
@@ -176,10 +202,27 @@ Deep dive with `AI-IMAGE-PROMPT-MASTERY-2026.md` - Generator comparisons
 
 ---
 
+## Recent Updates
+
+### Animation System Overhaul
+- Replaced Framer Motion with GSAP for better performance
+- Fixed whitespace/loading issues caused by hidden elements
+- Added multi-layer fallback system for content visibility
+- Elements now start visible and animate in, rather than starting hidden
+
+### Files Modified
+- `src/app/globals.css` - CSS visibility fallbacks
+- `src/app/layout.tsx` - JavaScript fallback in `<head>`
+- `src/components/ui/primitives.tsx` - SafeFadeIn component, useSafeAnimation hook
+- `src/components/sections/KnowledgeGalaxy.tsx` - Safe animation implementation
+- `src/lib/gsap-animations.ts` - New GSAP animation utilities
+
+---
+
 ## License
 
 MIT
 
 ---
 
-*Last Updated: March 2026*
+*Last Updated: January 2025*

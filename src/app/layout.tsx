@@ -184,6 +184,28 @@ export default function RootLayout({
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* CRITICAL FIX: Animation fallback script 
+            Forces all hidden elements visible after 3 seconds */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Fallback: Force visibility after 3 seconds
+                setTimeout(function() {
+                  var style = document.createElement('style');
+                  style.innerHTML = '[style*="opacity: 0"], [style*="opacity:0"] { opacity: 1 !important; transform: none !important; }';
+                  document.head.appendChild(style);
+                  
+                  // Force all potentially hidden elements visible
+                  document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]').forEach(function(el) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                  });
+                }, 3000);
+              })();
+            `,
+          }}
+        />
       </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans bg-brutal-cream text-brutal-black antialiased`}

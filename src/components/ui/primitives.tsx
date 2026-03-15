@@ -1,11 +1,20 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import {
+  useFadeInOnScroll,
+  useScrollProgress,
+  useAnimatedCounter,
+  ANIMATION_CONFIG,
+} from "@/lib/gsap-animations";
+import gsap from "gsap";
 
 /* ─────────────────────────────────────────────
-   Fade-in-up on scroll
+   Fade-in-up on scroll (GSAP Version)
+   
+   FIX: Elements start visible by default to prevent
+   whitespace issues when animations fail to initialize.
 ───────────────────────────────────────────── */
 export function FadeIn({
   children,
@@ -16,21 +25,81 @@ export function FadeIn({
   delay?: number;
   className?: string;
 }) {
+  const { ref } = useFadeInOnScroll({ delay, duration: 0.7, y: 32 });
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 /* ─────────────────────────────────────────────
-   Glassmorphism card
+   SafeFadeIn - Guaranteed visibility
+   Use this for critical content
+───────────────────────────────────────────── */
+export function SafeFadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  // Enable animations after mount
+  useEffect(() => {
+    const readyTimer = setTimeout(() => setShouldAnimate(true), 100);
+    return () => clearTimeout(readyTimer);
+  }, []);
+
+  // Intersection Observer for scroll trigger
+  useEffect(() => {
+    if (!ref.current || !shouldAnimate) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-50px" }
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [shouldAnimate]);
+
+  // Fallback timeout
+  useEffect(() => {
+    const fallbackTimer = setTimeout(() => setIsVisible(true), 3000);
+    return () => clearTimeout(fallbackTimer);
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: shouldAnimate && !isVisible ? 0.01 : 1,
+        transform: shouldAnimate && !isVisible ? 'translateY(32px)' : 'translateY(0)',
+        transition: shouldAnimate
+          ? `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`
+          : 'none',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Glassmorphism card (GSAP Version)
 ───────────────────────────────────────────── */
 export function GlassCard({
   children,
@@ -43,6 +112,7 @@ export function GlassCard({
   hover?: boolean;
   glow?: "cyan" | "purple" | "pink" | "green";
 }) {
+  const ref = useRef<HTMLDivElement>(null);
   const glowClasses = {
     cyan: "hover:glow-cyan",
     purple: "hover:glow-purple",
@@ -50,18 +120,49 @@ export function GlassCard({
     green: "hover:shadow-[0_0_30px_rgba(0,255,135,0.25)]",
   };
 
+  useEffect(() => {
+    if (!ref.current || !hover) return;
+
+    const card = ref.current;
+
+    const handleEnter = () => {
+      gsap.to(card, {
+        y: -4,
+        scale: 1.01,
+        duration: 0.25,
+        ease: "power2.out",
+      });
+    };
+
+    const handleLeave = () => {
+      gsap.to(card, {
+        y: 0,
+        scale: 1,
+        duration: 0.25,
+        ease: "power2.out",
+      });
+    };
+
+    card.addEventListener("mouseenter", handleEnter);
+    card.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      card.removeEventListener("mouseenter", handleEnter);
+      card.removeEventListener("mouseleave", handleLeave);
+    };
+  }, [hover]);
+
   return (
-    <motion.div
-      whileHover={hover ? { y: -4, scale: 1.01 } : {}}
-      transition={{ duration: 0.25, ease: "easeOut" }}
+    <div
+      ref={ref}
       className={cn(
         "glass rounded-2xl overflow-hidden transition-all duration-300",
         glow && glowClasses[glow],
-        className,
+        className
       )}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -90,7 +191,7 @@ export function NeonTag({
       className={cn(
         "tag border font-semibold tracking-wide uppercase",
         colorMap[color],
-        className,
+        className
       )}
     >
       {children}
@@ -99,7 +200,7 @@ export function NeonTag({
 }
 
 /* ─────────────────────────────────────────────
-   Animated counter
+   Animated counter (GSAP Version)
 ───────────────────────────────────────────── */
 export function AnimatedCounter({
   from = 0,
@@ -112,58 +213,25 @@ export function AnimatedCounter({
   suffix?: string;
   duration?: number;
 }) {
-  const [count, setCount] = useState(from);
-  const [hasStarted, setHasStarted] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
+  const { displayValue, ref } = useAnimatedCounter({
+    target: to,
+    duration,
+    suffix,
+  });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true);
-        }
-      },
-      { threshold: 0.5 },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [hasStarted]);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-    let start = Date.now();
-    const timer = setInterval(() => {
-      const elapsed = (Date.now() - start) / (duration * 1000);
-      if (elapsed >= 1) {
-        setCount(to);
-        clearInterval(timer);
-      } else {
-        const ease = 1 - Math.pow(1 - elapsed, 3);
-        setCount(Math.round(from + (to - from) * ease));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [hasStarted, from, to, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
+  return <span ref={ref}>{displayValue}</span>;
 }
 
 /* ─────────────────────────────────────────────
-   Scroll progress bar
+   Scroll progress bar (GSAP Version)
 ───────────────────────────────────────────── */
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const progress = useScrollProgress();
 
   return (
-    <motion.div
-      style={{ scaleX }}
+    <div
       className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink origin-left z-50"
+      style={{ transform: `scaleX(${progress / 100})` }}
     />
   );
 }

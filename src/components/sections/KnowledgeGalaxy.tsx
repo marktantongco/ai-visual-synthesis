@@ -1,12 +1,17 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, Sparkles, ArrowRight, ChevronRight, BookOpen, Cpu, Palette, Code, Zap, Brain, Globe, Layers, Star, ExternalLink, Folder, FileText, Video, Download, GitBranch, MessageSquare, Rocket, Target, TrendingUp, Database, Shield, Cloud } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Search, Sparkles, ArrowRight, ChevronRight, Star, ExternalLink, GitBranch, FileText, TrendingUp, Database, Shield, Cloud, Brain, Palette, Code, Zap, Globe, Layers, Target, MessageSquare, Rocket } from "lucide-react";
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Extended Knowledge Domains
 const domains = [
-  // Original 6
   {
     id: "ai-tools",
     name: "AI Tools",
@@ -67,7 +72,6 @@ const domains = [
     resources: 18,
     page: "/strategy"
   },
-  // New domains
   {
     id: "data-science",
     name: "Data Science",
@@ -132,11 +136,11 @@ const domains = [
 
 // Resource types for detail view
 const resourceTypes = [
-  { icon: FileText, label: "Articles", count: 156 },
-  { icon: Video, label: "Videos", count: 48 },
-  { icon: Download, label: "Templates", count: 32 },
-  { icon: Code, label: "Code", count: 24 },
-  { icon: MessageSquare, label: "Discussions", count: 89 }
+  { label: "Articles", count: 156 },
+  { label: "Videos", count: 48 },
+  { label: "Templates", count: 32 },
+  { label: "Code", count: 24 },
+  { label: "Discussions", count: 89 }
 ];
 
 // Quick access resources
@@ -165,7 +169,95 @@ export default function KnowledgeGalaxy() {
   const [showSearch, setShowSearch] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [searchResults, setSearchResults] = useState<typeof allResources>([]);
+  
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const domainGridRef = useRef<HTMLDivElement>(null);
+  const quickAccessRef = useRef<HTMLDivElement>(null);
+  const isAnimated = useRef(false);
+
+  // Initialize animations on mount
+  useEffect(() => {
+    if (isAnimated.current) return;
+    isAnimated.current = true;
+
+    const ctx = gsap.context(() => {
+      // Hero text animation - starts visible, animates for enhancement
+      if (heroRef.current) {
+        gsap.fromTo(
+          heroRef.current,
+          { opacity: 0.01, y: 30 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.8, 
+            ease: "power3.out" 
+          }
+        );
+      }
+
+      // Domain cards stagger animation
+      if (domainGridRef.current) {
+        const cards = domainGridRef.current.querySelectorAll(".domain-card");
+        gsap.fromTo(
+          cards,
+          { opacity: 0.01, y: 20 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.5, 
+            stagger: 0.04,
+            ease: "power2.out",
+            delay: 0.2
+          }
+        );
+      }
+
+      // Quick access animation
+      if (quickAccessRef.current) {
+        gsap.fromTo(
+          quickAccessRef.current,
+          { opacity: 0.01 },
+          { 
+            opacity: 1, 
+            duration: 0.6, 
+            delay: 0.5,
+            ease: "power2.out"
+          }
+        );
+      }
+
+      // Floating background elements
+      gsap.to(".floating-bg", {
+        y: -10,
+        duration: 3,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        stagger: 0.5
+      });
+
+    }, containerRef);
+
+    // Fallback: Force visibility after 3 seconds
+    const fallbackTimer = setTimeout(() => {
+      gsap.set([heroRef.current, domainGridRef.current, quickAccessRef.current], { 
+        opacity: 1, 
+        y: 0 
+      });
+      if (domainGridRef.current) {
+        gsap.set(domainGridRef.current.querySelectorAll(".domain-card"), { 
+          opacity: 1, 
+          y: 0 
+        });
+      }
+    }, 3000);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(fallbackTimer);
+    };
+  }, []);
 
   // Track mouse for parallax
   useEffect(() => {
@@ -201,6 +293,11 @@ export default function KnowledgeGalaxy() {
 
   const activeDomainData = domains.find(d => d.id === activeDomain);
 
+  // Handle domain card hover
+  const handleDomainHover = (domainId: string | null) => {
+    setActiveDomain(domainId);
+  };
+
   return (
     <section 
       id="hero"
@@ -214,30 +311,21 @@ export default function KnowledgeGalaxy() {
           backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }} />
-        <motion.div
-          animate={{ x: mousePos.x * 2, y: mousePos.y * 2 }}
-          className="absolute w-[800px] h-[800px] rounded-full bg-neon-cyan/5 blur-[150px] -top-40 -left-40"
+        <div
+          className="floating-bg absolute w-[800px] h-[800px] rounded-full bg-neon-cyan/5 blur-[150px] -top-40 -left-40"
+          style={{ transform: `translate(${mousePos.x * 2}px, ${mousePos.y * 2}px)` }}
         />
-        <motion.div
-          animate={{ x: -mousePos.x * 1.5, y: -mousePos.y * 1.5 }}
-          className="absolute w-[600px] h-[600px] rounded-full bg-neon-purple/5 blur-[120px] bottom-0 right-0"
+        <div
+          className="floating-bg absolute w-[600px] h-[600px] rounded-full bg-neon-purple/5 blur-[120px] bottom-0 right-0"
+          style={{ transform: `translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
         />
         {Array.from({ length: 80 }).map((_, i) => (
-          <motion.div
+          <div
             key={i}
             className="absolute w-0.5 h-0.5 bg-white/40 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.1, 0.6, 0.1],
-              scale: [0.8, 1.2, 0.8]
-            }}
-            transition={{
-              duration: 2 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 2
             }}
           />
         ))}
@@ -266,12 +354,8 @@ export default function KnowledgeGalaxy() {
 
       {/* Main Content */}
       <div className="relative z-10 px-4 sm:px-6 py-8">
-        {/* Hero Text */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
+        {/* Hero Text - KEY FIX: Content starts visible */}
+        <div ref={heroRef} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
             <Star className="w-4 h-4 text-neon-cyan" />
             <span className="text-sm text-white/70">Knowledge Galaxy v2.0</span>
@@ -288,63 +372,40 @@ export default function KnowledgeGalaxy() {
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
             Navigate knowledge visually. Discover skills, tools, and resources interconnected as a living ecosystem.
           </p>
-        </motion.div>
+        </div>
 
         {/* Domain Nodes - Grid Layout */}
         <div className="max-w-6xl mx-auto mb-12">
-          {/* Central Core with Connection Lines */}
-          <div className="relative mb-8">
-            {/* Animated Core */}
-            <motion.div 
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-neon-cyan/30 to-neon-purple/30 border border-white/20 flex items-center justify-center z-10 hidden lg:flex"
-              animate={{ scale: [1, 1.08, 1] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            >
-              <div className="text-center">
-                <Sparkles className="w-6 h-6 text-neon-cyan mx-auto mb-1" />
-                <span className="text-xs font-bold text-white/70">CORE</span>
-              </div>
-            </motion.div>
+          {/* Connection Lines SVG */}
+          <svg className="absolute inset-0 w-full h-[300px] pointer-events-none hidden lg:block" style={{ height: '300px' }}>
+            {domains.slice(0, 6).map((domain, i) => {
+              const angle = (i * 60 - 90) * (Math.PI / 180);
+              const radius = 130;
+              const x = 50 + (Math.cos(angle) * radius * 0.4);
+              const y = 50 + (Math.sin(angle) * radius * 0.25);
+              return (
+                <line
+                  key={domain.id}
+                  x1="50%"
+                  y1="50%"
+                  x2={`${x}%`}
+                  y2={`${y}%`}
+                  stroke={domain.color}
+                  strokeWidth="1"
+                  strokeOpacity="0.15"
+                />
+              );
+            })}
+          </svg>
 
-            {/* Connection Lines SVG */}
-            <svg className="absolute inset-0 w-full h-[300px] pointer-events-none hidden lg:block" style={{ height: '300px' }}>
-              {domains.slice(0, 6).map((domain, i) => {
-                const angle = (i * 60 - 90) * (Math.PI / 180);
-                const radius = 130;
-                const x = 50 + (Math.cos(angle) * radius * 0.4);
-                const y = 50 + (Math.sin(angle) * radius * 0.25);
-                return (
-                  <motion.line
-                    key={domain.id}
-                    x1="50%"
-                    y1="50%"
-                    x2={`${x}%`}
-                    y2={`${y}%`}
-                    stroke={domain.color}
-                    strokeWidth="1"
-                    strokeOpacity="0.15"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: i * 0.1 }}
-                  />
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* Domain Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {domains.map((domain, i) => {
+          {/* Domain Grid - KEY FIX: All cards visible by default */}
+          <div ref={domainGridRef} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {domains.map((domain) => {
               const Icon = domain.icon;
               return (
-                <motion.button
+                <button
                   key={domain.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  onClick={() => setActiveDomain(activeDomain === domain.id ? null : domain.id)}
-                  onMouseEnter={() => setActiveDomain(domain.id)}
-                  className={`relative p-3 sm:p-4 rounded-xl border transition-all duration-300 ${
+                  className={`domain-card relative p-3 sm:p-4 rounded-xl border transition-all duration-300 ${
                     activeDomain === domain.id 
                       ? "bg-white/10 border-white/40" 
                       : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/25"
@@ -352,6 +413,9 @@ export default function KnowledgeGalaxy() {
                   style={{
                     boxShadow: activeDomain === domain.id ? `0 0 40px ${domain.color}25` : 'none'
                   }}
+                  onClick={() => setActiveDomain(activeDomain === domain.id ? null : domain.id)}
+                  onMouseEnter={() => handleDomainHover(domain.id)}
+                  onMouseLeave={() => handleDomainHover(null)}
                 >
                   <div 
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mb-2 sm:mb-3"
@@ -363,123 +427,109 @@ export default function KnowledgeGalaxy() {
                   <p className="text-xs text-white/40">{domain.resources} resources</p>
                   
                   {/* Hover Glow */}
-                  <motion.div
-                    className="absolute inset-0 rounded-xl opacity-0"
-                    style={{ background: `radial-gradient(circle at center, ${domain.color}15, transparent 70%)` }}
-                    animate={{ opacity: activeDomain === domain.id ? 1 : 0 }}
+                  <div
+                    className="absolute inset-0 rounded-xl pointer-events-none transition-opacity duration-300"
+                    style={{ 
+                      background: `radial-gradient(circle at center, ${domain.color}15, transparent 70%)`,
+                      opacity: activeDomain === domain.id ? 1 : 0
+                    }}
                   />
-                </motion.button>
+                </button>
               );
             })}
           </div>
         </div>
 
         {/* Domain Detail Panel */}
-        <AnimatePresence>
-          {activeDomain && activeDomainData && (
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.98 }}
-              className="max-w-4xl mx-auto"
+        {activeDomain && activeDomainData && (
+          <div className="max-w-4xl mx-auto mb-8">
+            <div 
+              className="p-5 sm:p-6 rounded-2xl border"
+              style={{ 
+                backgroundColor: activeDomainData.color + "08",
+                borderColor: activeDomainData.color + "30"
+              }}
             >
-              <div 
-                className="p-5 sm:p-6 rounded-2xl border"
-                style={{ 
-                  backgroundColor: activeDomainData.color + "08",
-                  borderColor: activeDomainData.color + "30"
-                }}
-              >
-                <div className="flex items-start justify-between mb-4 gap-4">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: activeDomainData.color + "20" }}
+              <div className="flex items-start justify-between mb-4 gap-4">
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="w-12 h-12 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: activeDomainData.color + "20" }}
+                  >
+                    {(() => {
+                      const Icon = activeDomainData.icon;
+                      return <Icon className="w-6 h-6" style={{ color: activeDomainData.color }} />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{activeDomainData.name}</h3>
+                    <p className="text-white/50 text-sm">{activeDomainData.description}</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setActiveDomain(null)}
+                  className="text-white/40 hover:text-white p-1"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Skills */}
+              <div className="mb-4">
+                <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Skill Nodes</h4>
+                <div className="flex flex-wrap gap-2">
+                  {activeDomainData.skills.map((skill, i) => (
+                    <button
+                      key={i}
+                      className="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:border-white/30 text-sm transition-all flex items-center gap-1.5"
                     >
-                      {(() => {
-                        const Icon = activeDomainData.icon;
-                        return <Icon className="w-6 h-6" style={{ color: activeDomainData.color }} />;
-                      })()}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white">{activeDomainData.name}</h3>
-                      <p className="text-white/50 text-sm">{activeDomainData.description}</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => setActiveDomain(null)}
-                    className="text-white/40 hover:text-white p-1"
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                {/* Skills */}
-                <div className="mb-4">
-                  <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Skill Nodes</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {activeDomainData.skills.map((skill, i) => (
-                      <button
-                        key={i}
-                        className="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:border-white/30 text-sm transition-all flex items-center gap-1.5"
-                      >
-                        {skill}
-                        <ArrowRight className="w-3 h-3 opacity-40" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Resource Types */}
-                <div className="mb-4">
-                  <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Resource Types</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {resourceTypes.map((type, i) => {
-                      const Icon = type.icon;
-                      return (
-                        <div
-                          key={i}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5"
-                        >
-                          <Icon className="w-3.5 h-3.5 text-white/40" />
-                          <span className="text-xs text-white/60">{type.label}</span>
-                          <span className="text-xs text-white/30">({type.count})</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="flex justify-end">
-                  <a 
-                    href={activeDomainData.page}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all hover:opacity-90"
-                    style={{ backgroundColor: activeDomainData.color }}
-                  >
-                    Explore Domain
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
+                      {skill}
+                      <ArrowRight className="w-3 h-3 opacity-40" />
+                    </button>
+                  ))}
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
+              {/* Resource Types */}
+              <div className="mb-4">
+                <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Resource Types</h4>
+                <div className="flex flex-wrap gap-2">
+                  {resourceTypes.map((type, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5"
+                    >
+                      <span className="text-xs text-white/60">{type.label}</span>
+                      <span className="text-xs text-white/30">({type.count})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <a 
+                  href={activeDomainData.page}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all hover:opacity-90"
+                  style={{ backgroundColor: activeDomainData.color }}
+                >
+                  Explore Domain
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Quick Access - Show when no domain selected */}
         {!activeDomain && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="max-w-3xl mx-auto"
-          >
+          <div ref={quickAccessRef} className="max-w-3xl mx-auto">
             <h3 className="text-center text-white/30 text-xs uppercase tracking-widest mb-4">Quick Access</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {quickResources.map((resource, i) => {
+              {quickResources.map((resource) => {
                 const Icon = resource.icon;
                 return (
                   <a
-                    key={i}
+                    key={resource.slug}
                     href={resource.slug}
                     className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/30 transition-all group text-center"
                   >
@@ -489,106 +539,89 @@ export default function KnowledgeGalaxy() {
                 );
               })}
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
 
       {/* Search Modal */}
-      <AnimatePresence>
-        {showSearch && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-start justify-center pt-16 sm:pt-24 px-4"
-            onClick={() => setShowSearch(false)}
+      {showSearch && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-start justify-center pt-16 sm:pt-24 px-4"
+          onClick={() => setShowSearch(false)}
+        >
+          <div
+            className="w-full max-w-2xl bg-dark-800 border border-white/20 rounded-2xl overflow-hidden shadow-2xl"
+            onClick={e => e.stopPropagation()}
           >
-            <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              className="w-full max-w-2xl bg-dark-800 border border-white/20 rounded-2xl overflow-hidden shadow-2xl"
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="flex items-center gap-3 p-4 border-b border-white/10">
-                <Search className="w-5 h-5 text-white/40" />
-                <input
-                  type="text"
-                  placeholder="Search resources, guides, tools..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-transparent text-white placeholder-white/30 outline-none text-lg"
-                  autoFocus
-                />
-                <kbd className="px-2 py-1 bg-white/10 rounded text-xs text-white/40">ESC</kbd>
-              </div>
-              
-              {searchQuery ? (
-                <div className="max-h-96 overflow-y-auto p-2">
-                  <div className="flex items-center gap-2 px-3 py-2 mb-2">
-                    <Sparkles className="w-4 h-4 text-neon-cyan" />
-                    <span className="text-sm text-white/60">{searchResults.length} results</span>
-                  </div>
-                  
-                  {searchResults.length > 0 ? (
-                    <div className="space-y-1">
-                      {searchResults.map((result, i) => (
-                        <a
-                          key={i}
-                          href={result.url}
-                          className="flex items-center justify-between p-3 rounded-xl hover:bg-white/10 transition-all"
-                        >
-                          <div>
-                            <span className="text-white block">{result.title}</span>
-                            <span className="text-xs text-white/40">{result.domain} · {result.type}</span>
-                          </div>
-                          <ExternalLink className="w-4 h-4 text-white/30" />
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-8 text-center text-white/40">
-                      No results found for "{searchQuery}"
-                    </div>
-                  )}
+            <div className="flex items-center gap-3 p-4 border-b border-white/10">
+              <Search className="w-5 h-5 text-white/40" />
+              <input
+                type="text"
+                placeholder="Search resources, guides, tools..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 bg-transparent text-white placeholder-white/30 outline-none text-lg"
+                autoFocus
+              />
+              <kbd className="px-2 py-1 bg-white/10 rounded text-xs text-white/40">ESC</kbd>
+            </div>
+            
+            {searchQuery ? (
+              <div className="max-h-96 overflow-y-auto p-2">
+                <div className="flex items-center gap-2 px-3 py-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-neon-cyan" />
+                  <span className="text-sm text-white/60">{searchResults.length} results</span>
                 </div>
-              ) : (
-                <div className="p-4">
-                  <div className="text-xs text-white/30 uppercase tracking-wider mb-3">Popular Searches</div>
-                  <div className="flex flex-wrap gap-2">
-                    {["Prompt Engineering", "React", "Midjourney", "n8n", "LinkedIn", "Glassmorphism"].map((term, i) => (
-                      <button
+                
+                {searchResults.length > 0 ? (
+                  <div className="space-y-1">
+                    {searchResults.map((result, i) => (
+                      <a
                         key={i}
-                        onClick={() => setSearchQuery(term)}
-                        className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-sm text-white/70 transition-all"
+                        href={result.url}
+                        className="flex items-center justify-between p-3 rounded-xl hover:bg-white/10 transition-all"
                       >
-                        {term}
-                      </button>
+                        <div>
+                          <span className="text-white block">{result.title}</span>
+                          <span className="text-xs text-white/40">{result.domain} · {result.type}</span>
+                        </div>
+                        <ExternalLink className="w-4 h-4 text-white/30" />
+                      </a>
                     ))}
                   </div>
+                ) : (
+                  <div className="p-8 text-center text-white/40">
+                    No results found for "{searchQuery}"
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="p-4">
+                <div className="text-xs text-white/30 uppercase tracking-wider mb-3">Popular Searches</div>
+                <div className="flex flex-wrap gap-2">
+                  {["Prompt Engineering", "React", "Midjourney", "n8n", "LinkedIn", "Glassmorphism"].map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => setSearchQuery(term)}
+                      className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-sm text-white/70 transition-all"
+                    >
+                      {term}
+                    </button>
+                  ))}
                 </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="flex flex-col items-center gap-2 text-white/30"
-        >
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+        <div className="flex flex-col items-center gap-2 text-white/30">
           <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
           <ChevronRight className="w-5 h-5 rotate-90" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }
