@@ -73,7 +73,7 @@ export default function PromptsSection() {
   };
 
   return (
-    <section id="prompts" className="section" aria-labelledby="prompts-heading">
+    <section id="prompts" className="section scroll-mt-20" aria-labelledby="prompts-heading">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(promptsJsonLd) }}

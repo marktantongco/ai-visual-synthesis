@@ -148,7 +148,7 @@ export default function SkillMapSection() {
   return (
     <section
       id="skillmap"
-      className="section"
+      className="section scroll-mt-20"
       aria-labelledby="skillmap-heading"
     >
       <script

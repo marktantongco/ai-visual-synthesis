@@ -358,7 +358,7 @@ export default function ToolsSection() {
   };
 
   return (
-    <section id="tools" className="section" aria-labelledby="tools-heading">
+    <section id="tools" className="section scroll-mt-20" aria-labelledby="tools-heading">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(toolsJsonLd) }}

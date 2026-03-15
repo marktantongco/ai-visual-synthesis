@@ -35,6 +35,7 @@ export default function HeroSection() {
 
   return (
     <section
+      id="hero"
       ref={ref}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden animated-bg grid-pattern"
       aria-label="Hero section"
@@ -165,7 +166,7 @@ export default function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-xs text-white/30 font-medium tracking-widest uppercase">
-          Scroll
+          Scroll to explore
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}

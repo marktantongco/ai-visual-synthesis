@@ -113,7 +113,7 @@ export default function TechniquesSection() {
   return (
     <section
       id="techniques"
-      className="relative"
+      className="relative scroll-mt-20"
       aria-labelledby="techniques-heading"
     >
       {/* Stats banner */}

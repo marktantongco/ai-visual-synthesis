@@ -487,7 +487,7 @@ export default function SearchSection() {
   };
 
   return (
-    <section id="search" className="section" aria-labelledby="search-heading">
+    <section id="search" className="section scroll-mt-20" aria-labelledby="search-heading">
       {/* ── Header ── */}
       <FadeIn>
         <div className="text-center mb-10">

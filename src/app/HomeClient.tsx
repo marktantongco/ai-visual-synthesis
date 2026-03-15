@@ -1,6 +1,7 @@
 "use client";
 
 import { ScrollProgress } from "@/components/ui/primitives";
+import SectionIndicators from "@/components/ui/SectionIndicators";
 import Navbar from "@/components/sections/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
 import SearchSection from "@/components/sections/SearchSection";
@@ -18,6 +19,7 @@ export default function HomeClient() {
     <main>
       <ScrollProgress />
       <Navbar />
+      <SectionIndicators />
       <HeroSection />
       <SearchSection />
       <SkillMapSection />

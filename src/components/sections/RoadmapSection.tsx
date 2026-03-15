@@ -174,7 +174,7 @@ export default function RoadmapSection() {
       {/* Learning roadmap */}
       <section
         id="roadmap"
-        className="section pt-0"
+        className="section pt-0 scroll-mt-20"
         aria-labelledby="roadmap-heading"
       >
         <FadeIn>

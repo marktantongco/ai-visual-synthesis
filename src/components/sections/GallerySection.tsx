@@ -159,7 +159,7 @@ export default function GallerySection() {
     filter === "All" ? gallery : gallery.filter((g) => g.tool === filter);
 
   return (
-    <section id="gallery" className="section" aria-labelledby="gallery-heading">
+    <section id="gallery" className="section scroll-mt-20" aria-labelledby="gallery-heading">
       <FadeIn>
         <div className="text-center mb-12">
           <NeonTag color="pink">Gallery</NeonTag>
