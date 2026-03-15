@@ -6,6 +6,7 @@ import { Menu, X, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
+  { href: "#prompt-builder", label: "Builder" },
   { href: "#tools", label: "Tools" },
   { href: "#techniques", label: "Techniques" },
   { href: "#prompts", label: "Prompts" },
