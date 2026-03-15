@@ -413,23 +413,62 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         
         {/* CRITICAL FIX: Animation fallback script 
-            Forces all hidden elements visible after 3 seconds */}
+            Forces all hidden elements visible quickly - prevents whitespace */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                // Fallback: Force visibility after 3 seconds
+                // IMMEDIATE: Add CSS override right away - catches everything
+                var immediateStyle = document.createElement('style');
+                immediateStyle.innerHTML = 
+                  'section, .section, section > *, .section > *, main > * { opacity: 1 !important; visibility: visible !important; transform: none !important; }' +
+                  '[class*="motion"], [class*="animate"], [class*="fade"] { opacity: 1 !important; }' +
+                  '[style*="opacity: 0"], [style*="opacity:0"], [style*="opacity: ."], [style*="opacity:."] { opacity: 1 !important; }' +
+                  '[style*="opacity: 0.0"], [style*="opacity: 0.01"], [style*="opacity:0.01"] { opacity: 1 !important; }' +
+                  '[style*="opacity: 0.1"], [style*="opacity: 0.2"], [style*="opacity: 0.3"] { opacity: 1 !important; }';
+                document.head.appendChild(immediateStyle);
+                
+                // VERY FAST FALLBACK: Force visibility after just 100ms
                 setTimeout(function() {
                   var style = document.createElement('style');
-                  style.innerHTML = '[style*="opacity: 0"], [style*="opacity:0"] { opacity: 1 !important; transform: none !important; }';
+                  style.innerHTML = 
+                    '[style*="opacity"] { opacity: 1 !important; transform: none !important; visibility: visible !important; }';
                   document.head.appendChild(style);
                   
-                  // Force all potentially hidden elements visible
-                  document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]').forEach(function(el) {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
+                  // Force ALL elements with low opacity to be visible
+                  document.querySelectorAll('*').forEach(function(el) {
+                    var op = el.style && el.style.opacity;
+                    if (op) {
+                      var numOp = parseFloat(op);
+                      if (numOp < 0.99) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'none';
+                        el.style.visibility = 'visible';
+                      }
+                    }
                   });
-                }, 3000);
+                  
+                  // Force all sections visible
+                  document.querySelectorAll('section, .section').forEach(function(el) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                    el.style.visibility = 'visible';
+                  });
+                }, 100);
+                
+                // DOUBLE CHECK: Run again at 500ms for any late-loaded content
+                setTimeout(function() {
+                  document.querySelectorAll('[style*="opacity"]').forEach(function(el) {
+                    var op = el.style.opacity;
+                    if (op) {
+                      var numOp = parseFloat(op);
+                      if (numOp < 0.99) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'none';
+                      }
+                    }
+                  });
+                }, 500);
               })();
             `,
           }}

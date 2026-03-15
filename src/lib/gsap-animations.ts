@@ -66,6 +66,9 @@ export function useGSAPReady() {
 /* ─────────────────────────────────────────────
    useFadeInOnScroll Hook
    Safe fade-in animation when element enters viewport
+   
+   KEY FIX: Elements start visible (opacity: 1).
+   Animation is an enhancement, not a requirement.
 ───────────────────────────────────────────── */
 
 export function useFadeInOnScroll<T extends HTMLElement = HTMLDivElement>(options: {
@@ -84,7 +87,6 @@ export function useFadeInOnScroll<T extends HTMLElement = HTMLDivElement>(option
   } = options;
 
   const ref = useRef<T>(null);
-  const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const isReady = useGSAPReady();
 
@@ -93,34 +95,30 @@ export function useFadeInOnScroll<T extends HTMLElement = HTMLDivElement>(option
 
     const element = ref.current;
 
-    // Create scroll trigger
+    // Create scroll trigger - animation is ENHANCEMENT only
     const scrollTrigger = ScrollTrigger.create({
       trigger: element,
       start: `top ${100 - threshold * 100}%`,
       onEnter: () => {
         if (!hasAnimated) {
-          setIsVisible(true);
           setHasAnimated(true);
 
-          // Animate from current state (visible) to animated state
+          // Animate from a subtle state (not invisible)
+          // Element is already visible, we just add a subtle entrance effect
           gsap.fromTo(
             element,
-            { opacity: 0.01, y },
+            { 
+              opacity: 0.3,  // Start from visible state, not invisible
+              y: Math.min(y, 10)  // Smaller y movement
+            },
             {
               opacity: 1,
               y: 0,
-              duration,
+              duration: duration * 0.5,  // Faster animation
               delay,
               ease: ANIMATION_CONFIG.ease.snappy,
             }
           );
-        }
-      },
-      onLeaveBack: () => {
-        if (!once && hasAnimated) {
-          gsap.set(element, { opacity: 0.01, y });
-          setHasAnimated(false);
-          setIsVisible(false);
         }
       },
     });
@@ -130,20 +128,19 @@ export function useFadeInOnScroll<T extends HTMLElement = HTMLDivElement>(option
     };
   }, [isReady, hasAnimated, threshold, delay, duration, y, once]);
 
-  // Fallback: Force visibility after timeout
+  // Quick fallback: Force visibility after just 500ms (not 3 seconds!)
   useEffect(() => {
     const fallbackTimer = setTimeout(() => {
       if (ref.current && !hasAnimated) {
-        gsap.set(ref.current, { opacity: 1, y: 0 });
+        gsap.set(ref.current, { opacity: 1, y: 0, visibility: 'visible' });
         setHasAnimated(true);
-        setIsVisible(true);
       }
-    }, ANIMATION_CONFIG.fallbackTimeout);
+    }, 500);  // Much faster fallback
 
     return () => clearTimeout(fallbackTimer);
   }, [hasAnimated]);
 
-  return { ref, isVisible, hasAnimated };
+  return { ref, hasAnimated };
 }
 
 /* ─────────────────────────────────────────────

@@ -13,8 +13,9 @@ import gsap from "gsap";
 /* ─────────────────────────────────────────────
    Fade-in-up on scroll (GSAP Version)
    
-   FIX: Elements start visible by default to prevent
+   FIX: Elements start VISIBLE by default to prevent
    whitespace issues when animations fail to initialize.
+   Animation is purely an enhancement.
 ───────────────────────────────────────────── */
 export function FadeIn({
   children,
@@ -25,10 +26,17 @@ export function FadeIn({
   delay?: number;
   className?: string;
 }) {
-  const { ref } = useFadeInOnScroll({ delay, duration: 0.7, y: 32 });
+  const { ref } = useFadeInOnScroll({ delay, duration: 0.5, y: 20 });
 
   return (
-    <div ref={ref} className={className}>
+    <div 
+      ref={ref} 
+      className={className}
+      style={{ 
+        opacity: 1,  // Start visible!
+        visibility: 'visible'  // Always visible
+      }}
+    >
       {children}
     </div>
   );

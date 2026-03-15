@@ -182,13 +182,12 @@ export default function KnowledgeGalaxy() {
     isAnimated.current = true;
 
     const ctx = gsap.context(() => {
-      // Hero text animation - starts visible, animates for enhancement
+      // Hero text animation - elements are already visible, add subtle animation
       if (heroRef.current) {
         gsap.fromTo(
           heroRef.current,
-          { opacity: 0.01, y: 30 },
+          { y: 20 },
           { 
-            opacity: 1, 
             y: 0, 
             duration: 0.8, 
             ease: "power3.out" 
@@ -201,9 +200,8 @@ export default function KnowledgeGalaxy() {
         const cards = domainGridRef.current.querySelectorAll(".domain-card");
         gsap.fromTo(
           cards,
-          { opacity: 0.01, y: 20 },
+          { y: 15 },
           { 
-            opacity: 1, 
             y: 0, 
             duration: 0.5, 
             stagger: 0.04,
@@ -217,9 +215,9 @@ export default function KnowledgeGalaxy() {
       if (quickAccessRef.current) {
         gsap.fromTo(
           quickAccessRef.current,
-          { opacity: 0.01 },
+          { y: 10 },
           { 
-            opacity: 1, 
+            y: 0, 
             duration: 0.6, 
             delay: 0.5,
             ease: "power2.out"
@@ -239,23 +237,9 @@ export default function KnowledgeGalaxy() {
 
     }, containerRef);
 
-    // Fallback: Force visibility after 3 seconds
-    const fallbackTimer = setTimeout(() => {
-      gsap.set([heroRef.current, domainGridRef.current, quickAccessRef.current], { 
-        opacity: 1, 
-        y: 0 
-      });
-      if (domainGridRef.current) {
-        gsap.set(domainGridRef.current.querySelectorAll(".domain-card"), { 
-          opacity: 1, 
-          y: 0 
-        });
-      }
-    }, 3000);
-
+    // Cleanup only - no fallback needed since elements start visible
     return () => {
       ctx.revert();
-      clearTimeout(fallbackTimer);
     };
   }, []);
 

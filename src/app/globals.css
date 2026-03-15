@@ -395,43 +395,100 @@ tr:hover td {
    even if JavaScript animations fail completely.
    
    Elements start visible - animations are enhancements only.
+   NO WHITESPACE ALLOWED - Everything must be visible immediately!
 ============================================ */
+
+/* IMMEDIATE: All sections and their children are ALWAYS visible */
+section,
+.section,
+section > *,
+.section > *,
+main > *,
+main > section {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
 
 /* Base visibility for all motion/animated elements - START VISIBLE */
 [data-framer-component-type],
 [class*="motion"],
 [class*="animate"],
 [data-scroll],
-.gsap-animated {
+.gsap-animated,
+.fade-in,
+[data-gsap],
+[class*="fade"] {
   opacity: 1 !important;
   visibility: visible !important;
+  transform: none !important;
 }
 
-/* Override any inline opacity:0 styles immediately */
+/* Override ANY inline opacity less than 1 - CATCHES ALL GSAP VALUES */
 [style*="opacity: 0"],
-[style*="opacity:0"] {
+[style*="opacity:0"],
+[style*="opacity:."],
+[style*="opacity: ."],
+[style*="opacity: 0.0"],
+[style*="opacity: 0.01"],
+[style*="opacity:0.01"],
+[style*="opacity: 0.02"],
+[style*="opacity:0.02"],
+[style*="opacity: 0.03"],
+[style*="opacity:0.03"],
+[style*="opacity: 0.04"],
+[style*="opacity:0.04"],
+[style*="opacity: 0.05"],
+[style*="opacity:0.05"],
+[style*="opacity: 0.1"],
+[style*="opacity:0.1"],
+[style*="opacity: 0.2"],
+[style*="opacity:0.2"],
+[style*="opacity: 0.3"],
+[style*="opacity:0.3"],
+[style*="opacity: 0.4"],
+[style*="opacity:0.4"],
+[style*="opacity: 0.5"],
+[style*="opacity:0.5"] {
   opacity: 1 !important;
   visibility: visible !important;
+  transform: none !important;
+}
+
+/* Animation-ready class for JS to add when animations should work */
+.animate-ready {
+  animation: none;
+}
+
+.animate-ready [style*="opacity"] {
+  opacity: 1 !important;
 }
 
 /* Force visibility for any element with inline opacity:0 after tiny delay */
 @keyframes forceVisible {
-  from { opacity: 1; }
-  to { opacity: 1; }
+  0% { opacity: 1 !important; }
+  100% { opacity: 1 !important; }
 }
 
 /* Apply to Framer Motion elements as safety */
 [data-framer-component-type],
-[class*="motion"] {
-  animation: forceVisible 0.001s 0.1s forwards;
+[class*="motion"],
+[class*="animate"] {
+  animation: forceVisible 0.001s 0.02s forwards !important;
 }
 
-/* Override any hidden states after delay */
+/* Override any hidden states immediately */
 .force-visible *,
 .force-visible {
   opacity: 1 !important;
   transform: none !important;
   visibility: visible !important;
+}
+
+/* Ensure section transitions don't hide content */
+.section {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* Print styles - always visible */
