@@ -128,7 +128,7 @@ export default function PromptsSection() {
       <AnimatePresence mode="wait">
         <motion.div
           key={activeCategory}
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 1, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -140,7 +140,7 @@ export default function PromptsSection() {
           {(prompts[activeCategory] ?? []).map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
               className="h-full focus-within:ring-2 focus-within:ring-neon-cyan focus-within:ring-offset-2 focus-within:-outline-offset-2 rounded-2xl"

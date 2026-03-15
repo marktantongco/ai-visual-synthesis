@@ -199,7 +199,7 @@ export default function SkillMapSection() {
             return (
               <motion.div
                 key={node.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -262,7 +262,7 @@ export default function SkillMapSection() {
                 {/* Connection arrows */}
                 {isActive && (
                   <motion.div
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: 1 }}
                     animate={{ opacity: 1 }}
                     className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xs font-mono"
                     style={{ color: node.color }}
@@ -281,7 +281,7 @@ export default function SkillMapSection() {
         {active && (
           <motion.div
             key={active.id}
-            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            initial={{ opacity: 1, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.99 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -356,7 +356,7 @@ export default function SkillMapSection() {
                     {active.keySkills.map((skill, i) => (
                       <motion.li
                         key={skill}
-                        initial={{ opacity: 0, x: -8 }}
+                        initial={{ opacity: 1, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.06 }}
                         className="flex items-center gap-2 text-sm text-white/70"

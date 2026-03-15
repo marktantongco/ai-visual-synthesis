@@ -376,7 +376,7 @@ export default function PromptsPage() {
         
         <div className="relative max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
@@ -424,7 +424,7 @@ export default function PromptsPage() {
             {activeTab === "templates" ? (
               <motion.div
                 key="templates"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
@@ -445,7 +445,7 @@ export default function PromptsPage() {
                   {filteredTemplates.map((template) => (
                     <motion.div
                       key={template.id}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 1, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={`relative group ${selectedTemplate === template.id ? 'md:col-span-2' : ''}`}
                     >
@@ -458,7 +458,7 @@ export default function PromptsPage() {
                       <AnimatePresence>
                         {selectedTemplate === template.id && (
                           <motion.div
-                            initial={{ opacity: 0, height: 0 }}
+                            initial={{ opacity: 1, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
                             className="mt-4 overflow-hidden"
@@ -492,7 +492,7 @@ export default function PromptsPage() {
             ) : (
               <motion.div
                 key="builder"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >

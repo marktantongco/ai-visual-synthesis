@@ -53,7 +53,7 @@ function GlassCard({ children, className = "", accent = "cyan", delay = 0 }: Car
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 1, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ delay, duration: durStandard, ease }}
@@ -90,7 +90,7 @@ function AccentLine({ color = "#4DFFFF" }: { color?: string }) {
 function Label({ children, color = "#4DFFFF" }: { children: React.ReactNode; color?: string }) {
   return (
     <motion.span
-      initial={{ opacity: 0, x: -10 }}
+      initial={{ opacity: 1, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: durMicro }}
       className="text-xs font-mono tracking-widest uppercase"
@@ -212,7 +212,7 @@ function Hero() {
           <Label color="#4DFFFF">AI Visual Synthesis</Label>
 
           <motion.h1
-            initial={{ opacity: 0, y: 60 }}
+            initial={{ opacity: 1, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: durStandard, ease, delay: 0.2 }}
             className="font-display font-black leading-[0.9] mt-6"
@@ -224,7 +224,7 @@ function Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: durStandard, ease, delay: 0.4 }}
             className="mt-8 text-lg md:text-xl max-w-2xl leading-relaxed"
@@ -236,7 +236,7 @@ function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             transition={{ duration: durStandard, delay: 0.6 }}
             className="flex flex-wrap gap-4 mt-10"
@@ -263,7 +263,7 @@ function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
@@ -511,7 +511,7 @@ function PhysicsSection() {
             {kelvinTemps.map((item, i) => (
               <motion.div
                 key={item.temp}
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 1, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05, duration: durStandard }}
@@ -540,7 +540,7 @@ function PhysicsSection() {
             {focalLengths.map((item, i) => (
               <motion.div
                 key={item.mm}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 1, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05, duration: durStandard }}
@@ -636,7 +636,7 @@ function VocabularySection() {
         {vocabulary.map((term, i) => (
           <motion.span
             key={term}
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 1, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.02, duration: durMicro }}

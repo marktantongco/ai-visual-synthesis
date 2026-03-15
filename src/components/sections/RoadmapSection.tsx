@@ -149,7 +149,7 @@ export default function RoadmapSection() {
                 {rows.map((row, ri) => (
                   <motion.tr
                     key={row.feature}
-                    initial={{ opacity: 0, x: -12 }}
+                    initial={{ opacity: 1, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: ri * 0.05 }}

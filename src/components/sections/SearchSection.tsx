@@ -69,7 +69,7 @@ function NodeCard({
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, x: reduced ? 0 : -12 }}
+      initial={{ opacity: 1, x: reduced ? 0 : -12 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: reduced ? 0 : -12 }}
       transition={{ duration: 0.22, delay: index * 0.03, ease: EASE }}
@@ -173,7 +173,7 @@ function NodeCard({
         <AnimatePresence>
           {isActive && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 1, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.28, ease: EASE }}
@@ -363,7 +363,7 @@ function WikiPanel({ item, onClose }: { item: SearchItem; onClose: () => void })
       {/* ── Desktop: slide from right ── */}
       <motion.aside
         key={`desktop-${item.id}`}
-        initial={{ opacity: 0, x: 24 }}
+        initial={{ opacity: 1, x: 24 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 24 }}
         transition={{ duration: 0.32, ease: EASE }}
@@ -402,7 +402,7 @@ function WikiPanel({ item, onClose }: { item: SearchItem; onClose: () => void })
       {/* Mobile backdrop */}
       <motion.div
         key={`backdrop-${item.id}`}
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.22 }}
@@ -532,7 +532,7 @@ export default function SearchSection() {
           <AnimatePresence>
             {query && (
               <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 1, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.15 }}
@@ -611,7 +611,7 @@ export default function SearchSection() {
         <div className="pl-5 border-l border-white/[0.06] relative">
           {results.length === 0 ? (
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               className="text-center py-14 text-white/25"
             >
@@ -649,7 +649,7 @@ export default function SearchSection() {
           ) : (
             <motion.div
               key="empty"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
               className="hidden lg:flex flex-col items-center justify-center sticky top-24 rounded-2xl border border-dashed border-white/[0.07] p-10 text-center min-h-64"

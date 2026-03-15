@@ -201,7 +201,7 @@ export default function GallerySection() {
       <AnimatePresence mode="wait">
         <motion.div
           key={filter}
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
@@ -210,7 +210,7 @@ export default function GallerySection() {
           {filtered.map((item, i) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 1, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
                 delay: i * 0.06,
@@ -229,7 +229,7 @@ export default function GallerySection() {
 
               {/* Overlay on hover */}
               <motion.div
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: hoveredId === item.id ? 1 : 0 }}
                 className="absolute inset-0 bg-dark-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center"
               >

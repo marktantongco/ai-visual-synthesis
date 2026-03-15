@@ -348,7 +348,7 @@ function ConverterMiniApp() {
 function NavigationDots({ total, active, onClick }: { total: number; active: number; onClick: (i: number) => void }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
+      initial={{ opacity: 1, x: 20 }}
       animate={{ opacity: 1 }}
       className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3"
     >
@@ -391,7 +391,7 @@ function ChapterSection({
   return (
     <motion.section
       ref={ref}
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 1 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: false, amount: 0.3 }}
       className="min-h-screen flex items-center justify-center py-24"
@@ -468,7 +468,7 @@ function SkillMap() {
       <AnimatePresence>
         {selectedNode && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 1, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             className="absolute bottom-4 left-4 p-3 rounded border text-xs"
@@ -547,7 +547,7 @@ function AISearchPanel() {
       <AnimatePresence>
         {results.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 1, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             className="space-y-2 max-h-60 overflow-y-auto"
@@ -736,7 +736,7 @@ export default function InteractiveInfographic() {
 
       {/* Theme Switcher */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 1, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="fixed top-4 right-4 z-50"
       >
@@ -750,7 +750,7 @@ export default function InteractiveInfographic() {
       <ChapterSection index={0} isActive={activeSection === 0}>
         <div className="px-6 max-w-6xl mx-auto">
           <motion.span
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             className="text-xs font-mono tracking-widest uppercase"
             style={{ color: currentTheme.accent }}
@@ -759,7 +759,7 @@ export default function InteractiveInfographic() {
           </motion.span>
 
           <motion.h1
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 1, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="mt-6 font-display font-black leading-none"
@@ -771,7 +771,7 @@ export default function InteractiveInfographic() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-6 text-lg max-w-2xl"
@@ -783,7 +783,7 @@ export default function InteractiveInfographic() {
 
           {/* Concept Cards Grid */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -791,7 +791,7 @@ export default function InteractiveInfographic() {
             {dolphinConcepts.slice(0, 6).map((concept, i) => (
               <motion.div
                 key={concept.id}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 1, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.05 }}
                 whileHover={{ scale: 1.02, y: -4 }}
@@ -821,7 +821,7 @@ export default function InteractiveInfographic() {
       <ChapterSection index={1} isActive={activeSection === 1}>
         <div className="px-6 max-w-4xl mx-auto w-full">
           <motion.span
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             className="text-xs font-mono tracking-widest uppercase"
             style={{ color: currentTheme.accent2 }}
@@ -830,7 +830,7 @@ export default function InteractiveInfographic() {
           </motion.span>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 font-display text-4xl font-bold"
           >
@@ -838,7 +838,7 @@ export default function InteractiveInfographic() {
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="mt-4"
@@ -848,7 +848,7 @@ export default function InteractiveInfographic() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-8"
@@ -862,7 +862,7 @@ export default function InteractiveInfographic() {
       <ChapterSection index={2} isActive={activeSection === 2}>
         <div className="px-6 max-w-4xl mx-auto w-full">
           <motion.span
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             className="text-xs font-mono tracking-widest uppercase"
             style={{ color: currentTheme.accent3 }}
@@ -871,7 +871,7 @@ export default function InteractiveInfographic() {
           </motion.span>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 font-display text-4xl font-bold"
           >
@@ -879,7 +879,7 @@ export default function InteractiveInfographic() {
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="mt-4"
@@ -889,7 +889,7 @@ export default function InteractiveInfographic() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-8"
@@ -903,7 +903,7 @@ export default function InteractiveInfographic() {
       <ChapterSection index={3} isActive={activeSection === 3}>
         <div className="px-6 max-w-4xl mx-auto w-full">
           <motion.span
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             className="text-xs font-mono tracking-widest uppercase"
             style={{ color: currentTheme.accent }}
@@ -912,7 +912,7 @@ export default function InteractiveInfographic() {
           </motion.span>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 font-display text-4xl font-bold"
           >
@@ -920,7 +920,7 @@ export default function InteractiveInfographic() {
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="mt-4"
@@ -930,7 +930,7 @@ export default function InteractiveInfographic() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-8"
@@ -944,7 +944,7 @@ export default function InteractiveInfographic() {
       <ChapterSection index={4} isActive={activeSection === 4}>
         <div className="px-6 max-w-6xl mx-auto">
           <motion.span
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             className="text-xs font-mono tracking-widest uppercase"
             style={{ color: currentTheme.accent2 }}
@@ -953,7 +953,7 @@ export default function InteractiveInfographic() {
           </motion.span>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-4 font-display text-4xl font-bold"
           >
@@ -961,7 +961,7 @@ export default function InteractiveInfographic() {
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="mt-4"
@@ -971,7 +971,7 @@ export default function InteractiveInfographic() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-4"
@@ -979,7 +979,7 @@ export default function InteractiveInfographic() {
             {miniApps.map((app, i) => (
               <motion.div
                 key={app.id}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 1, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 + i * 0.1 }}
                 whileHover={{ scale: 1.02 }}
@@ -1002,7 +1002,7 @@ export default function InteractiveInfographic() {
                 <AnimatePresence>
                   {openMiniApp === app.id && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
+                      initial={{ opacity: 1, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       className="mt-4 pt-4 border-t overflow-hidden"

@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Copy, RefreshCw, Sparkles, ArrowRight, X } from "lucide-react";
+import { useFadeInOnScroll, useGSAPReady } from "@/lib/gsap-animations";
+import gsap from "gsap";
 
 const subjects = [
   "a woman", "a man", "a child", "an elderly person", "a couple",
@@ -46,6 +48,12 @@ export default function PromptBuilder() {
   const [prompt, setPrompt] = useState("");
   const [copied, setCopied] = useState(false);
   const [showPresets, setShowPresets] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const presetsBarRef = useRef<HTMLDivElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
+  const tipsRef = useRef<HTMLDivElement>(null);
+  const isReady = useGSAPReady();
   
   const [selected, setSelected] = useState({
     subject: "",
@@ -55,6 +63,89 @@ export default function PromptBuilder() {
     camera: "",
     quality: ""
   });
+
+  // GSAP scroll animations - elements start visible, animate as enhancement
+  useEffect(() => {
+    if (!isReady || !sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Header animation
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0.01, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      // Presets bar animation
+      if (presetsBarRef.current) {
+        gsap.fromTo(
+          presetsBarRef.current,
+          { opacity: 0.01, x: -20 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.5,
+            delay: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: presetsBarRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      // Output animation
+      if (outputRef.current) {
+        gsap.fromTo(
+          outputRef.current,
+          { opacity: 0.01, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: outputRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      // Tips animation
+      if (tipsRef.current) {
+        gsap.fromTo(
+          tipsRef.current,
+          { opacity: 0.01 },
+          {
+            opacity: 1,
+            duration: 0.5,
+            delay: 0.3,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: tipsRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [isReady]);
 
   // Build prompt from selections
   useEffect(() => {
@@ -126,7 +217,7 @@ export default function PromptBuilder() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header - Brutalist Typography */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-12"
@@ -153,7 +244,7 @@ export default function PromptBuilder() {
 
         {/* Presets Bar */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 1, x: 0 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           className="flex flex-wrap gap-2 mb-8"
@@ -184,7 +275,7 @@ export default function PromptBuilder() {
         <AnimatePresence>
           {showPresets && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 1, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="mb-8"
@@ -347,7 +438,7 @@ export default function PromptBuilder() {
 
         {/* Output */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="relative"
@@ -410,7 +501,7 @@ export default function PromptBuilder() {
 
         {/* Tips */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
