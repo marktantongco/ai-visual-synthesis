@@ -2,6 +2,7 @@
 
 import { ScrollProgress } from "@/components/ui/primitives";
 import Navbar from "@/components/sections/Navbar";
+import HeroSection from "@/components/sections/HeroSection";
 import KnowledgeGalaxy from "@/components/sections/KnowledgeGalaxy";
 import PromptBuilder from "@/components/sections/PromptBuilder";
 import SearchSection from "@/components/sections/SearchSection";
@@ -18,6 +19,7 @@ export default function HomeClient() {
     <main>
       <ScrollProgress />
       <Navbar />
+      <HeroSection />
       <KnowledgeGalaxy />
       
       <section id="prompt-builder">
