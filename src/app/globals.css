@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,26 +6,36 @@
 
 :root {
   /* Brand Colors */
-  --bg-primary: #0B0D10;
-  --bg-secondary: #14161A;
-  --bg-tertiary: #1A1D24;
-  --bg-card: rgba(26, 29, 36, 0.6);
+  --bg-primary: #F5F5F0;
+  --bg-secondary: #1A1A1A;
+  --bg-tertiary: #0D0D0D;
+  
+  /* Brutalist Colors */
+  --brutal-yellow: #FFDE00;
+  --brutal-yellowDark: #E6C700;
+  --brutal-black: #0D0D0D;
+  --brutal-blackLight: #1A1A1A;
+  --brutal-cream: #F5F5F0;
+  --brutal-gray: #666666;
+  --brutal-grayDark: #333333;
+  --brutal-accent: #FF3366;
+  --brutal-accentBlue: #0066FF;
   
   /* Accent Colors */
-  --accent-cyan: #4DFFFF;
-  --accent-violet: #7B5CFF;
-  --accent-magenta: #FF4FD8;
-  --accent-amber: #FFB000;
+  --accent-cyan: #00F5FF;
+  --accent-violet: #BF00FF;
+  --accent-magenta: #FF006E;
+  --accent-amber: #FFDE00;
   
   /* Text */
-  --text-primary: #F4F4F5;
-  --text-secondary: #A1A1AA;
-  --text-muted: #71717A;
+  --text-primary: #0D0D0D;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --text-light: #FAFAFA;
   
   /* Glass */
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-bg: rgba(26, 29, 36, 0.6);
-  --glass-highlight: rgba(255, 255, 255, 0.04);
   
   /* Typography */
   --font-display: 'Space Grotesk', sans-serif;
@@ -36,7 +46,6 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 180ms;
   --duration-normal: 320ms;
-  --duration-slow: 4200ms;
 }
 
 * {
@@ -49,17 +58,24 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--bg-primary);
+  background: var(--brutal-cream);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark mode sections */
+body .bg-dark {
+  background: var(--brutal-blackLight) !important;
+  color: var(--text-light) !important;
+}
+
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .font-display {
@@ -73,9 +89,91 @@ h1, h2, h3, h4, h5, h6 {
 /* Hero Typography */
 .hero-title {
   font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+/* Brutalist Card */
+.brutal-card {
+  background: var(--brutal-cream);
+  border: 3px solid var(--brutal-black);
+  box-shadow: 8px 8px 0px 0px var(--brutal-black);
+  transition: all 0.15s ease;
+}
+
+.brutal-card:hover {
+  box-shadow: 12px 12px 0px 0px var(--brutal-black);
+  transform: translate(-2px, -2px);
+}
+
+.brutal-card-dark {
+  background: var(--brutal-blackLight);
+  border: 3px solid var(--brutal-yellow);
+  box-shadow: 8px 8px 0px 0px var(--brutal-yellow);
+}
+
+.brutal-card-dark:hover {
+  box-shadow: 12px 12px 0px 0px var(--brutal-yellow);
+  transform: translate(-2px, -2px);
+}
+
+/* Brutalist Button */
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background: var(--brutal-yellow);
+  border: 3px solid var(--brutal-black);
+  box-shadow: 4px 4px 0px 0px var(--brutal-black);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.brutal-btn:hover {
+  box-shadow: 6px 6px 0px 0px var(--brutal-black);
+  transform: translate(-2px, -2px);
+}
+
+.brutal-btn:active {
+  box-shadow: 2px 2px 0px 0px var(--brutal-black);
+  transform: translate(2px, 2px);
+}
+
+.brutal-btn-dark {
+  background: var(--brutal-black);
+  color: var(--brutal-yellow);
+  border-color: var(--brutal-yellow);
+  box-shadow: 4px 4px 0px 0px var(--brutal-yellow);
+}
+
+.brutal-btn-dark:hover {
+  box-shadow: 6px 6px 0px 0px var(--brutal-yellow);
+  transform: translate(-2px, -2px);
+}
+
+/* Brutalist Heading */
+.brutal-heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.brutal-heading-lg {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+}
+
+.brutal-heading-md {
+  font-size: clamp(1.5rem, 5vw, 3rem);
 }
 
 /* Glass Card */
@@ -91,8 +189,6 @@ h1, h2, h3, h4, h5, h6 {
 .glass-card:hover {
   border-color: rgba(77, 255, 255, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5),
-              0 0 60px -20px rgba(77, 255, 255, 0.1);
 }
 
 /* Neon Glow */
@@ -100,16 +196,6 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 0 20px rgba(77, 255, 255, 0.5),
                0 0 40px rgba(77, 255, 255, 0.3),
                0 0 60px rgba(77, 255, 255, 0.1);
-}
-
-.neon-violet {
-  text-shadow: 0 0 20px rgba(123, 92, 255, 0.5),
-               0 0 40px rgba(123, 92, 255, 0.3);
-}
-
-.neon-magenta {
-  text-shadow: 0 0 20px rgba(255, 79, 216, 0.5),
-               0 0 40px rgba(255, 79, 216, 0.3);
 }
 
 /* Gradient Text */
@@ -120,31 +206,13 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
-/* Gradient Border */
-.gradient-border {
-  position: relative;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet), var(--accent-magenta));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
 /* Scroll Progress */
 .scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-magenta));
+  height: 4px;
+  background: var(--brutal-yellow);
   z-index: 100;
   transform-origin: left;
 }
@@ -165,8 +233,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-dot.active {
-  background: var(--accent-cyan);
-  box-shadow: 0 0 10px var(--accent-cyan);
+  background: var(--brutal-yellow);
+  box-shadow: 0 0 10px var(--brutal-yellow);
 }
 
 /* Table Styles */
@@ -202,41 +270,13 @@ tr:hover td {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   line-height: 1.7;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
+  background: var(--brutal-black);
+  border: 3px solid var(--brutal-yellow);
+  border-radius: 0;
   padding: 1.25rem;
   overflow-x: auto;
   white-space: pre;
-}
-
-/* Checkbox */
-.checkbox {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--glass-border);
-  border-radius: 4px;
-  background: transparent;
-  cursor: pointer;
-  position: relative;
-  transition: all var(--duration-fast) var(--ease-out-expo);
-}
-
-.checkbox:checked {
-  background: var(--accent-cyan);
-  border-color: var(--accent-cyan);
-}
-
-.checkbox:checked::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 12px;
-  color: var(--bg-primary);
-  font-weight: 700;
+  box-shadow: 6px 6px 0px 0px var(--brutal-yellow);
 }
 
 /* Animations */
@@ -253,10 +293,10 @@ tr:hover td {
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(77, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 222, 0, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(77, 255, 255, 0.4);
+    box-shadow: 0 0 40px rgba(255, 222, 0, 0.6);
   }
 }
 
@@ -322,4 +362,32 @@ tr:hover td {
     font-size: 0.75rem;
     padding: 1rem;
   }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 3px solid var(--brutal-yellow);
+  outline-offset: 3px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brutal-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brutal-yellow);
+  border: 3px solid var(--brutal-black);
 }

@@ -1,16 +1,18 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ArrowDown, Sparkles, Cpu, Image } from "lucide-react";
-import { FadeIn, Marquee } from "@/components/ui/primitives";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowDown, Zap, Palette, Wand2, Sparkles, Cpu, Image } from "lucide-react";
 
-const floatingTags = [
-  { text: "Midjourney", color: "#00F5FF", x: "10%", y: "25%" },
-  { text: "DALL·E 3", color: "#BF00FF", x: "78%", y: "20%" },
-  { text: "Stable Diffusion", color: "#FF006E", x: "65%", y: "70%" },
-  { text: "Sora", color: "#00FF87", x: "8%", y: "75%" },
-  { text: "Flux", color: "#FFE500", x: "45%", y: "85%" },
+gsap.registerPlugin(ScrollTrigger);
+
+const floatingTools = [
+  { text: "Midjourney", icon: Image, x: "8%", y: "20%" },
+  { text: "DALL·E 3", icon: Palette, x: "80%", y: "15%" },
+  { text: "Stable Diffusion", icon: Sparkles, x: "70%", y: "65%" },
+  { text: "Sora", icon: Cpu, x: "5%", y: "70%" },
+  { text: "Flux", icon: Wand2, x: "40%", y: "82%" },
 ];
 
 const marqueeItems = [
@@ -25,161 +27,233 @@ const marqueeItems = [
 ];
 
 export default function HeroSection() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero content timeline
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      
+      tl.fromTo(".hero-eyebrow",
+        { y: -30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 }
+      )
+      .fromTo(titleRef.current,
+        { y: 60, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.8 },
+        "-=0.3"
+      )
+      .fromTo(subtitleRef.current,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 },
+        "-=0.4"
+      )
+      .fromTo(ctaRef.current?.children || [],
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
+        "-=0.3"
+      )
+      .fromTo(".stat-item",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.08 },
+        "-=0.2"
+      );
+
+      // Floating tools with stagger
+      gsap.fromTo(".floating-tool",
+        { y: 20, opacity: 0, scale: 0.8 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          scale: 1, 
+          duration: 0.6, 
+          stagger: 0.15, 
+          delay: 0.8,
+          ease: "back.out(1.7)" 
+        }
+      );
+
+      // Floating animation
+      gsap.to(".floating-tool", {
+        y: -12,
+        duration: 2.5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+        stagger: {
+          each: 0.3,
+          from: "random"
+        }
+      });
+
+      // Scroll-triggered parallax
+      gsap.to(".hero-parallax", {
+        y: "30%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+
+      // Scroll cue fade
+      gsap.fromTo(".scroll-cue",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, delay: 1.5 }
+      );
+
+      // Stats counter animation
+      gsap.fromTo(".stat-value",
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       id="hero"
-      ref={ref}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden animated-bg grid-pattern"
+      ref={sectionRef}
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-brutal-cream"
       aria-label="Hero section"
     >
-      {/* Orbs */}
-      <motion.div
-        style={{ y }}
-        className="absolute inset-0 pointer-events-none"
-      >
-        <div className="orb w-[600px] h-[600px] bg-neon-cyan/8 top-[-15%] left-[-10%]" />
-        <div className="orb w-[500px] h-[500px] bg-neon-purple/8 bottom-[-10%] right-[-5%]" />
-        <div className="orb w-[300px] h-[300px] bg-neon-pink/6 top-[40%] left-[30%]" />
-      </motion.div>
+      {/* Brutalist grid background */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(var(--brutal-black)_1px,transparent_1px),linear-gradient(90deg,var(--brutal-black)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
       {/* Floating tool tags */}
-      {floatingTags.map((tag, i) => (
-        <motion.div
-          key={tag.text}
-          className="absolute hidden lg:block"
-          style={{ left: tag.x, top: tag.y }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1 + i * 0.15, duration: 0.5 }}
+      {floatingTools.map((tool, i) => (
+        <div
+          key={tool.text}
+          className="floating-tool absolute hidden lg:flex items-center gap-2"
+          style={{ left: tool.x, top: tool.y }}
         >
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{
-              duration: 3 + i * 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="glass px-3 py-1.5 rounded-full border text-sm font-medium"
-            style={{ borderColor: tag.color + "40", color: tag.color }}
-          >
-            {tag.text}
-          </motion.div>
-        </motion.div>
+          <div className="bg-brutal-black border-2 border-brutal-yellow px-4 py-2 flex items-center gap-2"
+               style={{ borderWidth: '2px', boxShadow: '4px 4px 0 0 #FFDE00' }}>
+            <tool.icon className="w-4 h-4 text-brutal-yellow" />
+            <span className="text-sm font-bold text-brutal-cream uppercase tracking-wider">
+              {tool.text}
+            </span>
+          </div>
+        </div>
       ))}
 
       {/* Main content */}
-      <motion.div
-        style={{ opacity }}
-        className="relative z-10 text-center px-4 max-w-5xl mx-auto"
-      >
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Eyebrow */}
-        <FadeIn>
-          <motion.div
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            className="inline-flex items-center gap-2 glass border border-[var(--pu-violet)]/30 rounded-full px-4 py-1.5 mb-8"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--pu-cyan)] animate-pulse" />
-            <span className="text-xs font-semibold text-[var(--pu-cyan)] tracking-widest uppercase font-mono">
-              AI Practitioner Framework · 2026 Edition
-            </span>
-          </motion.div>
-        </FadeIn>
+        <div className="hero-eyebrow inline-flex items-center gap-3 bg-brutal-black border-3 border-brutal-yellow px-5 py-2 mb-10"
+             style={{ borderWidth: '3px', boxShadow: '6px 6px 0 0 #FFDE00' }}>
+          <span className="w-2 h-2 bg-brutal-yellow rounded-full animate-pulse" />
+          <span className="text-xs font-bold text-brutal-yellow tracking-[0.2em] uppercase font-mono">
+            AI Practitioner Framework · 2026 Edition
+          </span>
+        </div>
 
         {/* Headline */}
-        <FadeIn delay={0.1}>
-          <h1 className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight mb-6">
-            <span className="block text-white">Master</span>
-            <span className="block kinetic-text">AI Visual</span>
-            <span className="block text-white">Synthesis</span>
-          </h1>
-        </FadeIn>
+        <h1 
+          ref={titleRef}
+          className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight mb-8 text-brutal-black"
+        >
+          <span className="block">Master</span>
+          <span className="block text-brutal-yellow" style={{ textShadow: '4px 4px 0 #0D0D0D' }}>AI Visual</span>
+          <span className="block">Synthesis</span>
+        </h1>
 
         {/* Subheadline */}
-        <FadeIn delay={0.2}>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: 'var(--pu-secondary)' }}>
-            From foundational prompts to expert agent orchestration — the 2026 practitioner's complete
-            interactive guide to every major AI image generation tool, style, and workflow.
-          </p>
-        </FadeIn>
+        <p 
+          ref={subtitleRef}
+          className="text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed text-brutal-gray font-medium"
+        >
+          From foundational prompts to expert agent orchestration — the 2026 practitioner's complete
+          interactive guide to every major AI image generation tool, style, and workflow.
+        </p>
 
         {/* CTAs */}
-        <FadeIn delay={0.3}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.a
-              href="#tools"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 40px rgba(0,245,255,0.4)",
-              }}
-              whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 rounded-2xl bg-neon-cyan text-dark-900 font-bold text-lg w-full sm:w-auto text-center transition-all"
-            >
-              Explore the Guide
-            </motion.a>
-            <motion.a
-              href="#prompts"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 rounded-2xl glass border border-white/10 text-white font-semibold text-lg w-full sm:w-auto text-center hover:border-white/30 transition-all"
-            >
-              Prompt Library →
-            </motion.a>
-          </div>
-        </FadeIn>
+        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a
+            href="#tools"
+            className="brutal-btn text-brutal-black text-lg px-10 py-4"
+          >
+            <Zap className="w-5 h-5 mr-2 inline" />
+            Explore the Guide
+          </a>
+          <a
+            href="#prompts"
+            className="brutal-btn brutal-btn-dark text-lg px-10 py-4"
+          >
+            Prompt Library →
+          </a>
+        </div>
 
         {/* Stats row */}
-        <FadeIn delay={0.45}>
-          <div className="flex flex-wrap justify-center gap-8 mt-16 text-center">
-            {[
-              { label: "AI Tools Covered", value: "12+" },
-              { label: "Prompt Templates", value: "80+" },
-              { label: "Skill Framework Nodes", value: "6" },
-              { label: "Free Resources", value: "∞" },
-            ].map((stat) => (
-              <div key={stat.label} className="min-w-[80px]">
-                <div className="text-2xl md:text-3xl font-display font-black" style={{ color: 'var(--theme-accent)' }}>
-                  {stat.value}
-                </div>
-                <div className="text-xs mt-1 font-medium uppercase tracking-wider" style={{ color: 'var(--pu-muted)' }}>
-                  {stat.label}
-                </div>
+        <div ref={statsRef} className="flex flex-wrap justify-center gap-6 md:gap-10">
+          {[
+            { label: "AI Tools Covered", value: "12+" },
+            { label: "Prompt Templates", value: "80+" },
+            { label: "Skill Framework Nodes", value: "6" },
+            { label: "Free Resources", value: "∞" },
+          ].map((stat, i) => (
+            <div key={stat.label} className="stat-item min-w-[100px] text-center">
+              <div className="stat-value text-3xl md:text-4xl font-display font-black text-brutal-black">
+                {stat.value}
               </div>
-            ))}
-          </div>
-        </FadeIn>
-      </motion.div>
+              <div className="text-xs mt-2 font-bold uppercase tracking-wider text-brutal-gray">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs text-white/30 font-medium tracking-widest uppercase">
+      <div className="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+        <span className="text-xs font-bold uppercase tracking-[0.2em] text-brutal-gray">
           Scroll to explore
         </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="w-4 h-4 text-neon-cyan/60" />
-        </motion.div>
-      </motion.div>
+        <div className="w-6 h-10 border-3 border-brutal-black flex justify-center pt-2"
+             style={{ borderWidth: '3px' }}>
+          <div className="w-2 h-2 bg-brutal-yellow animate-bounce" />
+        </div>
+      </div>
 
       {/* Bottom marquee */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <Marquee items={marqueeItems} />
+      <div className="absolute bottom-0 left-0 right-0 overflow-hidden bg-brutal-black py-3">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span key={i} className="text-sm font-bold uppercase tracking-wider text-brutal-yellow mx-8">
+              {item} •
+            </span>
+          ))}
+        </div>
       </div>
+
+      <style jsx>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 20s linear infinite;
+        }
+      `}</style>
     </section>
   );
 }
