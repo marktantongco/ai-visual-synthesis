@@ -1,8 +1,6 @@
 "use client";
 
 import { ScrollProgress } from "@/components/ui/primitives";
-import SectionIndicators from "@/components/ui/SectionIndicators";
-import Navbar from "@/components/sections/Navbar";
 import KnowledgeGalaxy from "@/components/sections/KnowledgeGalaxy";
 import PromptBuilder from "@/components/sections/PromptBuilder";
 import SearchSection from "@/components/sections/SearchSection";
@@ -13,24 +11,46 @@ import PromptsSection from "@/components/sections/PromptsSection";
 import GallerySection from "@/components/sections/GallerySection";
 import RoadmapSection from "@/components/sections/RoadmapSection";
 import Footer from "@/components/sections/Footer";
-import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 
 export default function HomeClient() {
   return (
     <main>
       <ScrollProgress />
-      <SectionIndicators />
       <KnowledgeGalaxy />
-      <PromptBuilder />
-      <SearchSection />
-      <SkillMapSection />
-      <ToolsSection />
-      <TechniquesSection />
-      <PromptsSection />
-      <GallerySection />
-      <RoadmapSection />
+      
+      <section id="prompt-builder">
+        <PromptBuilder />
+      </section>
+      
+      <section id="search">
+        <SearchSection />
+      </section>
+      
+      <section id="skillmap">
+        <SkillMapSection />
+      </section>
+      
+      <section id="tools">
+        <ToolsSection />
+      </section>
+      
+      <section id="techniques">
+        <TechniquesSection />
+      </section>
+      
+      <section id="prompts">
+        <PromptsSection />
+      </section>
+      
+      <section id="gallery">
+        <GallerySection />
+      </section>
+      
+      <section id="roadmap">
+        <RoadmapSection />
+      </section>
+      
       <Footer />
-      <ThemeSwitcher />
     </main>
   );
 }
