@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
 import {
   ExternalLink,
   Star,
@@ -168,6 +168,49 @@ function ToolCard({
   isExpanded: boolean;
   onToggle: () => void;
 }) {
+  const chevronRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const hasAnimatedProgress = useRef(false);
+
+  // Chevron rotation animation
+  useEffect(() => {
+    if (chevronRef.current) {
+      gsap.to(chevronRef.current, {
+        rotate: isExpanded ? 180 : 0,
+        duration: 0.25,
+        ease: "power2.out"
+      });
+    }
+  }, [isExpanded]);
+
+  // Progress bar animation
+  useEffect(() => {
+    if (progressBarRef.current && isExpanded && !hasAnimatedProgress.current) {
+      hasAnimatedProgress.current = true;
+      gsap.fromTo(progressBarRef.current,
+        { width: "0%" },
+        { width: `${tool.diffPercent}%`, duration: 0.8, ease: "power2.out", delay: 0.1 }
+      );
+    }
+  }, [isExpanded, tool.diffPercent]);
+
+  // Expand/collapse animation
+  useEffect(() => {
+    if (contentRef.current) {
+      if (isExpanded) {
+        gsap.fromTo(contentRef.current,
+          { height: 0 },
+          { height: "auto", duration: 0.35, ease: "power2.out" }
+        );
+      } else {
+        gsap.to(contentRef.current, {
+          height: 0, duration: 0.35, ease: "power2.out"
+        });
+      }
+    }
+  }, [isExpanded]);
+
   return (
     <article itemScope itemType="https://schema.org/SoftwareApplication">
       <meta itemProp="name" content={tool.name} />
@@ -209,13 +252,9 @@ function ToolCard({
               </p>
             </div>
           </div>
-          <motion.div
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            transition={{ duration: 0.25 }}
-            className="shrink-0"
-          >
+          <div ref={chevronRef} className="shrink-0">
             <ChevronDown className="w-5 h-5 text-white/40" />
-          </motion.div>
+          </div>
         </div>
 
         {/* Rating + tags */}
@@ -240,12 +279,11 @@ function ToolCard({
             <span>{tool.diffPercent}%</span>
           </div>
           <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: isExpanded ? `${tool.diffPercent}%` : 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+            <div
+              ref={progressBarRef}
               className="h-full rounded-full"
               style={{
+                width: isExpanded ? `${tool.diffPercent}%` : 0,
                 background: `linear-gradient(90deg, ${tool.color}80, ${tool.color})`,
               }}
             />
@@ -253,12 +291,11 @@ function ToolCard({
         </div>
       </div>
 
-      {/* Expanded content (Kept in DOM for SEO) */}
-      <motion.div
-        initial={false}
-        animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      {/* Expanded content */}
+      <div
+        ref={contentRef}
         className="overflow-hidden"
+        style={{ height: 0 }}
         aria-hidden={!isExpanded}
       >
         <div className="px-6 pb-6 border-t border-white/5 pt-5 space-y-5">
@@ -321,7 +358,7 @@ function ToolCard({
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
-      </motion.div>
+      </div>
     </GlassCard>
     </article>
   );

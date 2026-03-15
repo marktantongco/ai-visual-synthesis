@@ -470,7 +470,7 @@ function SkillMap() {
           <motion.div
             initial={{ opacity: 1, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
+            exit={{ opacity: 1, y: 10 }}
             className="absolute bottom-4 left-4 p-3 rounded border text-xs"
             style={{ backgroundColor: "var(--bg)", borderColor: "var(--border)" }}
           >
@@ -549,7 +549,7 @@ function AISearchPanel() {
           <motion.div
             initial={{ opacity: 1, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 1, y: -10 }}
             className="space-y-2 max-h-60 overflow-y-auto"
           >
             {results.map((result) => (
@@ -1004,7 +1004,7 @@ export default function InteractiveInfographic() {
                     <motion.div
                       initial={{ opacity: 1, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
+                      exit={{ opacity: 1, height: 0 }}
                       className="mt-4 pt-4 border-t overflow-hidden"
                       style={{ borderColor: currentTheme.border }}
                     >

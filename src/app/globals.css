@@ -19,6 +19,7 @@
   --brutal-gray: #666666;
   --brutal-grayDark: #333333;
   --brutal-accent: #FF3366;
+  --brutal-red: #FF006E;
   --brutal-accentBlue: #0066FF;
   
   /* Accent Colors */
@@ -497,5 +498,123 @@ main > section {
     opacity: 1 !important;
     transform: none !important;
     visibility: visible !important;
+  }
+}
+
+/* ============================================
+   BRUTALIST UI COMPONENTS
+   ============================================ */
+
+/* Clay Button Shadows */
+.shadow-brutal {
+  box-shadow: 4px 4px 0 0 #0D0D0D;
+}
+
+.shadow-brutal-red {
+  box-shadow: 4px 4px 0 0 #FF006E;
+}
+
+/* Bento Grid */
+.bento-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Tilt Card Base */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Skeleton Loading Animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #0D0D0D 0%,
+    #1a1a1a 50%,
+    #0D0D0D 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* Duotone Filter for Images */
+.duotone {
+  filter: grayscale(100%) contrast(1.2) brightness(1.1);
+}
+
+.duotone-yellow {
+  filter: grayscale(100%) contrast(1.2) brightness(1.1)
+          sepia(100%) saturate(300%) hue-rotate(10deg);
+}
+
+/* Morph Animation */
+@keyframes morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+.animate-morph {
+  animation: morph 8s ease-in-out infinite;
+}
+
+/* Kinetic Text */
+@keyframes kinetic {
+  0%, 100% { transform: translateY(0) skewX(0deg); }
+  25% { transform: translateY(-2px) skewX(-1deg); }
+  75% { transform: translateY(2px) skewX(1deg); }
+}
+
+.animate-kinetic {
+  animation: kinetic 0.3s ease-in-out infinite;
+}
+
+/* Isotype Animation */
+@keyframes isotype {
+  0% { letter-spacing: 0em; }
+  50% { letter-spacing: 0.05em; }
+  100% { letter-spacing: 0em; }
+}
+
+.animate-isotype {
+  animation: isotype 2s ease-in-out infinite;
+}
+
+/* Brutalist Border Accents */
+.border-accent-yellow {
+  border-left: 4px solid #FFDE00;
+}
+
+.border-accent-red {
+  border-left: 4px solid #FF006E;
+}
+
+.border-accent-black {
+  border-left: 4px solid #0D0D0D;
+}
+
+/* Bento Selector Dropdown */
+.bento-selector {
+  position: relative;
+}
+
+.bento-option {
+  transition: all 0.15s ease;
+}
+
+.bento-option:hover {
+  transform: translateX(2px);
+}
+
+/* Cursor Follower (Desktop Only) */
+@media (max-width: 768px) {
+  .cursor-follower {
+    display: none !important;
   }
 }

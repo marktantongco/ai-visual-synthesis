@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import { FadeIn, NeonTag } from "@/components/ui/primitives";
 
 // Gallery items — using gradient placeholders with unique patterns
@@ -154,9 +154,74 @@ const icons = ["🌆", "🌿", "🏜️", "🧠", "⚔️", "🏗️", "🎨"];
 export default function GallerySection() {
   const [filter, setFilter] = useState("All");
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const filterButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const prevFilterRef = useRef<string>(filter);
 
   const filtered =
     filter === "All" ? gallery : gallery.filter((g) => g.tool === filter);
+
+  // Setup hover animations for filter buttons
+  useEffect(() => {
+    const cleanupFns: (() => void)[] = [];
+    
+    filterButtonRefs.current.forEach((btn) => {
+      if (!btn) return;
+      
+      const handleEnter = () => {
+        gsap.to(btn, { scale: 1.04, duration: 0.2, ease: "power2.out" });
+      };
+      
+      const handleLeave = () => {
+        gsap.to(btn, { scale: 1, duration: 0.2, ease: "power2.out" });
+      };
+      
+      const handleDown = () => {
+        gsap.to(btn, { scale: 0.97, duration: 0.1, ease: "power2.out" });
+      };
+      
+      const handleUp = () => {
+        gsap.to(btn, { scale: 1, duration: 0.1, ease: "power2.out" });
+      };
+      
+      btn.addEventListener("mouseenter", handleEnter);
+      btn.addEventListener("mouseleave", handleLeave);
+      btn.addEventListener("mousedown", handleDown);
+      btn.addEventListener("mouseup", handleUp);
+      
+      cleanupFns.push(() => {
+        btn.removeEventListener("mouseenter", handleEnter);
+        btn.removeEventListener("mouseleave", handleLeave);
+        btn.removeEventListener("mousedown", handleDown);
+        btn.removeEventListener("mouseup", handleUp);
+      });
+    });
+    
+    return () => {
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, []);
+
+  // Animate grid items when filter changes
+  useEffect(() => {
+    if (!gridRef.current) return;
+    
+    // Only animate if filter actually changed
+    if (prevFilterRef.current !== filter) {
+      prevFilterRef.current = filter;
+      
+      const items = gridRef.current.querySelectorAll(".gallery-item");
+      gsap.fromTo(items, 
+        { scale: 0.95 },
+        { 
+          scale: 1, 
+          duration: 0.4, 
+          stagger: 0.06, 
+          ease: "power2.out" 
+        }
+      );
+    }
+  }, [filter]);
 
   return (
     <section id="gallery" className="section scroll-mt-20" aria-labelledby="gallery-heading">
@@ -179,12 +244,11 @@ export default function GallerySection() {
       {/* Filter tabs */}
       <FadeIn delay={0.1}>
         <div className="flex flex-wrap gap-2 justify-center mb-10">
-          {filters.map((f) => (
-            <motion.button
+          {filters.map((f, index) => (
+            <button
               key={f}
+              ref={(el) => { filterButtonRefs.current[index] = el; }}
               onClick={() => setFilter(f)}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
               className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all border ${
                 filter === f
                   ? "bg-neon-pink text-white border-neon-pink"
@@ -192,77 +256,64 @@ export default function GallerySection() {
               }`}
             >
               {f}
-            </motion.button>
+            </button>
           ))}
         </div>
       </FadeIn>
 
       {/* Bento Grid */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={filter}
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="bento-grid"
-        >
-          {filtered.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 1, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                delay: i * 0.06,
-                duration: 0.4,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className={`relative rounded-2xl overflow-hidden cursor-pointer group ${item.bentoClass}`}
-              onMouseEnter={() => setHoveredId(item.id)}
-              onMouseLeave={() => setHoveredId(null)}
+      <div
+        key={filter}
+        ref={gridRef}
+        className="bento-grid"
+      >
+        {filtered.map((item, i) => (
+          <div
+            key={item.id}
+            className={`gallery-item relative rounded-2xl overflow-hidden cursor-pointer group ${item.bentoClass}`}
+            onMouseEnter={() => setHoveredId(item.id)}
+            onMouseLeave={() => setHoveredId(null)}
+          >
+            {/* Art background */}
+            <ArtPlaceholder
+              gradient={item.gradient}
+              icon={icons[i % icons.length]}
+            />
+
+            {/* Overlay on hover */}
+            <div
+              className="absolute inset-0 bg-dark-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center transition-opacity duration-200"
+              style={{ opacity: hoveredId === item.id ? 1 : 0 }}
             >
-              {/* Art background */}
-              <ArtPlaceholder
-                gradient={item.gradient}
-                icon={icons[i % icons.length]}
-              />
+              <h3 className="font-display font-bold text-lg text-white mb-1">
+                {item.title}
+              </h3>
+              <p className="text-sm text-neon-cyan font-medium">
+                {item.tool}
+              </p>
+              <span className="mt-2 text-xs text-white/50 px-3 py-1 glass rounded-full border border-white/10">
+                {item.style}
+              </span>
+            </div>
 
-              {/* Overlay on hover */}
-              <motion.div
-                initial={{ opacity: 1 }}
-                animate={{ opacity: hoveredId === item.id ? 1 : 0 }}
-                className="absolute inset-0 bg-dark-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center"
-              >
-                <h3 className="font-display font-bold text-lg text-white mb-1">
+            {/* Label always visible */}
+            <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-0">
+              <div className="glass rounded-lg px-3 py-1.5 inline-flex items-center gap-2">
+                <span className="text-xs font-medium text-white/70">
                   {item.title}
-                </h3>
-                <p className="text-sm text-neon-cyan font-medium">
-                  {item.tool}
-                </p>
-                <span className="mt-2 text-xs text-white/50 px-3 py-1 glass rounded-full border border-white/10">
-                  {item.style}
                 </span>
-              </motion.div>
-
-              {/* Label always visible */}
-              <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-0">
-                <div className="glass rounded-lg px-3 py-1.5 inline-flex items-center gap-2">
-                  <span className="text-xs font-medium text-white/70">
-                    {item.title}
-                  </span>
-                </div>
               </div>
+            </div>
 
-              {/* Tool badge */}
-              <div className="absolute top-3 right-3">
-                <div className="glass rounded-full px-2.5 py-1 text-xs font-semibold text-white/70 border border-white/10">
-                  {item.tool.split(" ")[0]}
-                </div>
+            {/* Tool badge */}
+            <div className="absolute top-3 right-3">
+              <div className="glass rounded-full px-2.5 py-1 text-xs font-semibold text-white/70 border border-white/10">
+                {item.tool.split(" ")[0]}
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

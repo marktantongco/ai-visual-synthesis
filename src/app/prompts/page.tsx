@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import { 
   Copy, Check, RefreshCw, Sparkles, Code, Palette, 
   Layout, Zap, Smartphone, Layers, ChevronRight, Search
@@ -177,12 +177,61 @@ function PromptCard({ template, onSelect, isSelected }: {
   isSelected: boolean;
 }) {
   const Icon = template.icon;
+  const cardRef = useRef<HTMLButtonElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  
+  // Hover animation
+  useEffect(() => {
+    if (!cardRef.current) return;
+    const card = cardRef.current;
+    
+    const handleEnter = () => {
+      gsap.to(card, { scale: 1.02, y: -4, duration: 0.2, ease: "power2.out" });
+    };
+    
+    const handleLeave = () => {
+      gsap.to(card, { scale: 1, y: 0, duration: 0.2, ease: "power2.out" });
+    };
+    
+    const handleDown = () => {
+      gsap.to(card, { scale: 0.98, duration: 0.1 });
+    };
+    
+    const handleUp = () => {
+      gsap.to(card, { scale: 1, duration: 0.1 });
+    };
+    
+    card.addEventListener("mouseenter", handleEnter);
+    card.addEventListener("mouseleave", handleLeave);
+    card.addEventListener("mousedown", handleDown);
+    card.addEventListener("mouseup", handleUp);
+    
+    return () => {
+      card.removeEventListener("mouseenter", handleEnter);
+      card.removeEventListener("mouseleave", handleLeave);
+      card.removeEventListener("mousedown", handleDown);
+      card.removeEventListener("mouseup", handleUp);
+    };
+  }, []);
+  
+  // Expand animation
+  useEffect(() => {
+    if (!contentRef.current) return;
+    
+    if (isSelected) {
+      gsap.fromTo(contentRef.current, 
+        { height: 0 },
+        { height: "auto", duration: 0.35, ease: "power2.out" }
+      );
+    } else {
+      gsap.to(contentRef.current, { height: 0, duration: 0.25, ease: "power2.in" });
+    }
+  }, [isSelected]);
   
   return (
-    <motion.button
+    <button
+      ref={cardRef}
       onClick={onSelect}
-      whileHover={{ scale: 1.02, y: -4 }}
-      whileTap={{ scale: 0.98 }}
       className={`w-full text-left p-6 rounded-xl border transition-all ${
         isSelected 
           ? "border-cyan-400 bg-cyan-400/10" 
@@ -202,7 +251,16 @@ function PromptCard({ template, onSelect, isSelected }: {
         </div>
         <ChevronRight className={`w-5 h-5 ${isSelected ? "text-cyan-400" : "text-white/20"}`} />
       </div>
-    </motion.button>
+      
+      {/* Expanded content */}
+      <div ref={contentRef} className="overflow-hidden">
+        <div className="mt-4">
+          <div className="bg-black/40 border border-white/10 rounded-xl p-6 font-mono text-sm text-white/70 whitespace-pre-wrap">
+            {template.prompt}
+          </div>
+        </div>
+      </div>
+    </button>
   );
 }
 
@@ -354,6 +412,9 @@ export default function PromptsPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const heroRef = useRef<HTMLDivElement>(null);
+  const tabContentRef = useRef<HTMLDivElement>(null);
+  const prevTabRef = useRef<"templates" | "builder">(activeTab);
 
   const filteredTemplates = promptTemplates.filter(t => 
     t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -367,6 +428,31 @@ export default function PromptsPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  // Hero entrance animation
+  useEffect(() => {
+    if (!heroRef.current) return;
+    const hero = heroRef.current;
+    
+    gsap.fromTo(hero, 
+      { y: 20 },
+      { y: 0, duration: 0.5, ease: "power2.out" }
+    );
+  }, []);
+
+  // Tab content animation
+  useEffect(() => {
+    if (!tabContentRef.current) return;
+    
+    if (prevTabRef.current !== activeTab) {
+      prevTabRef.current = activeTab;
+      
+      gsap.fromTo(tabContentRef.current, 
+        { y: 20 },
+        { y: 0, duration: 0.3, ease: "power2.out" }
+      );
+    }
+  }, [activeTab]);
+
   return (
     <div className="min-h-screen bg-[#0B0D10]">
       {/* Hero */}
@@ -375,21 +461,20 @@ export default function PromptsPage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/10 rounded-full blur-[120px]" />
         
         <div className="relative max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 1, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
+            ref={heroRef}
             className="text-center mb-12"
           >
             <span className="inline-block px-4 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm mb-6">
               AI Prompt Engineering
             </span>
             <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-4">
-              Prompt <span className="gradient-text">Templates</span>
+              Prompt <span className="text-cyan-400">Templates</span>
             </h1>
             <p className="text-xl text-white/50 max-w-2xl mx-auto">
               Ready-to-use prompts for generating production-ready web apps with AI
             </p>
-          </motion.div>
+          </div>
 
           {/* Tabs */}
           <div className="flex justify-center gap-2 mb-12">
@@ -420,14 +505,9 @@ export default function PromptsPage() {
       {/* Content */}
       <section className="px-6 pb-24">
         <div className="max-w-6xl mx-auto">
-          <AnimatePresence mode="wait">
+          <div key={activeTab} ref={tabContentRef}>
             {activeTab === "templates" ? (
-              <motion.div
-                key="templates"
-                initial={{ opacity: 1, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-              >
+              <>
                 {/* Search */}
                 <div className="relative max-w-md mx-auto mb-12">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
@@ -443,10 +523,8 @@ export default function PromptsPage() {
                 {/* Templates Grid */}
                 <div className="grid md:grid-cols-2 gap-4">
                   {filteredTemplates.map((template) => (
-                    <motion.div
+                    <div
                       key={template.id}
-                      initial={{ opacity: 1, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
                       className={`relative group ${selectedTemplate === template.id ? 'md:col-span-2' : ''}`}
                     >
                       <PromptCard
@@ -455,51 +533,34 @@ export default function PromptsPage() {
                         isSelected={selectedTemplate === template.id}
                       />
                       
-                      <AnimatePresence>
-                        {selectedTemplate === template.id && (
-                          <motion.div
-                            initial={{ opacity: 1, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mt-4 overflow-hidden"
+                      {selectedTemplate === template.id && (
+                        <div className="mt-4">
+                          <button
+                            onClick={() => handleCopy(template.id, template.prompt)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 hover:bg-cyan-400/20 transition-colors"
                           >
-                            <div className="bg-black/40 border border-white/10 rounded-xl p-6 font-mono text-sm text-white/70 whitespace-pre-wrap">
-                              {template.prompt}
-                            </div>
-                            <button
-                              onClick={() => handleCopy(template.id, template.prompt)}
-                              className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 hover:bg-cyan-400/20 transition-colors"
-                            >
-                              {copiedId === template.id ? (
-                                <>
-                                  <Check className="w-4 h-4" />
-                                  Copied!
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="w-4 h-4" />
-                                  Copy Prompt
-                                </>
-                              )}
-                            </button>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
+                            {copiedId === template.id ? (
+                              <>
+                                <Check className="w-4 h-4" />
+                                Copied!
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-4 h-4" />
+                                Copy Prompt
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
-              </motion.div>
+              </>
             ) : (
-              <motion.div
-                key="builder"
-                initial={{ opacity: 1, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-              >
-                <PromptBuilder onGenerate={() => {}} />
-              </motion.div>
+              <PromptBuilder onGenerate={() => {}} />
             )}
-          </AnimatePresence>
+          </div>
         </div>
       </section>
     </div>

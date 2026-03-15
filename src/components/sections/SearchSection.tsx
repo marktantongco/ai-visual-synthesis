@@ -71,7 +71,7 @@ function NodeCard({
       layout
       initial={{ opacity: 1, x: reduced ? 0 : -12 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: reduced ? 0 : -12 }}
+      exit={{ opacity: 1, x: reduced ? 0 : -12 }}
       transition={{ duration: 0.22, delay: index * 0.03, ease: EASE }}
       onClick={() => onSelect(item.id)}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onSelect(item.id)}
@@ -175,7 +175,7 @@ function NodeCard({
             <motion.div
               initial={{ opacity: 1, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              exit={{ opacity: 1, height: 0 }}
               transition={{ duration: 0.28, ease: EASE }}
               className="lg:hidden overflow-hidden"
             >
@@ -365,7 +365,7 @@ function WikiPanel({ item, onClose }: { item: SearchItem; onClose: () => void })
         key={`desktop-${item.id}`}
         initial={{ opacity: 1, x: 24 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: 24 }}
+        exit={{ opacity: 1, x: 24 }}
         transition={{ duration: 0.32, ease: EASE }}
         className="hidden lg:flex lg:flex-col sticky top-24 rounded-2xl border overflow-hidden max-h-[calc(100vh-120px)]"
         style={{
@@ -404,7 +404,7 @@ function WikiPanel({ item, onClose }: { item: SearchItem; onClose: () => void })
         key={`backdrop-${item.id}`}
         initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        exit={{ opacity: 1 }}
         transition={{ duration: 0.22 }}
         onClick={onClose}
         className="lg:hidden fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
@@ -534,7 +534,7 @@ export default function SearchSection() {
               <motion.button
                 initial={{ opacity: 1, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                exit={{ opacity: 1, scale: 0.8 }}
                 transition={{ duration: 0.15 }}
                 onClick={() => setQuery("")}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white transition-colors"
@@ -651,7 +651,7 @@ export default function SearchSection() {
               key="empty"
               initial={{ opacity: 1 }}
               animate={{ opacity: 0.5 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 1 }}
               className="hidden lg:flex flex-col items-center justify-center sticky top-24 rounded-2xl border border-dashed border-white/[0.07] p-10 text-center min-h-64"
             >
               <BookOpen className="w-8 h-8 text-white/15 mb-3" />

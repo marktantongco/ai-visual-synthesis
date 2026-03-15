@@ -1,8 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FadeIn, GlassCard, NeonTag } from "@/components/ui/primitives";
 import { Check, X, Minus } from "lucide-react";
+
+// Register ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const tools = [
   "Midjourney",
@@ -103,6 +110,62 @@ const roadmapItems = [
 ];
 
 export default function RoadmapSection() {
+  const tableRef = useRef<HTMLTableSectionElement>(null);
+  const nodesRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Animate table rows on scroll
+  useEffect(() => {
+    if (!tableRef.current) return;
+    
+    const rows = tableRef.current.querySelectorAll("tr");
+    
+    rows.forEach((row, i) => {
+      gsap.fromTo(row, 
+        { x: -12 },
+        {
+          x: 0,
+          duration: 0.4,
+          delay: i * 0.05,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 90%",
+            once: true
+          }
+        }
+      );
+    });
+    
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, []);
+
+  // Animate timeline nodes on scroll
+  useEffect(() => {
+    nodesRef.current.forEach((node) => {
+      if (!node) return;
+      
+      gsap.fromTo(node, 
+        { scale: 0 },
+        {
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: node,
+            start: "top 85%",
+            once: true
+          }
+        }
+      );
+    });
+    
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, []);
+
   return (
     <>
       {/* Comparison table */}
@@ -145,14 +208,10 @@ export default function RoadmapSection() {
                   ))}
                 </tr>
               </thead>
-              <tbody>
-                {rows.map((row, ri) => (
-                  <motion.tr
+              <tbody ref={tableRef}>
+                {rows.map((row) => (
+                  <tr
                     key={row.feature}
-                    initial={{ opacity: 1, x: -12 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: ri * 0.05 }}
                     className="border-b border-white/5 last:border-0 hover:bg-white/2 transition-colors"
                   >
                     <td className="px-5 py-3.5 text-sm text-white/70 font-medium">
@@ -163,7 +222,7 @@ export default function RoadmapSection() {
                         <ScoreCell score={score} />
                       </td>
                     ))}
-                  </motion.tr>
+                  </tr>
                 ))}
               </tbody>
             </table>
@@ -219,10 +278,8 @@ export default function RoadmapSection() {
                         </div>
                       </div>
                     )}
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
+                    <div
+                      ref={(el) => { nodesRef.current[i] = el; }}
                       className="w-4 h-4 rounded-full border-2 shrink-0"
                       style={{
                         borderColor: item.color,

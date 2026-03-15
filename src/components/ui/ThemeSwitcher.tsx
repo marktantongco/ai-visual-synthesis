@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const themes = [
   { id: "neon",    label: "Neon",    dot: "#4DFFFF" },
@@ -14,6 +14,7 @@ type ThemeId = typeof themes[number]["id"];
 
 export default function ThemeSwitcher() {
   const [active, setActive] = useState<ThemeId>("neon");
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -24,6 +25,49 @@ export default function ThemeSwitcher() {
     }
   }, [active]);
 
+  // Setup hover animations for each button
+  useEffect(() => {
+    const cleanupFns: (() => void)[] = [];
+    
+    buttonRefs.current.forEach((btn) => {
+      if (!btn) return;
+      
+      const handleEnter = () => {
+        gsap.to(btn, { x: -2, duration: 0.2, ease: "power2.out" });
+      };
+      
+      const handleLeave = () => {
+        gsap.to(btn, { x: 0, duration: 0.2, ease: "power2.out" });
+      };
+      
+      const handleDown = () => {
+        gsap.to(btn, { scale: 0.95, duration: 0.1, ease: "power2.out" });
+      };
+      
+      const handleUp = () => {
+        gsap.to(btn, { scale: 1, duration: 0.1, ease: "power2.out" });
+      };
+      
+      btn.addEventListener("mouseenter", handleEnter);
+      btn.addEventListener("mouseleave", handleLeave);
+      btn.addEventListener("mousedown", handleDown);
+      btn.addEventListener("mouseup", handleUp);
+      btn.addEventListener("mouseleave", handleUp);
+      
+      cleanupFns.push(() => {
+        btn.removeEventListener("mouseenter", handleEnter);
+        btn.removeEventListener("mouseleave", handleLeave);
+        btn.removeEventListener("mousedown", handleDown);
+        btn.removeEventListener("mouseup", handleUp);
+        btn.removeEventListener("mouseleave", handleUp);
+      });
+    });
+    
+    return () => {
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, []);
+
   return (
     <div
       className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
@@ -33,11 +77,10 @@ export default function ThemeSwitcher() {
         Theme
       </div>
       <div className="glass rounded-2xl border border-white/10 p-1.5 flex flex-col gap-1">
-        {themes.map((t) => (
-          <motion.button
+        {themes.map((t, index) => (
+          <button
             key={t.id}
-            whileHover={{ x: -2 }}
-            whileTap={{ scale: 0.95 }}
+            ref={(el) => { buttonRefs.current[index] = el; }}
             onClick={() => setActive(t.id)}
             id={`theme-btn-${t.id}`}
             aria-pressed={active === t.id}
@@ -53,7 +96,7 @@ export default function ThemeSwitcher() {
               }}
             />
             {t.label}
-          </motion.button>
+          </button>
         ))}
       </div>
     </div>

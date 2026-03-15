@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const sections = [
   { id: "hero", label: "Hero" },
@@ -17,6 +17,8 @@ const sections = [
 
 export default function SectionIndicators() {
   const [active, setActive] = useState("hero");
+  const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const prevActiveRef = useRef<string>(active);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,9 +40,38 @@ export default function SectionIndicators() {
     return () => observer.disconnect();
   }, []);
 
+  // Animate dots when active state changes
+  useEffect(() => {
+    sections.forEach((section, index) => {
+      const dot = dotRefs.current[index];
+      if (!dot) return;
+      
+      const isActive = active === section.id;
+      const wasActive = prevActiveRef.current === section.id;
+      
+      if (isActive && !wasActive) {
+        gsap.to(dot, {
+          scale: 1.5,
+          backgroundColor: "var(--neon-cyan)",
+          duration: 0.2,
+          ease: "power2.out"
+        });
+      } else if (!isActive && wasActive) {
+        gsap.to(dot, {
+          scale: 1,
+          backgroundColor: "rgba(255,255,255,0.2)",
+          duration: 0.2,
+          ease: "power2.out"
+        });
+      }
+    });
+    
+    prevActiveRef.current = active;
+  }, [active]);
+
   return (
     <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3">
-      {sections.map((section) => (
+      {sections.map((section, index) => (
         <a
           key={section.id}
           href={`#${section.id}`}
@@ -50,13 +81,13 @@ export default function SectionIndicators() {
           <span className="text-xs text-white/30 group-hover:text-white/60 transition-colors">
             {section.label}
           </span>
-          <motion.div
+          <div
+            ref={(el) => { dotRefs.current[index] = el; }}
             className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-white/40 transition-colors"
-            animate={{
-              scale: active === section.id ? 1.5 : 1,
+            style={{
               backgroundColor: active === section.id ? "var(--neon-cyan)" : "rgba(255,255,255,0.2)",
+              transform: `scale(${active === section.id ? 1.5 : 1})`
             }}
-            transition={{ duration: 0.2 }}
           />
         </a>
       ))}
