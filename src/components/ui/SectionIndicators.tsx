@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 const sections = [
   { id: "hero", label: "Hero" },
+  { id: "prompt-builder", label: "Builder" },
   { id: "search", label: "Search" },
   { id: "skillmap", label: "Skills" },
   { id: "tools", label: "Tools" },

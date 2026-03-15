@@ -109,7 +109,7 @@ export default function PromptBuilder() {
   };
 
   return (
-    <section className="py-20 px-4 bg-dark-900 relative overflow-hidden">
+    <section id="prompt-builder" className="py-20 px-4 bg-dark-900 relative overflow-hidden scroll-mt-20">
       {/* Brutalist Background */}
       <div className="absolute inset-0 bg-[#0a0a0a]">
         <div className="absolute inset-0 opacity-10" style={{
