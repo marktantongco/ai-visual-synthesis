@@ -4,6 +4,7 @@ import { ScrollProgress } from "@/components/ui/primitives";
 import SectionIndicators from "@/components/ui/SectionIndicators";
 import Navbar from "@/components/sections/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
+import PromptBuilder from "@/components/sections/PromptBuilder";
 import SearchSection from "@/components/sections/SearchSection";
 import SkillMapSection from "@/components/sections/SkillMapSection";
 import ToolsSection from "@/components/sections/ToolsSection";
@@ -21,6 +22,7 @@ export default function HomeClient() {
       <Navbar />
       <SectionIndicators />
       <HeroSection />
+      <PromptBuilder />
       <SearchSection />
       <SkillMapSection />
       <ToolsSection />
