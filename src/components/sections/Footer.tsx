@@ -120,7 +120,7 @@ export default function Footer() {
             <span className="text-brutal-yellow">AI Art Today</span>
           </h2>
 
-          <p className="text-brutal-gray text-lg max-w-xl mx-auto mb-12">
+          <p className="text-base text-brutal-gray/80 max-w-xl mx-auto mb-12 leading-relaxed">
             You now have everything you need. Pick a tool, copy a prompt, and
             start generating. The only thing left is to begin.
           </p>
@@ -157,7 +157,7 @@ export default function Footer() {
                 AI<span className="text-brutal-yellow">Synth</span>
               </span>
             </div>
-            <p className="text-sm text-brutal-gray leading-relaxed mb-6">
+            <p className="text-base text-brutal-gray/80 leading-relaxed mb-6">
               The complete interactive guide to AI visual synthesis, prompt
               engineering, and creative AI tools.
             </p>
@@ -173,10 +173,11 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-10 h-10 bg-brutal-black border-2 border-brutal-gray flex items-center justify-center text-brutal-gray hover:text-brutal-yellow hover:border-brutal-yellow transition-all"
+                  title={label}
+                  className="w-12 h-12 bg-brutal-black border-2 border-brutal-gray flex items-center justify-center text-brutal-gray hover:text-brutal-yellow hover:border-brutal-yellow transition-all min-h-[48px] min-w-[48px]"
                   style={{ borderWidth: '2px' }}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
@@ -185,7 +186,7 @@ export default function Footer() {
           {/* Link columns */}
           {footerLinks.map((col) => (
             <div key={col.heading} className="footer-col">
-              <h3 className="text-xs font-bold text-brutal-yellow uppercase tracking-widest mb-6">
+              <h3 className="text-sm font-bold text-brutal-yellow uppercase tracking-widest mb-6">
                 {col.heading}
               </h3>
               <ul className="space-y-3">
@@ -193,7 +194,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-brutal-gray hover:text-brutal-yellow transition-colors"
+                      className="text-base text-brutal-gray/80 hover:text-brutal-yellow transition-colors py-1 inline-block min-h-[44px] flex items-center"
                       target={link.href.startsWith("http") ? "_blank" : undefined}
                       rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     >

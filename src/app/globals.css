@@ -618,3 +618,107 @@ main > section {
     display: none !important;
   }
 }
+
+/* ============================================
+   MOBILE ACCESSIBILITY & TOUCH TARGETS
+   ============================================ */
+
+/* WCAG 2.1 Level AAA: Touch targets at least 44x44px */
+@media (max-width: 768px) {
+  /* Button minimum touch targets */
+  button,
+  .brutal-btn,
+  a.brutal-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Navigation links */
+  nav a,
+  nav button {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  
+  /* Interactive cards */
+  .skill-node,
+  .glass-card,
+  .brutal-card {
+    min-height: 48px;
+  }
+  
+  /* Increase font sizes for mobile readability */
+  .text-xs {
+    font-size: 0.8125rem; /* 13px */
+  }
+  
+  .text-\[10px\] {
+    font-size: 0.75rem; /* 12px */
+  }
+  
+  /* Improve tap highlight on mobile */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: rgba(255, 222, 0, 0.2);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --text-muted: #666666;
+  }
+  
+  .glass-card,
+  .glass {
+    background: #1A1A1A !important;
+    border: 2px solid #FFFFFF !important;
+  }
+  
+  .border-white\/5,
+  .border-white\/10,
+  .border-white\/15,
+  .border-white\/20 {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+  }
+}
+
+/* Reduced motion - keep animations minimal */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .floating-bg,
+  .animate-float,
+  .animate-morph,
+  .animate-pulse-glow {
+    animation: none !important;
+  }
+}
+
+/* Focus visible styles for keyboard navigation */
+:focus-visible {
+  outline: 3px solid var(--brutal-yellow) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Ensure text is readable on all backgrounds */
+.text-white\/30, .text-white\/40 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.text-white\/50, .text-white\/60 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.text-white\/70, .text-white\/80 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}

@@ -23,7 +23,7 @@ interface NavItem {
 }
 
 // ─── Motion Config ───────────────────────────────────────────
-const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const durMicro = 0.18;
 const durStandard = 0.32;
 

@@ -102,7 +102,8 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="nav-link-item px-3 py-2 text-sm font-bold uppercase tracking-wider text-brutal-black hover:text-brutal-yellow hover:bg-brutal-black transition-all duration-150 border-2 border-transparent hover:border-brutal-yellow mx-1"
+                title={link.label}
+                className="nav-link-item px-4 py-3 text-sm font-bold uppercase tracking-wider text-brutal-black hover:text-brutal-yellow hover:bg-brutal-black transition-all duration-150 border-2 border-transparent hover:border-brutal-yellow mx-1 min-h-[44px] flex items-center"
                 style={{ borderWidth: '2px', borderColor: 'transparent' }}
               >
                 {link.label}
@@ -113,11 +114,12 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 bg-brutal-yellow border-3 border-brutal-black"
+            className="lg:hidden p-3 bg-brutal-yellow border-3 border-brutal-black min-h-[48px] min-w-[48px] flex items-center justify-center"
             style={{ borderWidth: '3px' }}
             aria-label="Toggle menu"
+            title="Toggle navigation menu"
           >
-            {mobileOpen ? <X className="w-5 h-5 text-brutal-black" /> : <Menu className="w-5 h-5 text-brutal-black" />}
+            {mobileOpen ? <X className="w-6 h-6 text-brutal-black" /> : <Menu className="w-6 h-6 text-brutal-black" />}
           </button>
         </div>
       </header>
@@ -125,13 +127,13 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden bg-brutal-cream pt-20 px-4">
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="px-6 py-4 text-lg font-bold uppercase text-brutal-black hover:text-brutal-yellow hover:bg-brutal-black border-3 border-brutal-black hover:border-brutal-yellow transition-all"
+                className="px-6 py-4 text-lg font-bold uppercase text-brutal-black hover:text-brutal-yellow hover:bg-brutal-black border-3 border-brutal-black hover:border-brutal-yellow transition-all min-h-[56px] flex items-center"
                 style={{ borderWidth: '3px' }}
               >
                 {link.label}
@@ -141,8 +143,9 @@ export default function Navbar() {
           
           <button
             onClick={() => setMobileOpen(false)}
-            className="absolute top-4 right-4 p-3 bg-brutal-yellow border-3 border-brutal-black"
+            className="absolute top-4 right-4 p-3 bg-brutal-yellow border-3 border-brutal-black min-h-[48px] min-w-[48px] flex items-center justify-center"
             style={{ borderWidth: '3px' }}
+            title="Close menu"
           >
             <X className="w-6 h-6 text-brutal-black" />
           </button>

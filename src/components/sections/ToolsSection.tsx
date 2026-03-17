@@ -299,24 +299,24 @@ function ToolCard({
         aria-hidden={!isExpanded}
       >
         <div className="px-6 pb-6 border-t border-white/5 pt-5 space-y-5">
-          <p className="text-white/60 text-sm leading-relaxed">
+          <p className="text-white/70 text-base leading-relaxed">
             {tool.description}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Strengths */}
             <div>
-              <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">
+              <h4 className="text-xs font-bold text-white/50 uppercase tracking-wider mb-3">
                 Key Strengths
               </h4>
               <ul className="space-y-2">
                 {tool.strengths.map((s) => (
                   <li
                     key={s}
-                    className="flex items-center gap-2 text-sm text-white/70"
+                    className="flex items-center gap-2 text-base text-white/80"
                   >
                     <span
-                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                      className="w-2 h-2 rounded-full shrink-0"
                       style={{ background: tool.color }}
                     />
                     {s}
@@ -328,17 +328,17 @@ function ToolCard({
             {/* Meta */}
             <div className="space-y-3">
               <div>
-                <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">
+                <div className="text-xs font-bold text-white/50 uppercase tracking-wider mb-1">
                   Best For
                 </div>
-                <div className="text-sm text-white/70">{tool.bestFor}</div>
+                <div className="text-base text-white/80">{tool.bestFor}</div>
               </div>
               <div>
-                <div className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">
+                <div className="text-xs font-bold text-white/50 uppercase tracking-wider mb-1">
                   Pricing
                 </div>
                 <div
-                  className="text-sm font-semibold"
+                  className="text-base font-semibold"
                   style={{ color: tool.color }}
                 >
                   {tool.pricing}
@@ -351,11 +351,11 @@ function ToolCard({
             href={tool.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-dark-900 transition-all hover:opacity-90 active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-base font-semibold text-dark-900 transition-all hover:opacity-90 active:scale-95 min-h-[48px]"
             style={{ background: tool.color }}
           >
             Try {tool.name}
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-4 h-4" />
           </a>
         </div>
       </div>

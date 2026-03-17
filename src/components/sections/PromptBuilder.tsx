@@ -213,7 +213,7 @@ function BentoSelector({
         className="w-full p-3 bg-brutal-black border-2 border-brutal-gray/30 flex items-center justify-between hover:border-brutal-yellow transition-colors"
         style={{ borderLeftWidth: '4px', borderLeftColor: color }}
       >
-        <span className="text-[10px] font-bold uppercase tracking-widest text-brutal-gray">
+        <span className="text-xs font-bold uppercase tracking-widest text-brutal-cream/80">
           {label}
         </span>
         <span className="text-sm font-bold text-brutal-cream truncate max-w-[120px]">
@@ -388,12 +388,12 @@ export default function PromptBuilder() {
           </div>
           
           <div className="flex gap-2">
-            <ClayButton onClick={randomize} variant="accent">
-              <Shuffle className="w-3 h-3 inline mr-1" />
+            <ClayButton onClick={randomize} variant="accent" className="min-h-[44px]">
+              <Shuffle className="w-4 h-4 inline mr-1" />
               Shuffle
             </ClayButton>
-            <ClayButton onClick={clear} variant="danger">
-              <X className="w-3 h-3 inline mr-1" />
+            <ClayButton onClick={clear} variant="danger" className="min-h-[44px]">
+              <X className="w-4 h-4 inline mr-1" />
               Clear
             </ClayButton>
           </div>
@@ -441,7 +441,7 @@ export default function PromptBuilder() {
           
           <div className="p-4 md:p-6">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-mono text-brutal-gray uppercase tracking-widest">
+              <span className="text-xs font-mono text-brutal-cream/70 uppercase tracking-widest">
                 Generated Output
               </span>
               <button
@@ -454,7 +454,7 @@ export default function PromptBuilder() {
             
             <p className="text-base md:text-lg font-medium text-brutal-cream leading-relaxed min-h-[60px]" style={{ fontFamily: "monospace" }}>
               {prompt || (
-                <span className="text-brutal-gray/50 italic">
+                <span className="text-brutal-cream/50 italic">
                   Select options above to build your prompt...
                 </span>
               )}
@@ -497,9 +497,9 @@ export default function PromptBuilder() {
             { icon: "⚡", text: "--ar for aspect ratio" },
             { icon: "🎯", text: "Presets for quick starts" },
           ].map((tip, i) => (
-            <div key={i} className="flex items-center gap-2 px-3 py-1.5 bg-brutal-gray/10 border border-brutal-gray/20">
+            <div key={i} className="flex items-center gap-2 px-3 py-2 bg-brutal-gray/10 border border-brutal-yellow/30" title={tip.text}>
               <span className="text-sm">{tip.icon}</span>
-              <span className="text-[10px] text-brutal-cream/70">{tip.text}</span>
+              <span className="text-xs text-brutal-cream/80">{tip.text}</span>
             </div>
           ))}
         </div>

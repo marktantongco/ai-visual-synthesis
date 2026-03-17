@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const themes = [
-  { id: "neon",    label: "Neon",    dot: "#4DFFFF" },
-  { id: "minimal", label: "Violet",  dot: "#7B5CFF" },
-  { id: "glass",   label: "Magenta", dot: "#FF4FD8" },
-  { id: "amber",   label: "Amber",   dot: "#FFB000" },
+  { id: "neon",    label: "Neon",    dot: "#4DFFFF", tooltip: "Neon Cyan Theme" },
+  { id: "minimal", label: "Violet",  dot: "#7B5CFF", tooltip: "Violet Purple Theme" },
+  { id: "glass",   label: "Magenta", dot: "#FF4FD8", tooltip: "Magenta Pink Theme" },
+  { id: "amber",   label: "Amber",   dot: "#FFB000", tooltip: "Amber Gold Theme" },
 ] as const;
 
 type ThemeId = typeof themes[number]["id"];
@@ -73,10 +73,10 @@ export default function ThemeSwitcher() {
       className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
       aria-label="Live theme switcher"
     >
-      <div className="text-[10px] font-mono text-white/30 uppercase tracking-widest mb-1 text-right">
-        Theme
+      <div className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-1 text-right">
+        Theme Selector
       </div>
-      <div className="glass rounded-2xl border border-white/10 p-1.5 flex flex-col gap-1">
+      <div className="glass rounded-2xl border border-white/10 p-2 flex flex-col gap-1.5">
         {themes.map((t, index) => (
           <button
             key={t.id}
@@ -84,15 +84,16 @@ export default function ThemeSwitcher() {
             onClick={() => setActive(t.id)}
             id={`theme-btn-${t.id}`}
             aria-pressed={active === t.id}
-            className={`theme-btn flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+            title={t.tooltip}
+            className={`theme-btn flex items-center gap-2.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all min-h-[44px] min-w-[120px] ${
               active === t.id ? "active" : ""
             }`}
           >
             <span
-              className="w-2.5 h-2.5 rounded-full shrink-0 transition-all"
+              className="w-3 h-3 rounded-full shrink-0 transition-all"
               style={{
                 background: t.dot,
-                boxShadow: active === t.id ? `0 0 8px ${t.dot}` : "none",
+                boxShadow: active === t.id ? `0 0 10px ${t.dot}` : "none",
               }}
             />
             {t.label}

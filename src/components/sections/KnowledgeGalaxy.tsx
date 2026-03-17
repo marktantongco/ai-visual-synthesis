@@ -353,7 +353,7 @@ export default function KnowledgeGalaxy() {
             </span>
           </h1>
           
-          <p className="text-lg text-white/50 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 max-w-2xl mx-auto">
             Navigate knowledge visually. Discover skills, tools, and resources interconnected as a living ecosystem.
           </p>
         </div>
@@ -402,13 +402,13 @@ export default function KnowledgeGalaxy() {
                   onMouseLeave={() => handleDomainHover(null)}
                 >
                   <div 
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mb-2 sm:mb-3"
-                    style={{ backgroundColor: domain.color + "20" }}
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-3"
+                    style={{ backgroundColor: domain.color + "25" }}
                   >
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: domain.color }} />
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: domain.color }} />
                   </div>
-                  <h3 className="font-bold text-sm text-white mb-0.5 truncate">{domain.name}</h3>
-                  <p className="text-xs text-white/40">{domain.resources} resources</p>
+                  <h3 className="font-bold text-base text-white mb-1 truncate">{domain.name}</h3>
+                  <p className="text-sm text-white/60">{domain.resources} resources</p>
                   
                   {/* Hover Glow */}
                   <div
@@ -447,7 +447,7 @@ export default function KnowledgeGalaxy() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">{activeDomainData.name}</h3>
-                    <p className="text-white/50 text-sm">{activeDomainData.description}</p>
+                    <p className="text-white/70 text-sm">{activeDomainData.description}</p>
                   </div>
                 </div>
                 <button 
@@ -460,12 +460,12 @@ export default function KnowledgeGalaxy() {
 
               {/* Skills */}
               <div className="mb-4">
-                <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Skill Nodes</h4>
+                <h4 className="text-xs font-bold text-white/50 uppercase tracking-wider mb-2">Skill Nodes</h4>
                 <div className="flex flex-wrap gap-2">
                   {activeDomainData.skills.map((skill, i) => (
                     <button
                       key={i}
-                      className="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:border-white/30 text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-full bg-white/10 border border-white/15 hover:border-white/30 text-sm transition-all flex items-center gap-1.5 min-h-[44px]"
                     >
                       {skill}
                       <ArrowRight className="w-3 h-3 opacity-40" />
@@ -476,15 +476,15 @@ export default function KnowledgeGalaxy() {
 
               {/* Resource Types */}
               <div className="mb-4">
-                <h4 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">Resource Types</h4>
+                <h4 className="text-xs font-bold text-white/50 uppercase tracking-wider mb-2">Resource Types</h4>
                 <div className="flex flex-wrap gap-2">
                   {resourceTypes.map((type, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5"
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/5 border border-white/10"
                     >
-                      <span className="text-xs text-white/60">{type.label}</span>
-                      <span className="text-xs text-white/30">({type.count})</span>
+                      <span className="text-sm text-white/70">{type.label}</span>
+                      <span className="text-sm text-white/40">({type.count})</span>
                     </div>
                   ))}
                 </div>
@@ -507,7 +507,7 @@ export default function KnowledgeGalaxy() {
         {/* Quick Access - Show when no domain selected */}
         {!activeDomain && (
           <div ref={quickAccessRef} className="max-w-3xl mx-auto">
-            <h3 className="text-center text-white/30 text-xs uppercase tracking-widest mb-4">Quick Access</h3>
+            <h3 className="text-center text-white/50 text-sm uppercase tracking-widest mb-4">Quick Access</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {quickResources.map((resource) => {
                 const Icon = resource.icon;
@@ -515,10 +515,10 @@ export default function KnowledgeGalaxy() {
                   <a
                     key={resource.slug}
                     href={resource.slug}
-                    className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/30 transition-all group text-center"
+                    className="p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-neon-cyan/40 transition-all group text-center min-h-[80px]"
                   >
-                    <Icon className="w-6 h-6 text-neon-cyan mx-auto mb-2" />
-                    <span className="text-sm font-medium text-white">{resource.title}</span>
+                    <Icon className="w-7 h-7 text-neon-cyan mx-auto mb-2" />
+                    <span className="text-base font-medium text-white">{resource.title}</span>
                   </a>
                 );
               })}

@@ -174,17 +174,18 @@ export default function SkillMapSection() {
 
       {/* Layer legend */}
       <FadeIn delay={0.1}>
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
+        <div className="flex flex-wrap justify-center gap-3 mb-10 p-4 rounded-xl bg-white/5 border border-white/10">
           {Object.entries(layerColors).map(([layer, color]) => (
             <div
               key={layer}
-              className="flex items-center gap-2 glass rounded-full px-3 py-1.5 border border-white/5"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5"
+              title={`${layer} skills in the framework`}
             >
               <span
-                className="w-2 h-2 rounded-full"
-                style={{ background: color }}
+                className="w-3 h-3 rounded-full"
+                style={{ background: color, boxShadow: `0 0 6px ${color}` }}
               />
-              <span className="text-xs font-medium text-white/60">{layer}</span>
+              <span className="text-sm font-semibold text-white/80">{layer}</span>
             </div>
           ))}
         </div>
@@ -221,15 +222,15 @@ export default function SkillMapSection() {
                 {/* Category badge */}
                 <div className="flex items-start justify-between mb-3">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: node.color + "20" }}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center"
+                    style={{ background: node.color + "25" }}
                   >
-                    <Icon className="w-5 h-5" style={{ color: node.color }} />
+                    <Icon className="w-6 h-6" style={{ color: node.color }} />
                   </div>
                   <span
-                    className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
+                    className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full"
                     style={{
-                      background: layerColors[node.level] + "20",
+                      background: layerColors[node.level] + "25",
                       color: layerColors[node.level],
                     }}
                   >
@@ -238,21 +239,21 @@ export default function SkillMapSection() {
                 </div>
 
                 <div
-                  className="text-[10px] font-mono mb-1"
-                  style={{ color: node.color + "90" }}
+                  className="text-xs font-mono font-semibold mb-2"
+                  style={{ color: node.color }}
                 >
                   SKILL {node.category} / 6
                 </div>
-                <h3 className="font-display font-bold text-base text-white mb-2 leading-tight">
+                <h3 className="font-display font-bold text-lg text-white mb-3 leading-tight">
                   {node.title}
                 </h3>
 
                 {/* Platform pills */}
-                <div className="flex flex-wrap gap-1 mt-auto">
+                <div className="flex flex-wrap gap-1.5 mt-auto">
                   {node.platforms.slice(0, 3).map((p) => (
                     <span
                       key={p}
-                      className="text-[10px] px-2 py-0.5 rounded-full border border-white/8 text-white/40"
+                      className="text-xs px-2.5 py-1 rounded-full border border-white/20 text-white/60 bg-white/5"
                     >
                       {p}
                     </span>
@@ -313,7 +314,7 @@ export default function SkillMapSection() {
                     </h3>
                   </div>
                 </div>
-                <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--pu-secondary)" }}>
+                <p className="text-base leading-relaxed mb-6" style={{ color: "var(--pu-secondary)" }}>
                   {active.description}
                 </p>
 
@@ -349,7 +350,7 @@ export default function SkillMapSection() {
               {/* Right: skills + platforms */}
               <div className="space-y-6">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">
+                  <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-3">
                     Key Skills
                   </div>
                   <ul className="space-y-2">
@@ -359,10 +360,10 @@ export default function SkillMapSection() {
                         initial={{ opacity: 1, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.06 }}
-                        className="flex items-center gap-2 text-sm text-white/70"
+                        className="flex items-center gap-2 text-base text-white/80"
                       >
                         <span
-                          className="w-1.5 h-1.5 rounded-full shrink-0"
+                          className="w-2 h-2 rounded-full shrink-0"
                           style={{ background: active.color }}
                         />
                         {skill}
@@ -372,14 +373,14 @@ export default function SkillMapSection() {
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">
+                  <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-3">
                     Compatible Platforms
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {active.platforms.map((p) => (
                       <span
                         key={p}
-                        className="text-xs px-3 py-1 rounded-lg border border-white/10 text-white/60 font-mono"
+                        className="text-sm px-3 py-1.5 rounded-lg border border-white/15 text-white/70 font-mono bg-white/5"
                       >
                         {p}
                       </span>
