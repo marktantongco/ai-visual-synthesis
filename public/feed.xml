@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI Visual Synthesis</title>
+    <link>https://ai-visual-synthesis-repo.vercel.app/</link>
+    <description>Complete guide to AI image generation, prompt engineering, and visual synthesis. Updates on new prompts, techniques, and AI tools.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://ai-visual-synthesis-repo.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI Visual Synthesis - Complete 2026 Guide</title>
+      <link>https://ai-visual-synthesis-repo.vercel.app/</link>
+      <description>Master AI image generation in 2026. Complete interactive guide to Midjourney, DALL·E 3, Stable Diffusion, Flux.1 with 80+ prompt templates.</description>
+      <pubDate>Mon, 17 Mar 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://ai-visual-synthesis-repo.vercel.app/</guid>
+    </item>
+    <item>
+      <title>Prompt Templates Collection</title>
+      <link>https://ai-visual-synthesis-repo.vercel.app/prompts/</link>
+      <description>Ready-to-use AI prompt templates for generating production-ready web applications. Developer prompts, design prompts, and custom prompt builder.</description>
+      <pubDate>Mon, 17 Mar 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://ai-visual-synthesis-repo.vercel.app/prompts/</guid>
+    </item>
+    <item>
+      <title>The Complete Framework</title>
+      <link>https://ai-visual-synthesis-repo.vercel.app/framework/</link>
+      <description>8-Layer Prompt Architecture, Physics-First Parameters, Thinking Modes, Design Vocabulary, and Master Templates for AI image generation.</description>
+      <pubDate>Mon, 17 Mar 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://ai-visual-synthesis-repo.vercel.app/framework/</guid>
+    </item>
+  </channel>
+</rss>
