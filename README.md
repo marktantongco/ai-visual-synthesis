@@ -202,20 +202,60 @@ Deep dive with `AI-IMAGE-PROMPT-MASTERY-2026.md` - Generator comparisons
 
 ---
 
+---
+
+## Deployment
+
+### Vercel (Recommended)
+The project is configured for automatic deployment to Vercel. Push to the `main` branch to trigger deployment.
+
+**Live URL:** https://ai-visual-synthesis-repo.vercel.app/
+
+### GitHub Pages
+The project also supports static export for GitHub Pages:
+
+1. Enable GitHub Pages in repository settings
+2. Select "GitHub Actions" as the source
+3. The workflow in `.github/workflows/deploy.yml` will automatically build and deploy
+
+**GitHub Pages URL:** https://marktantongco.github.io/ai-visual-synthesis/
+
+### Manual Deployment
+
+```bash
+# Build for Vercel (dynamic)
+npm run build
+
+# Build for GitHub Pages (static export)
+GITHUB_PAGES=true npm run build
+```
+
+---
+
 ## Recent Updates
 
-### Animation System Overhaul
+### UI & Accessibility Improvements (March 2026)
+- Enhanced text contrast across all components for WCAG compliance
+- Increased font sizes for better readability on mobile
+- Added WCAG 2.1 AAA compliant touch targets (44x44px minimum)
+- Added high contrast mode support
+- Added reduced motion preferences
+- Added tooltips to all interactive elements
+- Improved mobile navigation with larger buttons
+
+### Animation System (Previous)
 - Replaced Framer Motion with GSAP for better performance
 - Fixed whitespace/loading issues caused by hidden elements
 - Added multi-layer fallback system for content visibility
 - Elements now start visible and animate in, rather than starting hidden
 
 ### Files Modified
-- `src/app/globals.css` - CSS visibility fallbacks
+- `src/app/globals.css` - CSS visibility fallbacks, touch targets, contrast fixes
 - `src/app/layout.tsx` - JavaScript fallback in `<head>`
 - `src/components/ui/primitives.tsx` - SafeFadeIn component, useSafeAnimation hook
 - `src/components/sections/KnowledgeGalaxy.tsx` - Safe animation implementation
-- `src/lib/gsap-animations.ts` - New GSAP animation utilities
+- `src/lib/gsap-animations.tsx` - GSAP animation utilities
+- `src/components/sections/*.tsx` - Contrast and accessibility improvements
 
 ---
 
@@ -225,4 +265,4 @@ MIT
 
 ---
 
-*Last Updated: January 2025*
+*Last Updated: March 2026*
