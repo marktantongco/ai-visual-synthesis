@@ -3,16 +3,21 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowDown, Zap, Palette, Wand2, Sparkles, Cpu, Image } from "lucide-react";
+import { ArrowDown, Zap, Palette, Wand2, Sparkles, Cpu, Image, ArrowRight } from "lucide-react";
+import {
+  useMagneticEffect,
+  useParticleSystem,
+  useReducedMotion,
+} from "@/lib/gsap-animations";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const floatingTools = [
-  { text: "Midjourney", icon: Image, x: "8%", y: "20%" },
-  { text: "DALL·E 3", icon: Palette, x: "80%", y: "15%" },
-  { text: "Stable Diffusion", icon: Sparkles, x: "70%", y: "65%" },
-  { text: "Sora", icon: Cpu, x: "5%", y: "70%" },
-  { text: "Flux", icon: Wand2, x: "40%", y: "82%" },
+  { text: "Midjourney", icon: Image, x: "6%", y: "18%" },
+  { text: "DALL·E 3", icon: Palette, x: "82%", y: "12%" },
+  { text: "Stable Diffusion", icon: Sparkles, x: "72%", y: "68%" },
+  { text: "Sora", icon: Cpu, x: "3%", y: "72%" },
+  { text: "Flux", icon: Wand2, x: "38%", y: "85%" },
 ];
 
 const marqueeItems = [
@@ -32,66 +37,74 @@ export default function HeroSection() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const particleContainerRef = useRef<HTMLDivElement>(null);
+  const primaryCtaRef = useMagneticEffect<HTMLAnchorElement>(0.4);
+  const secondaryCtaRef = useMagneticEffect<HTMLAnchorElement>(0.4);
   const [isAnimated, setIsAnimated] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  // TIER 3: Particle system for hero background
+  useParticleSystem(particleContainerRef, {
+    count: 25,
+    minSize: 3,
+    maxSize: 8,
+    color: "255, 222, 0",
+    minOpacity: 0.06,
+    maxOpacity: 0.2,
+  });
 
   useEffect(() => {
-    // Skip if already animated
-    if (isAnimated) return;
+    if (isAnimated || prefersReducedMotion) return;
     
-    // Small delay to ensure DOM is ready
     const initTimer = setTimeout(() => {
       setIsAnimated(true);
       
       const ctx = gsap.context(() => {
-        // KEY FIX: Elements are ALREADY VISIBLE (opacity: 1 in CSS/inline)
-        // Animation is an ENHANCEMENT, not a requirement for visibility
-        // We animate FROM a subtle state TO the current visible state
-        
-        // Hero content timeline - subtle entrance animations
+        // Hero entrance timeline
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         
-        // Animate from slightly lower position, but elements are already visible
         tl.fromTo(".hero-eyebrow",
-          { y: -15 },  // Subtle movement, no opacity change
-          { y: 0, duration: 0.6 }
+          { y: -20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6 }
         )
         .fromTo(titleRef.current,
-          { y: 20 },  // Subtle movement only
-          { y: 0, duration: 0.8 },
+          { y: 60, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9 },
           "-=0.3"
         )
         .fromTo(subtitleRef.current,
-          { y: 15 },
-          { y: 0, duration: 0.6 },
-          "-=0.4"
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          "-=0.5"
         )
         .fromTo(ctaRef.current?.children || [],
-          { y: 10 },
-          { y: 0, duration: 0.5, stagger: 0.1 },
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)" },
           "-=0.3"
         )
         .fromTo(".stat-item",
-          { y: 8 },
-          { y: 0, duration: 0.4, stagger: 0.08 },
+          { y: 15, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, stagger: 0.08 },
           "-=0.2"
         );
 
-        // Floating tools - already visible, just add entrance animation
+        // Floating tools entrance with back.out
         gsap.fromTo(".floating-tool",
-          { y: 10, scale: 0.95 },
+          { y: 30, scale: 0.9, opacity: 0 },
           { 
             y: 0, 
             scale: 1, 
-            duration: 0.6, 
-            stagger: 0.15, 
-            delay: 0.8,
+            opacity: 1,
+            duration: 0.7, 
+            stagger: 0.12, 
+            delay: 0.6,
             ease: "back.out(1.7)" 
           }
         );
 
-        // Floating animation
+        // Continuous floating animation
         gsap.to(".floating-tool", {
-          y: -12,
+          y: -15,
           duration: 2.5,
           ease: "sine.inOut",
           yoyo: true,
@@ -102,9 +115,9 @@ export default function HeroSection() {
           }
         });
 
-        // Scroll-triggered parallax
+        // Parallax on scroll
         gsap.to(".hero-parallax", {
-          y: "30%",
+          y: "40%",
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -114,35 +127,19 @@ export default function HeroSection() {
           }
         });
 
-        // Scroll cue - already visible, just subtle fade in
-        gsap.to(".scroll-cue", {
-          opacity: 1,
-          duration: 0.5,
-          delay: 1.5
-        });
-
-        // Stats counter animation - subtle scale
-        gsap.fromTo(".stat-value",
-          { scale: 0.95 },
-          {
-            scale: 1,
-            duration: 0.5,
-            stagger: 0.1,
-            scrollTrigger: {
-              trigger: statsRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse"
-            }
-          }
+        // Scroll cue animation
+        gsap.fromTo(".scroll-cue",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.8, delay: 1.8 }
         );
 
       }, sectionRef);
 
       return () => ctx.revert();
-    }, 50);  // Small delay for DOM readiness
+    }, 50);
 
     return () => clearTimeout(initTimer);
-  }, [isAnimated]);
+  }, [isAnimated, prefersReducedMotion]);
 
   return (
     <section
@@ -151,8 +148,21 @@ export default function HeroSection() {
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-brutal-cream"
       aria-label="Hero section"
     >
-      {/* Brutalist grid background */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(var(--brutal-black)_1px,transparent_1px),linear-gradient(90deg,var(--brutal-black)_1px,transparent_1px)] bg-[size:40px_40px]" />
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 pattern-grid-light opacity-50" />
+
+      {/* Particle Container */}
+      <div
+        ref={particleContainerRef}
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Decorative Corner Elements */}
+      <div className="absolute top-8 left-8 w-24 h-24 border-t-4 border-l-4 border-brutal-black opacity-20" />
+      <div className="absolute bottom-8 right-8 w-24 h-24 border-b-4 border-r-4 border-brutal-black opacity-20" />
+      <div className="absolute top-8 right-8 w-16 h-16 border-t-4 border-r-4 border-brutal-yellow opacity-40" />
+      <div className="absolute bottom-8 left-8 w-16 h-16 border-b-4 border-l-4 border-brutal-yellow opacity-40" />
 
       {/* Floating tool tags */}
       {floatingTools.map((tool, i) => (
@@ -161,10 +171,12 @@ export default function HeroSection() {
           className="floating-tool absolute hidden lg:flex items-center gap-2"
           style={{ left: tool.x, top: tool.y }}
         >
-          <div className="bg-brutal-black border-2 border-brutal-yellow px-4 py-2 flex items-center gap-2"
-               style={{ borderWidth: '2px', boxShadow: '4px 4px 0 0 #FFDE00' }}>
+          <div 
+            className="bg-brutal-black border-3 border-brutal-yellow px-5 py-2.5 flex items-center gap-2.5"
+            style={{ borderWidth: '3px', boxShadow: '6px 6px 0 0 #FFDE00' }}
+          >
             <tool.icon className="w-4 h-4 text-brutal-yellow" />
-            <span className="text-sm font-bold text-brutal-cream uppercase tracking-wider">
+            <span className="text-sm font-bold text-brutal-cream uppercase tracking-wider font-display">
               {tool.text}
             </span>
           </div>
@@ -172,65 +184,77 @@ export default function HeroSection() {
       ))}
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        {/* Eyebrow */}
-        <div className="hero-eyebrow inline-flex items-center gap-3 bg-brutal-black border-3 border-brutal-yellow px-5 py-2 mb-10"
-             style={{ borderWidth: '3px', boxShadow: '6px 6px 0 0 #FFDE00' }}>
-          <span className="w-2 h-2 bg-brutal-yellow rounded-full animate-pulse" />
-          <span className="text-xs font-bold text-brutal-yellow tracking-[0.2em] uppercase font-mono">
+      <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
+        {/* Eyebrow Badge */}
+        <div 
+          className="hero-eyebrow inline-flex items-center gap-3 bg-brutal-black border-4 border-brutal-yellow px-6 py-3 mb-10"
+          style={{ boxShadow: '8px 8px 0 0 #FFDE00' }}
+        >
+          <span className="w-2.5 h-2.5 bg-brutal-yellow rounded-full animate-pulse" />
+          <span className="text-xs font-bold text-brutal-yellow tracking-[0.15em] uppercase font-mono">
             AI Practitioner Framework · 2026 Edition
           </span>
+          <Sparkles className="w-4 h-4 text-brutal-yellow" />
         </div>
 
         {/* Headline */}
         <h1 
           ref={titleRef}
-          className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight mb-8 text-brutal-black"
+          className="hero-title font-display font-black text-brutal-black mb-8"
         >
           <span className="block">Master</span>
-          <span className="block text-brutal-yellow" style={{ textShadow: '4px 4px 0 #0D0D0D' }}>AI Visual</span>
+          <span 
+            className="block text-brutal-yellow" 
+            style={{ textShadow: '6px 6px 0 #0D0D0D' }}
+          >
+            AI Visual
+          </span>
           <span className="block">Synthesis</span>
         </h1>
 
         {/* Subheadline */}
         <p 
           ref={subtitleRef}
-          className="text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed text-brutal-gray font-medium"
+          className="text-lg md:text-xl max-w-2xl mx-auto mb-14 leading-relaxed text-brutal-gray font-medium"
         >
           From foundational prompts to expert agent orchestration — the 2026 practitioner's complete
           interactive guide to every major AI image generation tool, style, and workflow.
         </p>
 
         {/* CTAs */}
-        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
           <a
+            ref={primaryCtaRef}
             href="#tools"
-            className="brutal-btn text-brutal-black text-lg px-10 py-4"
+            className="brutal-btn brutal-btn-lg text-brutal-black text-lg px-12 py-5"
           >
-            <Zap className="w-5 h-5 mr-2 inline" />
+            <Zap className="w-5 h-5 mr-3" />
             Explore the Guide
+            <ArrowRight className="w-5 h-5 ml-2" />
           </a>
           <a
+            ref={secondaryCtaRef}
             href="#prompts"
-            className="brutal-btn brutal-btn-dark text-lg px-10 py-4"
+            className="brutal-btn brutal-btn-lg brutal-btn-dark text-lg px-12 py-5"
           >
-            Prompt Library →
+            Prompt Library
+            <ArrowRight className="w-5 h-5 ml-2" />
           </a>
         </div>
 
-        {/* Stats row */}
-        <div ref={statsRef} className="flex flex-wrap justify-center gap-6 md:gap-10">
+        {/* Stats Row */}
+        <div ref={statsRef} className="flex flex-wrap justify-center gap-8 md:gap-12">
           {[
             { label: "AI Tools Covered", value: "12+" },
             { label: "Prompt Templates", value: "80+" },
             { label: "Skill Framework Nodes", value: "6" },
             { label: "Free Resources", value: "∞" },
           ].map((stat, i) => (
-            <div key={stat.label} className="stat-item min-w-[100px] text-center">
-              <div className="stat-value text-3xl md:text-4xl font-display font-black text-brutal-black">
+            <div key={stat.label} className="stat-item min-w-[120px] text-center">
+              <div className="stat-value text-4xl md:text-5xl font-display font-black text-brutal-black">
                 {stat.value}
               </div>
-              <div className="text-xs mt-2 font-bold uppercase tracking-wider text-brutal-gray">
+              <div className="text-xs mt-2 font-bold uppercase tracking-wider text-brutal-gray font-mono">
                 {stat.label}
               </div>
             </div>
@@ -238,23 +262,28 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll cue */}
-      <div className="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
-        <span className="text-xs font-bold uppercase tracking-[0.2em] text-brutal-gray">
+      {/* Scroll Cue */}
+      <div className="scroll-cue absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+        <span className="text-xs font-bold uppercase tracking-[0.15em] text-brutal-gray font-mono">
           Scroll to explore
         </span>
-        <div className="w-6 h-10 border-3 border-brutal-black flex justify-center pt-2"
-             style={{ borderWidth: '3px' }}>
-          <div className="w-2 h-2 bg-brutal-yellow animate-bounce" />
+        <div 
+          className="w-7 h-12 border-3 border-brutal-black flex justify-center pt-2"
+          style={{ borderWidth: '3px' }}
+        >
+          <div className="w-2.5 h-2.5 bg-brutal-yellow animate-bounce" />
         </div>
       </div>
 
-      {/* Bottom marquee */}
-      <div className="absolute bottom-0 left-0 right-0 overflow-hidden bg-brutal-black py-3">
+      {/* Bottom Marquee */}
+      <div className="absolute bottom-0 left-0 right-0 overflow-hidden bg-brutal-black py-4 border-t-4 border-brutal-yellow">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="text-sm font-bold uppercase tracking-wider text-brutal-yellow mx-8">
-              {item} •
+            <span 
+              key={i} 
+              className="text-sm font-bold uppercase tracking-wider text-brutal-yellow mx-10 font-display"
+            >
+              {item} <span className="text-brutal-cream/40">✦</span>
             </span>
           ))}
         </div>
@@ -266,7 +295,7 @@ export default function HeroSection() {
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 20s linear infinite;
+          animation: marquee 25s linear infinite;
         }
       `}</style>
     </section>

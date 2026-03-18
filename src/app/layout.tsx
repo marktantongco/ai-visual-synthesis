@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Outfit, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 /* ─── Fonts ──────────────────────────────────────────────────────────── */
 const inter = Inter({
@@ -34,12 +35,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "AI Visual Synthesis Mastery — Complete 2025 Guide to AI Image Generation",
+    default: "AI Visual Synthesis Mastery 2026 | Interactive Prompt Engineering Guide",
     template: "%s | AI Visual Synthesis",
   },
 
   description:
-    "Master AI image generation in 2025. The complete interactive guide to Midjourney, DALL·E 3, Stable Diffusion, Flux.1 — featuring 80+ prompt templates, the 6-layer AI Practitioner Skills Framework, LoRA training, ControlNet techniques, and professional prompt engineering strategies.",
+    "Master AI image generation with Midjourney, DALL·E 3, FLUX, Stable Diffusion, Ideogram, and more. Interactive tools, skill maps, and prompt builder. 12+ AI tools covered with tool-specific prompt formatting.",
 
   keywords: [
     // Primary keywords
@@ -104,9 +105,9 @@ export const metadata: Metadata = {
 
   /* ─── Open Graph ─────────────────────────────────────────────────── */
   openGraph: {
-    title: "AI Visual Synthesis Mastery — Complete 2025 Guide to AI Image Generation",
+    title: "AI Visual Synthesis Mastery 2026",
     description:
-      "Master AI image generation: Midjourney, DALL·E 3, Stable Diffusion, Flux.1. 80+ prompt templates. 6-layer Skills Framework. LoRA, ControlNet & professional techniques.",
+      "Interactive guide to AI image generation. Master prompts for Midjourney, FLUX, DALL·E 3, and 9 more tools. 12+ AI tools with tool-specific formatting.",
     url: BASE_URL,
     siteName: "AI Visual Synthesis",
     type: "website",
@@ -365,6 +366,25 @@ const breadcrumbJsonLd = {
   ],
 };
 
+// LearningResource Schema for AI/GEO Indexing
+const learningResourceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  name: "AI Visual Synthesis Mastery",
+  description: "Interactive prompt engineering guide for AI image generation tools",
+  educationalLevel: "Beginner to Advanced",
+  teaches: ["Prompt Engineering", "AI Image Generation", "Visual Design", "AI Art Creation"],
+  learningResourceType: "Interactive Guide",
+  educationalUse: "Practice",
+  audience: {
+    "@type": "Audience",
+    audienceType: ["Designers", "Developers", "Content Creators", "AI Enthusiasts"],
+  },
+  tool: ["Midjourney", "DALL-E 3", "Stable Diffusion", "FLUX.1", "Ideogram", "FLUX", "Grok", "Gemini", "ChatGPT"],
+  isAccessibleForFree: true,
+  url: BASE_URL,
+};
+
 /* ─── Root Layout ────────────────────────────────────────────────────── */
 export default function RootLayout({
   children,
@@ -402,6 +422,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(learningResourceJsonLd) }}
         />
         
         {/* Preconnect for performance */}
@@ -477,7 +501,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans bg-brutal-cream text-brutal-black antialiased`}
       >
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

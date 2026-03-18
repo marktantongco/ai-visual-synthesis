@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Search, Sparkles, ArrowRight, ChevronRight, Star, ExternalLink, GitBranch, FileText, TrendingUp, Database, Shield, Cloud, Brain, Palette, Code, Zap, Globe, Layers, Target, MessageSquare, Rocket } from "lucide-react";
+import { useParticleSystem, useReducedMotion, use3DTilt } from "@/lib/gsap-animations";
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -174,11 +175,23 @@ export default function KnowledgeGalaxy() {
   const heroRef = useRef<HTMLDivElement>(null);
   const domainGridRef = useRef<HTMLDivElement>(null);
   const quickAccessRef = useRef<HTMLDivElement>(null);
+  const particleContainerRef = useRef<HTMLDivElement>(null);
   const isAnimated = useRef(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  // TIER 3: Particle system for ambient effect
+  useParticleSystem(particleContainerRef, {
+    count: 30,
+    minSize: 2,
+    maxSize: 6,
+    color: "77, 255, 255", // Cyan
+    minOpacity: 0.05,
+    maxOpacity: 0.2,
+  });
 
   // Initialize animations on mount
   useEffect(() => {
-    if (isAnimated.current) return;
+    if (isAnimated.current || prefersReducedMotion) return;
     isAnimated.current = true;
 
     const ctx = gsap.context(() => {
@@ -295,6 +308,14 @@ export default function KnowledgeGalaxy() {
           backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }} />
+        
+        {/* TIER 3: Particle container */}
+        <div
+          ref={particleContainerRef}
+          className="absolute inset-0 overflow-hidden pointer-events-none"
+          aria-hidden="true"
+        />
+        
         <div
           className="floating-bg absolute w-[800px] h-[800px] rounded-full bg-neon-cyan/5 blur-[150px] -top-40 -left-40"
           style={{ transform: `translate(${mousePos.x * 2}px, ${mousePos.y * 2}px)` }}

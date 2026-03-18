@@ -5,23 +5,29 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, Zap, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMagneticEffect, useReducedMotion } from "@/lib/gsap-animations";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
-  { href: "#prompt-builder", label: "Builder" },
+  { href: "#interactive-tools", label: "Builder" },
+  { href: "#compare", label: "Compare" },
   { href: "#tools", label: "Tools" },
-  { href: "#techniques", label: "Techniques" },
+  { href: "#skillmap", label: "Skills" },
   { href: "#prompts", label: "Prompts" },
-  { href: "#gallery", label: "Gallery" },
-  { href: "#roadmap", label: "Roadmap" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("");
+  const [hidden, setHidden] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const logoRef = useMagneticEffect<HTMLAnchorElement>(0.3);
+  const prefersReducedMotion = useReducedMotion();
+  
+  // Track scroll direction for hide/show
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const sections = navLinks.map(link => document.querySelector(link.href));
@@ -45,13 +51,29 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 40);
+      
+      // TIER 2: Hide/show navbar based on scroll direction
+      if (!prefersReducedMotion) {
+        if (currentScrollY > lastScrollY.current && currentScrollY > 200) {
+          setHidden(true);
+        } else {
+          setHidden(false);
+        }
+      }
+      lastScrollY.current = currentScrollY;
+    };
+    
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [prefersReducedMotion]);
 
   // GSAP animations
   useEffect(() => {
+    if (prefersReducedMotion) return;
+    
     const ctx = gsap.context(() => {
       // Initial entrance
       gsap.fromTo(navRef.current, 
@@ -67,7 +89,18 @@ export default function Navbar() {
     }, navRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
+
+  // TIER 2: Animate navbar hide/show
+  useEffect(() => {
+    if (!navRef.current || prefersReducedMotion) return;
+    
+    gsap.to(navRef.current, {
+      y: hidden ? -100 : 0,
+      duration: 0.4,
+      ease: "power3.out",
+    });
+  }, [hidden, prefersReducedMotion]);
 
   return (
     <>
@@ -82,8 +115,9 @@ export default function Navbar() {
         style={{ borderBottomWidth: scrolled ? '3px' : '0px', borderColor: '#0D0D0D' }}
       >
         <div className="max-w-7xl mx-auto px-3 md:px-6 flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - TIER 2: Magnetic Effect */}
           <a
+            ref={logoRef}
             href="#"
             className="flex items-center gap-2 group"
           >
@@ -99,17 +133,19 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-0">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                title={link.label}
-                className="nav-link-item px-4 py-3 text-sm font-bold uppercase tracking-wider text-brutal-black hover:text-brutal-yellow hover:bg-brutal-black transition-all duration-150 border-2 border-transparent hover:border-brutal-yellow mx-1 min-h-[44px] flex items-center"
-                style={{ borderWidth: '2px', borderColor: 'transparent' }}
-              >
-                {link.label}
-              </a>
+              <NavLink key={link.href} href={link.href} label={link.label} isActive={active === link.href} />
             ))}
           </nav>
+
+          {/* Sticky CTA - Desktop */}
+          <a
+            href="#interactive-tools"
+            className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-brutal-yellow text-brutal-black font-bold text-xs uppercase tracking-wider border-3 border-brutal-black transition-all hover:bg-brutal-yellow-light"
+            style={{ boxShadow: '4px 4px 0 0 #0D0D0D', borderWidth: '3px' }}
+          >
+            <Sparkles className="w-4 h-4" />
+            Generate Prompt
+          </a>
 
           {/* Mobile Menu Button */}
           <button
@@ -152,5 +188,65 @@ export default function Navbar() {
         </div>
       )}
     </>
+  );
+}
+
+// TIER 2: Individual nav link with hover animation
+function NavLink({ href, label, isActive }: { href: string; label: string; isActive: boolean }) {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const underlineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!linkRef.current || !underlineRef.current) return;
+
+    const link = linkRef.current;
+    const underline = underlineRef.current;
+
+    const handleEnter = () => {
+      gsap.to(underline, {
+        scaleX: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    };
+
+    const handleLeave = () => {
+      if (!isActive) {
+        gsap.to(underline, {
+          scaleX: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
+    };
+
+    link.addEventListener("mouseenter", handleEnter);
+    link.addEventListener("mouseleave", handleLeave);
+
+    // Set initial state for active link
+    gsap.set(underline, { scaleX: isActive ? 1 : 0 });
+
+    return () => {
+      link.removeEventListener("mouseenter", handleEnter);
+      link.removeEventListener("mouseleave", handleLeave);
+    };
+  }, [isActive]);
+
+  return (
+    <a
+      ref={linkRef}
+      href={href}
+      title={label}
+      className="nav-link-item relative px-4 py-3 text-sm font-bold uppercase tracking-wider text-brutal-black hover:text-brutal-yellow hover:bg-brutal-black transition-all duration-150 border-2 border-transparent hover:border-brutal-yellow mx-1 min-h-[44px] flex items-center"
+      style={{ borderWidth: '2px', borderColor: isActive ? '#FFDE00' : 'transparent' }}
+    >
+      {label}
+      {/* Animated underline */}
+      <div
+        ref={underlineRef}
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-brutal-yellow origin-left"
+        style={{ transform: "scaleX(0)" }}
+      />
+    </a>
   );
 }

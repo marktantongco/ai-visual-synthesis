@@ -523,6 +523,290 @@ export function refreshScrollTriggers() {
   ScrollTrigger.refresh();
 }
 
+/* ─────────────────────────────────────────────
+   TIER 2: Magnetic Effect Hook
+   Cursor-following magnetic pull for buttons
+───────────────────────────────────────────── */
+
+export function useMagneticEffect<T extends HTMLElement = HTMLButtonElement>(
+  strength: number = 0.3
+) {
+  const ref = useRef<T>(null);
+  const isReady = useGSAPReady();
+
+  useEffect(() => {
+    if (!ref.current || !isReady) return;
+
+    const element = ref.current;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      gsap.to(element, {
+        x: x * strength,
+        y: y * strength,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(element, {
+        x: 0,
+        y: 0,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.3)"
+      });
+    };
+
+    element.addEventListener("mousemove", handleMouseMove);
+    element.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [isReady, strength]);
+
+  return ref;
+}
+
+/* ─────────────────────────────────────────────
+   TIER 2: 3D Tilt Effect Hook
+   Perspective transform for cards
+───────────────────────────────────────────── */
+
+export function use3DTilt<T extends HTMLElement = HTMLDivElement>(
+  maxTilt: number = 10
+) {
+  const ref = useRef<T>(null);
+  const isReady = useGSAPReady();
+
+  useEffect(() => {
+    if (!ref.current || !isReady) return;
+
+    const element = ref.current;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = element.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      const tiltX = (y - 0.5) * maxTilt;
+      const tiltY = (x - 0.5) * -maxTilt;
+
+      gsap.to(element, {
+        rotateX: tiltX,
+        rotateY: tiltY,
+        transformPerspective: 1000,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(element, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+    };
+
+    element.addEventListener("mousemove", handleMouseMove);
+    element.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [isReady, maxTilt]);
+
+  return ref;
+}
+
+/* ─────────────────────────────────────────────
+   TIER 3: Particle System Generator
+   Creates generative floating particles
+───────────────────────────────────────────── */
+
+export function useParticleSystem(
+  containerRef: React.RefObject<HTMLElement | null>,
+  options: {
+    count?: number;
+    minSize?: number;
+    maxSize?: number;
+    color?: string;
+    minOpacity?: number;
+    maxOpacity?: number;
+  } = {}
+) {
+  const {
+    count = 25,
+    minSize = 4,
+    maxSize = 12,
+    color = "255, 222, 0",
+    minOpacity = 0.1,
+    maxOpacity = 0.4
+  } = options;
+
+  const isReady = useGSAPReady();
+  const particlesRef = useRef<HTMLElement[]>([]);
+
+  useEffect(() => {
+    if (!containerRef.current || !isReady) return;
+
+    const container = containerRef.current;
+
+    // Create particles
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement("div");
+      const size = minSize + Math.random() * (maxSize - minSize);
+      const opacity = minOpacity + Math.random() * (maxOpacity - minOpacity);
+
+      particle.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        background: rgba(${color}, ${opacity});
+        border-radius: 50%;
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        pointer-events: none;
+      `;
+      container.appendChild(particle);
+      particlesRef.current.push(particle);
+
+      // Animate particle
+      gsap.to(particle, {
+        x: `random(-100, 100)`,
+        y: `random(-100, 100)`,
+        opacity: `random(${minOpacity}, ${maxOpacity})`,
+        duration: 3 + Math.random() * 5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        repeatRefresh: true
+      });
+    }
+
+    return () => {
+      particlesRef.current.forEach(p => p.remove());
+      particlesRef.current = [];
+    };
+  }, [containerRef, isReady, count, minSize, maxSize, color, minOpacity, maxOpacity]);
+
+  return particlesRef;
+}
+
+/* ─────────────────────────────────────────────
+   TIER 2: Scroll Chapter Hook
+   Pinned section with scrubbed timeline
+───────────────────────────────────────────── */
+
+export function useScrollChapter<T extends HTMLElement = HTMLElement>(
+  options: {
+    pinDuration?: string;
+    snapPoints?: number[];
+    onProgress?: (progress: number) => void;
+  } = {}
+) {
+  const { pinDuration = "150%", snapPoints = [0, 0.5, 1], onProgress } = options;
+  const ref = useRef<T>(null);
+  const isReady = useGSAPReady();
+
+  useEffect(() => {
+    if (!ref.current || !isReady) return;
+
+    const element = ref.current;
+
+    const st = ScrollTrigger.create({
+      trigger: element,
+      start: "top top",
+      end: `+=${pinDuration}`,
+      pin: true,
+      scrub: 1,
+      snap: snapPoints.length > 0 ? {
+        snapTo: snapPoints,
+        duration: 0.5,
+        ease: "power2.inOut"
+      } : undefined,
+      onUpdate: (self) => onProgress?.(self.progress)
+    });
+
+    return () => st.kill();
+  }, [isReady, pinDuration, snapPoints, onProgress]);
+
+  return ref;
+}
+
+/* ─────────────────────────────────────────────
+   TIER 1: Reduced Motion Check Hook
+   Returns true if user prefers reduced motion
+───────────────────────────────────────────── */
+
+export function useReducedMotion(): boolean {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
+/* ─────────────────────────────────────────────
+   TIER 2: Multi-layer Parallax Hook
+   Creates depth effect with multiple scroll speeds
+───────────────────────────────────────────── */
+
+export function useMultiLayerParallax<T extends HTMLElement = HTMLElement>(
+  layers: { selector: string; speed: number }[]
+) {
+  const ref = useRef<T>(null);
+  const isReady = useGSAPReady();
+
+  useEffect(() => {
+    if (!ref.current || !isReady) return;
+
+    const container = ref.current;
+    const triggers: ScrollTrigger[] = [];
+
+    layers.forEach(({ selector, speed }) => {
+      const elements = container.querySelectorAll(selector);
+
+      elements.forEach(el => {
+        const st = ScrollTrigger.create({
+          trigger: container,
+          start: "top top",
+          end: "bottom top",
+          scrub: speed,
+          animation: gsap.to(el, {
+            yPercent: speed * 50,
+            ease: "none"
+          })
+        });
+
+        triggers.push(st);
+      });
+    });
+
+    return () => triggers.forEach(st => st.kill());
+  }, [isReady, layers]);
+
+  return ref;
+}
+
 export default {
   useGSAPReady,
   useFadeInOnScroll,
@@ -537,4 +821,13 @@ export default {
   cleanupScrollTriggers,
   refreshScrollTriggers,
   ANIMATION_CONFIG,
+  // Tier 2 additions
+  useMagneticEffect,
+  use3DTilt,
+  useScrollChapter,
+  useMultiLayerParallax,
+  // Tier 3 additions
+  useParticleSystem,
+  // Tier 1 utility
+  useReducedMotion,
 };
