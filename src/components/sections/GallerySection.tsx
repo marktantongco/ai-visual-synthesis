@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { FadeIn, NeonTag } from "@/components/ui/primitives";
+import { Zap } from "lucide-react";
 
 // Gallery items — using gradient placeholders with unique patterns
 const gallery = [
@@ -224,17 +225,23 @@ export default function GallerySection() {
   }, [filter]);
 
   return (
-    <section id="gallery" className="section scroll-mt-20" aria-labelledby="gallery-heading">
+    <section id="gallery" className="section scroll-mt-20 py-16 px-4 bg-brutal-black" aria-labelledby="gallery-heading">
       <FadeIn>
         <div className="text-center mb-12">
-          <NeonTag color="pink">Gallery</NeonTag>
+          <div className="inline-flex items-center gap-3 bg-brutal-yellow border-4 border-brutal-black px-6 py-3 mb-6"
+            style={{ boxShadow: "8px 8px 0 0 #0D0D0D" }}>
+            <Zap className="w-5 h-5 text-brutal-black" />
+            <span className="text-xs font-bold text-brutal-black tracking-[0.15em] uppercase font-mono">
+              Gallery
+            </span>
+          </div>
           <h2
             id="gallery-heading"
-            className="font-display font-black text-4xl sm:text-5xl md:text-6xl mt-4 mb-4 tracking-tight"
+            className="font-display font-black text-4xl sm:text-5xl md:text-6xl mt-4 mb-4 tracking-tight text-brutal-cream"
           >
-            Style <span className="gradient-text-fire">Showcase</span>
+            Style <span className="text-brutal-yellow">Showcase</span>
           </h2>
-          <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-brutal-gray text-lg max-w-2xl mx-auto leading-relaxed">
             Visual examples of what each tool produces across different styles
             and subjects.
           </p>
@@ -249,11 +256,12 @@ export default function GallerySection() {
               key={f}
               ref={(el) => { filterButtonRefs.current[index] = el; }}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all border ${
+              className={`px-4 py-2 text-sm font-semibold transition-all border-2 ${
                 filter === f
-                  ? "bg-neon-pink text-white border-neon-pink"
-                  : "glass border-white/10 text-white/60 hover:text-white"
+                  ? "bg-brutal-yellow text-brutal-black border-brutal-black"
+                  : "bg-brutal-black-light border-brutal-gray/30 text-brutal-cream hover:border-brutal-yellow"
               }`}
+              style={{ boxShadow: filter === f ? "4px 4px 0 0 #0D0D0D" : "none" }}
             >
               {f}
             </button>
@@ -270,7 +278,7 @@ export default function GallerySection() {
         {filtered.map((item, i) => (
           <div
             key={item.id}
-            className={`gallery-item relative rounded-2xl overflow-hidden cursor-pointer group ${item.bentoClass}`}
+            className={`gallery-item relative overflow-hidden cursor-pointer group ${item.bentoClass}`}
             onMouseEnter={() => setHoveredId(item.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
@@ -282,24 +290,24 @@ export default function GallerySection() {
 
             {/* Overlay on hover */}
             <div
-              className="absolute inset-0 bg-dark-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center transition-opacity duration-200"
+              className="absolute inset-0 bg-brutal-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center transition-opacity duration-200"
               style={{ opacity: hoveredId === item.id ? 1 : 0 }}
             >
-              <h3 className="font-display font-bold text-lg text-white mb-1">
+              <h3 className="font-display font-bold text-lg text-brutal-cream mb-1">
                 {item.title}
               </h3>
-              <p className="text-sm text-neon-cyan font-medium">
+              <p className="text-sm text-brutal-yellow font-medium">
                 {item.tool}
               </p>
-              <span className="mt-2 text-xs text-white/50 px-3 py-1 glass rounded-full border border-white/10">
+              <span className="mt-2 text-xs text-brutal-cream px-3 py-1 border border-brutal-yellow/30 bg-brutal-black-light">
                 {item.style}
               </span>
             </div>
 
             {/* Label always visible */}
             <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-0">
-              <div className="glass rounded-lg px-3 py-1.5 inline-flex items-center gap-2">
-                <span className="text-xs font-medium text-white/70">
+              <div className="bg-brutal-black-light border border-brutal-gray/30 px-3 py-1.5 inline-flex items-center gap-2">
+                <span className="text-xs font-medium text-brutal-cream">
                   {item.title}
                 </span>
               </div>
@@ -307,7 +315,7 @@ export default function GallerySection() {
 
             {/* Tool badge */}
             <div className="absolute top-3 right-3">
-              <div className="glass rounded-full px-2.5 py-1 text-xs font-semibold text-white/70 border border-white/10">
+              <div className="bg-brutal-black-light border border-brutal-gray/30 px-2.5 py-1 text-xs font-semibold text-brutal-cream">
                 {item.tool.split(" ")[0]}
               </div>
             </div>

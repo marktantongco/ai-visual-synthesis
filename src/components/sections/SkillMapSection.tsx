@@ -148,7 +148,7 @@ export default function SkillMapSection() {
   return (
     <section
       id="skillmap"
-      className="section scroll-mt-20"
+      className="section scroll-mt-20 py-16 px-4 bg-brutal-black"
       aria-labelledby="skillmap-heading"
     >
       <script
@@ -157,15 +157,21 @@ export default function SkillMapSection() {
       />
       <FadeIn>
         <div className="text-center mb-12">
-          <NeonTag color="cyan">2026 Framework</NeonTag>
+          <div className="inline-flex items-center gap-3 bg-brutal-yellow border-4 border-brutal-black px-6 py-3 mb-6"
+            style={{ boxShadow: "8px 8px 0 0 #0D0D0D" }}>
+            <Zap className="w-5 h-5 text-brutal-black" />
+            <span className="text-xs font-bold text-brutal-black tracking-[0.15em] uppercase font-mono">
+              2026 Framework
+            </span>
+          </div>
           <h2
             id="skillmap-heading"
-            className="font-display font-black text-4xl sm:text-5xl md:text-6xl mt-4 mb-4 tracking-tight"
+            className="font-display font-black text-4xl sm:text-5xl md:text-6xl mt-4 mb-4 tracking-tight text-brutal-cream"
           >
             AI Practitioner{" "}
-            <span className="gradient-text-powerup">Skill Map</span>
+            <span className="text-brutal-yellow">Skill Map</span>
           </h2>
-          <p className="text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: "var(--pu-secondary)" }}>
+          <p className="text-lg max-w-2xl mx-auto leading-relaxed text-brutal-gray">
             The 6-layer competency framework from the 2026 AI Practitioner Skills Framework.
             Click any node to explore its skills, tools, and connections.
           </p>
@@ -174,18 +180,18 @@ export default function SkillMapSection() {
 
       {/* Layer legend */}
       <FadeIn delay={0.1}>
-        <div className="flex flex-wrap justify-center gap-3 mb-10 p-4 rounded-xl bg-white/5 border border-white/10">
+        <div className="flex flex-wrap justify-center gap-3 mb-10 p-4 bg-brutal-black-light border-2 border-brutal-yellow/30">
           {Object.entries(layerColors).map(([layer, color]) => (
             <div
               key={layer}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-brutal-gray/30 bg-brutal-black-light"
               title={`${layer} skills in the framework`}
             >
               <span
-                className="w-3 h-3 rounded-full"
+                className="w-3 h-3"
                 style={{ background: color, boxShadow: `0 0 6px ${color}` }}
               />
-              <span className="text-sm font-semibold text-white/80">{layer}</span>
+              <span className="text-sm font-semibold text-brutal-cream">{layer}</span>
             </div>
           ))}
         </div>
@@ -205,14 +211,13 @@ export default function SkillMapSection() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setActiveNode(isActive ? null : node.id)}
-                className={`skill-node relative rounded-2xl p-5 border cursor-pointer ${
-                  isActive ? "border-opacity-80" : "border-white/8"
+                className={`skill-node relative p-5 border-2 cursor-pointer ${
+                  isActive ? "border-brutal-yellow" : "border-brutal-gray/30"
                 }`}
                 style={{
                   background: isActive
                     ? `linear-gradient(135deg, ${node.color}18, ${node.color}08)`
-                    : "rgba(255,255,255,0.03)",
-                  borderColor: isActive ? node.color + "80" : "rgba(255,255,255,0.08)",
+                    : "rgba(26,26,26,0.8)",
                   boxShadow: isActive ? `0 0 40px ${node.color}25` : "none",
                 }}
                 role="button"
@@ -222,13 +227,13 @@ export default function SkillMapSection() {
                 {/* Category badge */}
                 <div className="flex items-start justify-between mb-3">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center"
+                    className="w-12 h-12 flex items-center justify-center"
                     style={{ background: node.color + "25" }}
                   >
                     <Icon className="w-6 h-6" style={{ color: node.color }} />
                   </div>
                   <span
-                    className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                    className="text-xs font-bold uppercase tracking-widest px-3 py-1"
                     style={{
                       background: layerColors[node.level] + "25",
                       color: layerColors[node.level],
@@ -244,7 +249,7 @@ export default function SkillMapSection() {
                 >
                   SKILL {node.category} / 6
                 </div>
-                <h3 className="font-display font-bold text-lg text-white mb-3 leading-tight">
+                <h3 className="font-display font-bold text-lg text-brutal-cream mb-3 leading-tight">
                   {node.title}
                 </h3>
 
@@ -253,7 +258,7 @@ export default function SkillMapSection() {
                   {node.platforms.slice(0, 3).map((p) => (
                     <span
                       key={p}
-                      className="text-xs px-2.5 py-1 rounded-full border border-white/20 text-white/60 bg-white/5"
+                      className="text-xs px-2.5 py-1 border border-brutal-gray/30 text-brutal-gray bg-brutal-black-light"
                     >
                       {p}
                     </span>
@@ -286,10 +291,9 @@ export default function SkillMapSection() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 1, y: 8, scale: 0.99 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl border p-6 md:p-8"
+            className="p-6 md:p-8 border-2 border-brutal-yellow"
             style={{
-              background: `linear-gradient(135deg, ${active.color}10, rgba(255,255,255,0.02))`,
-              borderColor: active.color + "40",
+              background: `linear-gradient(135deg, ${active.color}10, rgba(26,26,26,0.95))`,
             }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -297,7 +301,7 @@ export default function SkillMapSection() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+                    className="w-12 h-12 flex items-center justify-center shrink-0"
                     style={{ background: active.color + "25" }}
                   >
                     <active.icon className="w-6 h-6" style={{ color: active.color }} />
@@ -309,18 +313,18 @@ export default function SkillMapSection() {
                     >
                       Skill {active.category} of 6 · {active.level}
                     </div>
-                    <h3 className="font-display font-bold text-xl text-white">
+                    <h3 className="font-display font-bold text-xl text-brutal-cream">
                       {active.title}
                     </h3>
                   </div>
                 </div>
-                <p className="text-base leading-relaxed mb-6" style={{ color: "var(--pu-secondary)" }}>
+                <p className="text-base leading-relaxed mb-6 text-brutal-gray">
                   {active.description}
                 </p>
 
                 {/* Synergy map */}
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-white/30 mb-2">
+                  <div className="text-xs font-bold uppercase tracking-widest text-brutal-gray mb-2">
                     Connects To
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -331,7 +335,7 @@ export default function SkillMapSection() {
                         <button
                           key={cid}
                           onClick={() => setActiveNode(cid)}
-                          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border transition-all hover:scale-105"
+                          className="flex items-center gap-1.5 text-xs px-3 py-1.5 border transition-all hover:scale-105"
                           style={{
                             borderColor: cn.color + "50",
                             color: cn.color,
@@ -350,7 +354,7 @@ export default function SkillMapSection() {
               {/* Right: skills + platforms */}
               <div className="space-y-6">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-3">
+                  <div className="text-xs font-bold uppercase tracking-widest text-brutal-cream mb-3">
                     Key Skills
                   </div>
                   <ul className="space-y-2">
@@ -360,10 +364,10 @@ export default function SkillMapSection() {
                         initial={{ opacity: 1, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.06 }}
-                        className="flex items-center gap-2 text-base text-white/80"
+                        className="flex items-center gap-2 text-base text-brutal-cream"
                       >
                         <span
-                          className="w-2 h-2 rounded-full shrink-0"
+                          className="w-2 h-2 shrink-0"
                           style={{ background: active.color }}
                         />
                         {skill}
@@ -373,14 +377,14 @@ export default function SkillMapSection() {
                 </div>
 
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-white/50 mb-3">
+                  <div className="text-xs font-bold uppercase tracking-widest text-brutal-cream mb-3">
                     Compatible Platforms
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {active.platforms.map((p) => (
                       <span
                         key={p}
-                        className="text-sm px-3 py-1.5 rounded-lg border border-white/15 text-white/70 font-mono bg-white/5"
+                        className="text-sm px-3 py-1.5 border border-brutal-gray/30 text-brutal-gray font-mono bg-brutal-black-light"
                       >
                         {p}
                       </span>
@@ -390,7 +394,7 @@ export default function SkillMapSection() {
 
                 {/* Skill synergy score */}
                 <div
-                  className="rounded-xl p-4 flex items-center gap-4"
+                  className="p-4 flex items-center gap-4"
                   style={{ background: active.color + "12" }}
                 >
                   <div
@@ -400,10 +404,10 @@ export default function SkillMapSection() {
                     {active.id}/6
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white/50 uppercase tracking-wider">
+                    <div className="text-xs font-bold text-brutal-cream uppercase tracking-wider">
                       Framework Position
                     </div>
-                    <div className="text-sm text-white/70 mt-0.5">
+                    <div className="text-sm text-brutal-gray mt-0.5">
                       {active.level} layer — master this to unlock the next tier
                     </div>
                   </div>
@@ -416,24 +420,24 @@ export default function SkillMapSection() {
 
       {/* Skill synergy map visual */}
       <FadeIn delay={0.3}>
-        <div className="mt-10 glass rounded-2xl border border-white/5 p-6 text-center">
-          <div className="text-xs font-mono text-white/30 mb-2 uppercase tracking-widest">Synergy Flow</div>
+        <div className="mt-10 p-6 text-center border-2 border-brutal-gray/30 bg-brutal-black-light">
+          <div className="text-xs font-mono text-brutal-gray mb-2 uppercase tracking-widest">Synergy Flow</div>
           <div className="flex items-center justify-center flex-wrap gap-2 text-xs font-medium">
             {["Foundation", "→", "Consistency Layer", "→", "Refinement Layer", "→", "Orchestration Layer"].map((item, i) => (
               <span
                 key={i}
-                className={item === "→" ? "" : "px-3 py-1 rounded-full border"}
+                className={item === "→" ? "" : "px-3 py-1 border"}
                 style={{
-                  color: item === "→" ? "rgba(255,255,255,0.2)" : (layerColors[item] ?? "white"),
-                  borderColor: item !== "→" && layerColors[item] ? layerColors[item] + "40" : undefined,
-                  background: item !== "→" && layerColors[item] ? layerColors[item] + "15" : undefined,
+                  color: item === "→" ? "rgba(255,255,255,0.2)" : (layerColors[item] ?? "#FFDE00"),
+                  borderColor: item !== "→" && layerColors[item] ? layerColors[item] + "40" : "#FFDE00",
+                  background: item !== "→" && layerColors[item] ? layerColors[item] + "15" : "transparent",
                 }}
               >
                 {item}
               </span>
             ))}
           </div>
-          <p className="text-xs mt-3" style={{ color: "var(--pu-muted)" }}>
+          <p className="text-xs mt-3 text-brutal-gray">
             Skills compound. Foundational prompting → Consistency → Hybrid Workflows → Scalable Agent Orchestration.
           </p>
         </div>

@@ -41,10 +41,10 @@
   --brutal-green: #00FF87;
   
   /* Gray Scale */
-  --brutal-gray: #666666;
-  --brutal-gray-light: #999999;
+  --brutal-gray: #555555;
+  --brutal-gray-light: #777777;
   --brutal-gray-dark: #333333;
-  --brutal-gray-muted: #888888;
+  --brutal-gray-muted: #666666;
   
   /* Semantic Colors */
   --bg-primary: #F5F5F0;

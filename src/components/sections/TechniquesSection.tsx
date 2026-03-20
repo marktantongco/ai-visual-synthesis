@@ -3,11 +3,10 @@
 import { motion } from "framer-motion";
 import {
   FadeIn,
-  GlassCard,
   NeonTag,
   AnimatedCounter,
 } from "@/components/ui/primitives";
-import { TrendingUp, Users, Star, Globe } from "lucide-react";
+import { TrendingUp, Users, Star, Globe, Zap } from "lucide-react";
 
 const techniques = [
   {
@@ -113,20 +112,20 @@ export default function TechniquesSection() {
   return (
     <section
       id="techniques"
-      className="relative scroll-mt-20"
+      className="relative scroll-mt-20 py-16 px-4 bg-brutal-black"
       aria-labelledby="techniques-heading"
     >
       {/* Stats banner */}
-      <div className="bg-dark-800 border-y border-white/5 py-12 px-4">
+      <div className="bg-brutal-black-light border-y-4 border-brutal-yellow py-12 px-4 mb-12">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {stats.map((stat, i) => (
               <FadeIn key={stat.label} delay={i * 0.1}>
                 <div className="space-y-1">
-                  <div className="font-display font-black text-3xl md:text-4xl text-neon-cyan">
+                  <div className="font-display font-black text-3xl md:text-4xl text-brutal-yellow">
                     <AnimatedCounter to={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-xs text-white/40 font-medium uppercase tracking-wider">
+                  <div className="text-xs text-brutal-gray font-medium uppercase tracking-wider">
                     {stat.label}
                   </div>
                 </div>
@@ -137,20 +136,26 @@ export default function TechniquesSection() {
       </div>
 
       {/* Main content */}
-      <div className="section">
+      <div className="max-w-6xl mx-auto">
         <FadeIn>
           <div className="text-center mb-16">
-            <NeonTag color="green">Techniques</NeonTag>
+            <div className="inline-flex items-center gap-3 bg-brutal-yellow border-4 border-brutal-black px-6 py-3 mb-6"
+              style={{ boxShadow: "8px 8px 0 0 #0D0D0D" }}>
+              <Zap className="w-5 h-5 text-brutal-black" />
+              <span className="text-xs font-bold text-brutal-black tracking-[0.15em] uppercase font-mono">
+                Techniques
+              </span>
+            </div>
             <h2
               id="techniques-heading"
-              className="font-display font-black text-4xl sm:text-5xl md:text-6xl mt-4 mb-4 tracking-tight"
+              className="font-display font-black text-4xl sm:text-5xl md:text-6xl mt-4 mb-4 tracking-tight text-brutal-cream"
             >
               Six Techniques That{" "}
-              <span className="gradient-text-fire">Separate Pros</span>
+              <span className="text-brutal-yellow">Separate Pros</span>
               <br />
               From Beginners
             </h2>
-            <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-brutal-gray text-lg max-w-2xl mx-auto leading-relaxed">
               These are the techniques that experienced AI artists use every day
               — and rarely teach for free.
             </p>
@@ -163,13 +168,13 @@ export default function TechniquesSection() {
               <motion.div
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="glass rounded-2xl p-6 border border-white/5 hover:border-white/10 transition-all group h-full flex flex-col"
+                className="p-6 border-2 border-brutal-gray/30 bg-brutal-black-light hover:border-brutal-yellow transition-all group h-full flex flex-col"
               >
                 {/* Number + icon */}
                 <div className="flex items-start gap-4 mb-4">
                   <div
-                    className="text-3xl w-12 h-12 glass rounded-xl flex items-center justify-center border shrink-0"
-                    style={{ borderColor: tech.color + "30" }}
+                    className="text-3xl w-12 h-12 flex items-center justify-center shrink-0"
+                    style={{ background: tech.color + "20" }}
                   >
                     {tech.icon}
                   </div>
@@ -180,29 +185,29 @@ export default function TechniquesSection() {
                     >
                       Step {tech.number}
                     </div>
-                    <h3 className="font-display font-bold text-xl text-white">
+                    <h3 className="font-display font-bold text-xl text-brutal-cream">
                       {tech.title}
                     </h3>
                   </div>
                 </div>
 
-                <p className="text-white/55 text-sm leading-relaxed mb-5 flex-1">
+                <p className="text-brutal-gray text-sm leading-relaxed mb-5 flex-1">
                   {tech.description}
                 </p>
 
                 {/* Example list */}
-                <div className="glass rounded-xl p-4 border border-white/5">
-                  <div className="text-xs font-bold text-white/30 uppercase tracking-wider mb-3">
+                <div className="p-4 border-2 border-brutal-gray/30 bg-brutal-black">
+                  <div className="text-xs font-bold text-brutal-cream uppercase tracking-wider mb-3">
                     Examples
                   </div>
                   <ul className="space-y-1.5">
                     {tech.examples.map((ex) => (
                       <li
                         key={ex}
-                        className="flex items-center gap-2 text-xs text-white/50 font-mono"
+                        className="flex items-center gap-2 text-xs text-brutal-gray font-mono"
                       >
                         <span
-                          className="w-1 h-1 rounded-full shrink-0"
+                          className="w-1.5 h-1.5 shrink-0"
                           style={{ background: tech.color }}
                         />
                         {ex}

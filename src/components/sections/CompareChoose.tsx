@@ -358,10 +358,10 @@ export default function CompareChoose() {
                       background: isSelected ? "#0D0D0D" : "transparent"
                     }}
                   />
-                  <span className="text-[10px] font-mono uppercase">{tool.type}</span>
+                  <span className="text-[10px] font-mono uppercase text-brutal-gray">{tool.type}</span>
                 </div>
-                <h4 className="font-bold text-sm">{tool.name}</h4>
-                <p className="text-[10px] mt-1 opacity-70">{tool.pricing}</p>
+                <h4 className="font-bold text-sm text-brutal-black">{tool.name}</h4>
+                <p className="text-[10px] mt-1 text-brutal-gray">{tool.pricing}</p>
               </button>
             );
           })}
