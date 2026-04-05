@@ -45,6 +45,14 @@ module.exports = {
           cyanLight: "#66FAFF",
           cyanDark: "#00C4CC",
           
+          purple: "#BF00FF",
+          purpleLight: "#D066FF",
+          purpleDark: "#9900CC",
+          
+          green: "#00FF87",
+          greenLight: "#66FFB3",
+          greenDark: "#00CC6B",
+          
           // Gray Scale
           gray: "#666666",
           grayLight: "#999999",

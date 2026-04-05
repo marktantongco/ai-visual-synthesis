@@ -45,9 +45,9 @@ function CopyPill({ text, label }: { text: string; label?: string }) {
       whileTap={{ scale: 0.94 }}
       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition-colors"
       style={{
-        background: done ? "rgba(0,255,135,0.08)" : "rgba(255,255,255,0.04)",
-        borderColor: done ? "#00FF87" : "rgba(255,255,255,0.1)",
-        color: done ? "#00FF87" : "rgba(255,255,255,0.55)",
+        background: done ? "rgba(0,255,135,0.15)" : "rgba(255,222,0,0.1)",
+        borderColor: done ? "#00FF87" : "#FFDE00",
+        color: done ? "#00FF87" : "#FFDE00",
       }}
     >
       {done
@@ -125,23 +125,23 @@ function NodeCard({
               </span>
               {item.section !== undefined && (
                 <>
-                  <span className="text-[9px] text-white/15">·</span>
-                  <span className="text-[9px] text-white/30 font-mono">§{item.section}</span>
+                  <span className="text-[9px] text-brutal-gray/50">·</span>
+                  <span className="text-[9px] text-brutal-gray font-mono">§{item.section}</span>
                 </>
               )}
-              <span className="text-[9px] text-white/15">·</span>
-              <span className="text-[9px] text-white/35 uppercase tracking-wide font-medium">
+              <span className="text-[9px] text-brutal-gray/50">·</span>
+              <span className="text-[9px] text-brutal-gray uppercase tracking-wide font-medium">
                 {item.category}
               </span>
             </div>
 
             {/* Title */}
-            <h3 className="font-display font-bold text-[13px] sm:text-sm text-white leading-snug">
+            <h3 className="font-display font-bold text-[13px] sm:text-sm text-brutal-cream leading-snug">
               {item.title}
             </h3>
 
             {/* Subtitle */}
-            <p className="text-[11px] text-white/38 mt-0.5 leading-relaxed line-clamp-1">
+            <p className="text-[11px] text-brutal-gray mt-0.5 leading-relaxed line-clamp-1">
               {item.subtitle}
             </p>
           </div>
@@ -152,7 +152,7 @@ function NodeCard({
               "w-4 h-4 shrink-0 mt-2 transition-all duration-200",
               isActive ? "rotate-90" : "group-hover:translate-x-0.5"
             )}
-            style={{ color: isActive ? item.color : "rgba(255,255,255,0.2)" }}
+            style={{ color: isActive ? item.color : "#888888" }}
           />
         </div>
 
@@ -418,8 +418,8 @@ function WikiPanel({ item, onClose }: { item: SearchItem; onClose: () => void })
 function PowerCombosBar({ onSearch }: { onSearch: (q: string) => void }) {
   return (
     <div className="mb-6">
-      <div className="text-[9px] font-mono text-white/22 uppercase tracking-widest mb-2.5 flex items-center gap-2">
-        <Zap className="w-3 h-3" />
+      <div className="text-[10px] font-mono text-brutal-cream uppercase tracking-widest mb-2.5 flex items-center gap-2">
+        <Zap className="w-3 h-3 text-brutal-yellow" />
         Power Combos — click to try
       </div>
       <div className="flex flex-wrap gap-2">
@@ -429,10 +429,10 @@ function PowerCombosBar({ onSearch }: { onSearch: (q: string) => void }) {
             onClick={() => onSearch(combo.goal.split(" ").slice(-1)[0])}
             className="group flex items-center gap-2 px-3 py-2 rounded-xl border border-white/[0.07] hover:border-white/20 bg-white/[0.02] hover:bg-white/[0.05] transition-all text-left"
           >
-            <span className="text-[10px] text-white/50 group-hover:text-white/80 transition-colors leading-tight">
+            <span className="text-[10px] text-brutal-gray group-hover:text-brutal-cream transition-colors leading-tight">
               {combo.goal}
             </span>
-            <span className="text-[10px] font-mono text-white/25 shrink-0">{combo.chain}</span>
+            <span className="text-[10px] font-mono text-brutal-yellow shrink-0">{combo.chain}</span>
           </button>
         ))}
       </div>
@@ -499,7 +499,7 @@ export default function SearchSection() {
             Search{" "}
             <span className="gradient-text-powerup">Prompts, Modes & Frameworks</span>
           </h2>
-          <p className="text-base sm:text-lg max-w-xl mx-auto leading-relaxed" style={{ color: "var(--pu-secondary)" }}>
+          <p className="text-base sm:text-lg max-w-xl mx-auto leading-relaxed text-brutal-gray">
             {allSearchItems.length} entries from{" "}
             <a
               href="https://github.com/marktantongco/promptc"
@@ -557,8 +557,8 @@ export default function SearchSection() {
               className={cn(
                 "px-2.5 py-1 rounded-full text-[11px] font-bold border transition-all hover:scale-105",
                 query === tag
-                  ? "bg-neon-cyan text-[#050508] border-neon-cyan"
-                  : "glass border-white/[0.08] text-white/38 hover:text-white hover:border-white/22"
+                  ? "bg-brutal-yellow text-brutal-black border-brutal-yellow"
+                  : "bg-brutal-black-light border-brutal-gray/30 text-brutal-cream hover:text-brutal-yellow hover:border-brutal-yellow"
               )}
             >
               #{tag}
@@ -580,8 +580,8 @@ export default function SearchSection() {
                 className={cn(
                   "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border transition-all",
                   isActive
-                    ? "bg-neon-cyan text-[#050508] border-neon-cyan shadow-[0_0_20px_rgba(77,255,255,0.3)]"
-                    : "glass border-white/[0.08] text-white/42 hover:text-white hover:border-white/20"
+                    ? "bg-brutal-yellow text-brutal-black border-brutal-black shadow-[0_0_20px_rgba(255,222,0,0.3)]"
+                    : "bg-brutal-black-light border-brutal-gray/30 text-brutal-cream hover:text-brutal-yellow hover:border-brutal-yellow"
                 )}
               >
                 <span>{cat.emoji}</span>
@@ -589,7 +589,7 @@ export default function SearchSection() {
                 <span
                   className={cn(
                     "text-[10px] font-mono px-1.5 py-0.5 rounded-md",
-                    isActive ? "bg-[#050508]/30 text-[#050508]/70" : "bg-white/[0.06] text-white/30"
+                    isActive ? "bg-brutal-black/30 text-brutal-black" : "bg-brutal-gray/20 text-brutal-gray"
                   )}
                 >
                   {count}
@@ -621,7 +621,7 @@ export default function SearchSection() {
             </motion.div>
           ) : (
             <>
-              <p className="text-[10px] text-white/22 font-mono mb-4 uppercase tracking-widest">
+              <p className="text-[10px] text-brutal-cream font-mono mb-4 uppercase tracking-widest">
                 {results.length} {results.length === 1 ? "entry" : "entries"}
                 {query ? ` ·  "${query}"` : ""}
               </p>

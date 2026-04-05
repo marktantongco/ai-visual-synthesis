@@ -187,11 +187,11 @@ export function NeonTag({
   className?: string;
 }) {
   const colorMap = {
-    cyan: "text-neon-cyan border-neon-cyan/30 bg-neon-cyan/10",
-    purple: "text-neon-purple border-neon-purple/30 bg-neon-purple/10",
-    pink: "text-neon-pink border-neon-pink/30 bg-neon-pink/10",
-    green: "text-neon-green border-neon-green/30 bg-neon-green/10",
-    yellow: "text-neon-yellow border-neon-yellow/30 bg-neon-yellow/10",
+    cyan: "text-brutal-black bg-brutal-cyan border-brutal-black",
+    purple: "text-brutal-cream bg-brutal-purple/80 border-brutal-black",
+    pink: "text-brutal-cream bg-brutal-red/80 border-brutal-black",
+    green: "text-brutal-black bg-brutal-green border-brutal-black",
+    yellow: "text-brutal-black bg-brutal-yellow border-brutal-black",
   };
 
   return (
